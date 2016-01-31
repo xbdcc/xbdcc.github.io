@@ -87,6 +87,139 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/27/JAVA/Java调用WCF服务/" title="Java调用WCF服务" itemprop="url">Java调用WCF服务</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-27T07:06:47.000Z" itemprop="datePublished"> 发表于 2015-11-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="简单介绍">简单介绍</h1><p>在Java中使用ksoap2调用.NET的WCF接口挺方便，我们需要导入此方法的jar包实现该功能，可以向WCF服务提交数据获取返回信息。</p>
+<h1 id="实例">实例</h1><p>本例以简单的一个创建通知的WCF接口为例讲述Java与WCF的交互。<br>首先使用WcfTestClient测试下WCF接口的CreateNotice方法<br><img src="/images/java/wcf_test1.png" alt=""><br><img src="/images/java/wcf_test2.png" alt=""><br>测试传title和content两个字段值后返回IsSuccess和Message值。<br>下面新建一个Java项目导入ksoap2 jar包。<br>以下为我导入的jar包<br><img src="/images/java/wcf_java_jar.png" alt=""><br>新建一个接口ISoapService类, 用于专门读取WCF返回的SoapObject对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ISoapService</span> </span>&#123;</span><br><span class="line">	<span class="function">SoapObject <span class="title">LoadResult</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>调用WCF接口的类WcfService<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.SoapEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapSerializationEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.transport.HttpTransportSE;</span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParserException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WcfService</span> <span class="keyword">implements</span> <span class="title">ISoapService</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAMESPACE=<span class="string">""</span>;<span class="comment">//引号内改为自己接口的命名空间</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String URL=<span class="string">""</span>;<span class="comment">//引号内改为自己接口的网址</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SOAP_ACTION=<span class="string">""</span>;引号内改为自己接口的SOAP_ACTION</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String METHODNAME=<span class="string">"CreateNotice"</span>;<span class="comment">//引号内改为自己接口的方法名</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Map&lt;String, String&gt; map;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">WcfService</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.map=map;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> SoapObject <span class="title">LoadResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		SoapObject object=<span class="keyword">new</span> SoapObject(NAMESPACE, METHODNAME);</span><br><span class="line">		<span class="keyword">for</span>(Map.Entry&lt;String, String&gt; entry:map.entrySet())&#123;</span><br><span class="line">			System.out.println(<span class="string">"key= "</span>+entry.getKey()+<span class="string">" and value= "</span>+entry.getValue());</span><br><span class="line">			object.addProperty(entry.getKey(), entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SoapSerializationEnvelope envelope=<span class="keyword">new</span> SoapSerializationEnvelope(SoapEnvelope.VER11);</span><br><span class="line">		envelope.bodyOut=object;</span><br><span class="line">		envelope.dotNet=<span class="keyword">true</span>;</span><br><span class="line">		envelope.setOutputSoapObject(object);</span><br><span class="line">		</span><br><span class="line">		HttpTransportSE transportSE=<span class="keyword">new</span> HttpTransportSE(URL);</span><br><span class="line">		transportSE.debug=<span class="keyword">true</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			transportSE.call(SOAP_ACTION, envelope);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			System.out.println(<span class="string">"IOException"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (XmlPullParserException e) &#123;</span><br><span class="line">			System.out.println(<span class="string">"XmlPullParserException"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SoapObject result=(SoapObject) envelope.bodyIn;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>WcfTest主类，获取返回结果并解析打印输出到控制台<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WcfTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Map&lt;String, String&gt; map=<span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">		map.put(<span class="string">"title"</span>, <span class="string">"提醒"</span>);</span><br><span class="line">		map.put(<span class="string">"content"</span>, <span class="string">"晚上写篇博客"</span>);</span><br><span class="line">		WcfService wcf=<span class="keyword">new</span> WcfService(map);</span><br><span class="line">		SoapObject result=(SoapObject) wcf.LoadResult().getProperty(<span class="string">"result"</span>);</span><br><span class="line">		System.out.println(result);<span class="comment">//返回的结果</span></span><br><span class="line">		<span class="keyword">int</span> length=result.getPropertyCount();</span><br><span class="line">		System.out.println(result.getPropertyCount());</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)&#123;</span><br><span class="line">			System.out.println(result.getProperty(i));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>控制台打印出的信息<br><img src="/images/java/wcf_java_console.png" alt=""></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/WCF/">WCF</a><a href="/tags/网络编程/">网络编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/11/27/JAVA/Java调用WCF服务/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/27/JAVA/Java调用WCF服务/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/09/21/算法/算法题之Number Sequence/" title="算法题之Number Sequence" itemprop="url">算法题之Number Sequence</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-09-21T15:52:33.000Z" itemprop="datePublished"> 发表于 2015-09-21</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="题目">题目</h1><p>杭电acm题目：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1003" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=1003</a><br><img src="/images/algorithm/hdu1003.png" alt=""></p>
+<h1 id="解答">解答</h1><p>以下为在杭电hdu acm上已AC的C语言、C++实现的两种方法</p>
+<h2 id="C语言实现">C语言实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;stdio.h&gt;</span></span><br><span class="line"><span class="keyword">int</span> f[<span class="number">10000</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> A,B,n;</span><br><span class="line">    f[<span class="number">1</span>]=f[<span class="number">2</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;A,&amp;B,&amp;n),A||B||n)&#123;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">3</span>;i&lt;<span class="number">10000</span>;i++)&#123;</span><br><span class="line">            f[i]=(A*f[i-<span class="number">1</span>]+B*f[i-<span class="number">2</span>])%<span class="number">7</span>;</span><br><span class="line">            <span class="keyword">if</span>(f[i]==<span class="number">1</span>&amp;&amp;f[i-<span class="number">1</span>]==<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        n=n%(i-<span class="number">2</span>);</span><br><span class="line">        f[<span class="number">0</span>]=f[i-<span class="number">2</span>];</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,f[n]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="C++实现">C++实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;   </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">int</span> arr[<span class="number">10000</span>];   </span><br><span class="line">   </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> A,B,n;  </span><br><span class="line">    arr[<span class="number">1</span>] = arr[<span class="number">2</span>] = <span class="number">1</span>;  </span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;A&gt;&gt;B&gt;&gt;n, A || B || n)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">int</span> i;  </span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">3</span>; i&lt;<span class="number">10000</span> ;i++)  </span><br><span class="line">        &#123;  </span><br><span class="line">            arr[i] = (A*arr[i-<span class="number">1</span>] + B*arr[i-<span class="number">2</span>]) % <span class="number">7</span>;  </span><br><span class="line">              </span><br><span class="line">            <span class="comment">//如果有两个连着 =1，则后面的全部和前面相同，即出现了周期   </span></span><br><span class="line">            <span class="comment">//这时就没必要再进行下去了，跳出循环, i-2为周期    </span></span><br><span class="line">            <span class="keyword">if</span>(arr[i] == <span class="number">1</span> &amp;&amp; arr[i-<span class="number">1</span>] == <span class="number">1</span>)              </span><br><span class="line">                <span class="keyword">break</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        n = n % (i-<span class="number">2</span>);  </span><br><span class="line">          </span><br><span class="line">        <span class="comment">// 把n对周期求模，当n = i-2时, n=0,此时本来应该取arr[i-2]的，所以把arr[0]=arr[i-2]    </span></span><br><span class="line">        <span class="comment">//也可以这样：   </span></span><br><span class="line">        <span class="comment">//if(n==0)   n=i-2;                   </span></span><br><span class="line">        arr[<span class="number">0</span>] = arr[i-<span class="number">2</span>];    </span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; arr[n] &lt;&lt; endl;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/算法/">算法</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/算法/">算法</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/09/21/算法/算法题之Number Sequence/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/21/算法/算法题之Number Sequence/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/09/20/算法/算法题之Max-Sum/" title="算法题之Max Sum" itemprop="url">算法题之Max Sum</a>
   </h1>
   <p class="article-author">By
@@ -279,144 +412,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/09/02/Android/Android网络之百度云推送的使用（二）/" title="Android网络编程之百度云推送的使用（二）" itemprop="url">Android网络编程之百度云推送的使用（二）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-09-02T09:57:34.000Z" itemprop="datePublished"> 发表于 2015-09-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。</p>
-<h1 id="实例">实例</h1><p>首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。<br>首先写个PushTool工具类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.core.log.YunLogEvent;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.core.log.YunLogHandler;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.auth.PushKeyPair;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PushTools</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> BaiduPushClient <span class="title">push</span><span class="params">()</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//创建PushKeyPair</span></span><br><span class="line">		String apiKey=<span class="string">"RG22q5hdhGeyGjFDaB05ju2X"</span>;</span><br><span class="line">		String secretKey=<span class="string">"5XdFeendbTWIFdpxtrEzSUNp0CNU5t7D"</span>;</span><br><span class="line">		PushKeyPair pair=<span class="keyword">new</span> PushKeyPair(apiKey, secretKey);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//创建BaiduPushClient，访问SDK接口</span></span><br><span class="line">		BaiduPushClient pushClient=<span class="keyword">new</span> BaiduPushClient(pair);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//注册YunLogHandler，获取本次请求的交互信息</span></span><br><span class="line">		pushClient.setChannelLogHandler(<span class="keyword">new</span> YunLogHandler() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="annotation">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onHandle</span><span class="params">(YunLogEvent event)</span> </span>&#123;</span><br><span class="line">				System.out.println(event.getMessage());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		<span class="keyword">return</span> pushClient;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>接着新建一个PushToAllDevices类，以通知方式推送给所有用户<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> net.sf.json.JSONObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushClientException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushServerException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToAllRequest;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToAllResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PushToAllDevices</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		PushTools pushTools=<span class="keyword">new</span> PushTools();</span><br><span class="line">		BaiduPushClient pushClient=pushTools.push();</span><br><span class="line">		</span><br><span class="line">		JSONObject object=<span class="keyword">new</span> JSONObject();</span><br><span class="line">		object.put(<span class="string">"title"</span>, <span class="string">"通知"</span>);</span><br><span class="line">		object.put(<span class="string">"description"</span>, <span class="string">"hello,carlos"</span>);</span><br><span class="line">		</span><br><span class="line">		PushMsgToAllRequest allRequest=<span class="keyword">new</span> PushMsgToAllRequest();</span><br><span class="line">		allRequest.addMsgExpires(<span class="number">3600</span>*<span class="number">12</span>);<span class="comment">//设置12个小时后过期</span></span><br><span class="line">		allRequest.addMessageType(<span class="number">1</span>);<span class="comment">//0为透传消息，1为通知</span></span><br><span class="line">		allRequest.addMessage(object.toString());<span class="comment">//信息</span></span><br><span class="line">		allRequest.addDeviceType(<span class="number">3</span>);<span class="comment">//3为Android，4位IOS</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			PushMsgToAllResponse allResponse=pushClient.pushMsgToAll(allRequest);</span><br><span class="line">			System.out.println(<span class="string">"msgId: "</span>+allResponse.getMsgId()+<span class="string">",sendTime: "</span>+</span><br><span class="line">			allResponse.getSendTime()+<span class="string">",timerId: "</span>+allResponse.getTimerId());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushClientException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushServerException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>服务器端控制台输出的信息为<br><img src="/images/baidu_push_server_console.png" alt=""><br>模拟器收到通知<br><img src="/images/baidu_push_mobile_receive_server.png" alt=""><br>然后再新建PushToSingleDevice类，以透传方式推送给单个用户<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushClientException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushServerException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToSingleDeviceRequest;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToSingleDeviceResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PushToSingleDevice</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		PushTools pushTools=<span class="keyword">new</span> PushTools();</span><br><span class="line">		BaiduPushClient pushClient=pushTools.push();</span><br><span class="line">		</span><br><span class="line">		PushMsgToSingleDeviceRequest deviceRequest=<span class="keyword">new</span> PushMsgToSingleDeviceRequest();</span><br><span class="line">		deviceRequest.addChannelId(<span class="string">"3973705946942416175"</span>);</span><br><span class="line">		deviceRequest.addMsgExpires(<span class="number">3600</span>*<span class="number">3</span>);<span class="comment">//设置有效期为3小时</span></span><br><span class="line">		deviceRequest.addDeviceType(<span class="number">0</span>);<span class="comment">//0表示透传，1表示通知</span></span><br><span class="line">		deviceRequest.addMessage(<span class="string">"我喜欢Andriod开发"</span>);<span class="comment">//信息</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			PushMsgToSingleDeviceResponse deviceResponse=pushClient.pushMsgToSingleDevice(deviceRequest);</span><br><span class="line">            System.out.println(<span class="string">"msgId: "</span>+deviceResponse.getMsgId()+</span><br><span class="line">            		<span class="string">",sendTime: "</span>+deviceResponse.getSendTime());		</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushClientException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushServerException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再看客户端LogCat日志中打印出的信息，可以看到收到了之前推送的通知和现在的透传信息了<br><img src="/images/baidu_push_client_server.png" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/推送/">推送</a><a href="/tags/网络编程/">网络编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/09/02/Android/Android网络之百度云推送的使用（二）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/02/Android/Android网络之百度云推送的使用（二）/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/08/31/Android/Android网络之百度云推送的使用（一）/" title="Android网络之百度云推送的使用（一）" itemprop="url">Android网络之百度云推送的使用（一）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-08-31T14:23:36.000Z" itemprop="datePublished"> 发表于 2015-08-31</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>手机获取网络数据的方式大体分为两种，一种是拉的方式，即用户主动去获取，另一种是推的方式，即服务器推送给用户。在如今的很多APP上都会有推送的功能，有新的版本我们需要推送给用户提示更新，像微博或什么的有新的消息也需要推给用户。关于推送的几种方法这里就不介绍了可以自行搜索。这里主要介绍百度云推送的使用。本篇介绍使用百度云的网站推送给客户端，下篇介绍使用Java服务器端推送给客户端。</p>
-<h1 id="实例">实例</h1><p>百度云推送有给所有用户推送给某个channelid推送有个某个tag标签推送等，这里简单介绍给所有用户推送通知和推送透传信息的使用，知道基础的使用后可以参照百度云推送API来学习其他功能的使用。<br>首先，我们可以进入百度云推送官网了解下百度云推送<a href="http://push.baidu.com/" target="_blank" rel="external">http://push.baidu.com/</a> ，可以官方提供的SDK Demo使用看看。我们新建一个Android项目，下载好官方提供的SDK后将libs文件夹下的所有文件复制到工程下的libs文件夹中。<br>在AndroidManifest.xml中添加百度云推送所需要的一些权限<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Push service 运行需要的权限 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.INTERNET"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.READ_PHONE_STATE"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.RECEIVE_BOOT_COMPLETED"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.WRITE_SETTINGS"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.VIBRATE"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.WRITE_EXTERNAL_STORAGE"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_DOWNLOAD_MANAGER"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.DISABLE_KEYGUARD"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_COARSE_LOCATION"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_WIFI_STATE"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>在AndroidManifest.xml中添加百度云推送的广播和服务<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- push service start --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 用于接收系统消息以保证PushService正常运行 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">receiver</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.PushServiceReceiver"</span></span><br><span class="line">    <span class="attribute">android:process</span>=<span class="value">":bdservice_v1"</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.BOOT_COMPLETED"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.net.conn.CONNECTIVITY_CHANGE"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.action.notification.SHOW"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.action.media.CLICK"</span> /&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 以下四项为可选的action声明，可大大提高service存活率和消息到达速度 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.MEDIA_MOUNTED"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.USER_PRESENT"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.ACTION_POWER_CONNECTED"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.ACTION_POWER_DISCONNECTED"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">receiver</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Push服务接收客户端发送的各种请求 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">receiver</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.RegistrationReceiver"</span></span><br><span class="line">    <span class="attribute">android:process</span>=<span class="value">":bdservice_v1"</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.action.METHOD"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.action.BIND_SYNC"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.PACKAGE_REMOVED"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:scheme</span>=<span class="value">"package"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">receiver</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">service</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.PushService"</span></span><br><span class="line">    <span class="attribute">android:exported</span>=<span class="value">"true"</span></span><br><span class="line">    <span class="attribute">android:process</span>=<span class="value">":bdservice_v1"</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.action.PUSH_SERVICE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">service</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 4.4版本新增的CommandService声明，提升小米和魅族手机上的实际推送到达率 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">service</span></span><br><span class="line">    <span class="attribute">android:name</span>=<span class="value">"com.baidu.android.pushservice.CommandService"</span></span><br><span class="line">    <span class="attribute">android:exported</span>=<span class="value">"true"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- push结束 --&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>在主类MainActivity中Oncreate()方法里面添加如下代码，其中apiKey是自己已经配置好的apiKey<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">String </span>apiKey=<span class="string">"RG22q5hdhGeyGjFDaB05ju2X"</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">PushManager.startWork(getApplicationContext(), </span><span class="keyword">PushConstants.LOGIN_TYPE_API_KEY, </span>apiKey)<span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
-<p>自定义回调类，新建一个PushTestReceiver类继承PushMessageReceiver接口，添加未实现的方法。<br>在onBind方法中添加如下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBind</span><span class="params">(Context context, <span class="keyword">int</span> errorCode, String appid,</span><br><span class="line">		String userId, String channelId, String requestId)</span> </span>&#123;</span><br><span class="line">	String responseString = <span class="string">"onBind errorCode="</span> + errorCode + <span class="string">" appid="</span></span><br><span class="line">			+ appid + <span class="string">" userId="</span> + userId + <span class="string">" channelId="</span> + channelId</span><br><span class="line">			+ <span class="string">" requestId="</span> + requestId;</span><br><span class="line">	Toast.makeText(context, responseString, Toast.LENGTH_LONG).show();</span><br><span class="line">	Log.i(TAG, <span class="string">"onBind\n"</span>+responseString);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>可以看出LogCat日志中打印出如下信息<br><img src="/images/baidu_push_client_onbind.png" alt=""><br>在onNotificationArrived方法中添加如下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNotificationArrived</span><span class="params">(Context context, String title,</span><br><span class="line">		String description, String customContentString)</span> </span>&#123;</span><br><span class="line">	String responseString = <span class="string">"title="</span> +title + <span class="string">" description="</span></span><br><span class="line">			+ description + <span class="string">" customContentString="</span> + customContentString;</span><br><span class="line">	Log.i(TAG, <span class="string">"onNotificationArrived\n"</span>+responseString);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在onNotificationClicked方法中添加如下代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNotificationClicked</span><span class="params">(Context context, String title,</span><br><span class="line">		String description, String customContentString)</span> </span>&#123;</span><br><span class="line">	Toast.makeText(context, <span class="string">"点击确认了，我已经收到通知了。"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">	Log.i(TAG, <span class="string">"onNotificationClicked\n点击收到的通知"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>发送一条广播测试下<br><img src="/images/baidu_push_send_notification.png" alt=""><br>可以看出模拟器收到一条广播<br><img src="/images/baidu_push_mobile_receive.png" alt=""><br>LogCat日志中打印出如下信息<br><img src="/images/baidu_push_client_receive.png" alt=""><br>当用户点击该通知时LogCat日志中打印出如下信息<br><img src="/images/baidu_push_client_click.png" alt=""><br>同时该应用界面显示一个Toast信息<br><img src="/images/baidu_push_mobile_click.png" alt=""><br>上面是推送通知，接着测试推送透传信息，PushTestReceiver中实现message方法如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(Context context, String message, String customContentString)</span> </span>&#123;</span><br><span class="line">	String messageString = <span class="string">"透传消息 message=\""</span> + message</span><br><span class="line">               + <span class="string">"\" customContentString="</span> + customContentString;</span><br><span class="line">	Log.i(TAG, messageString);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>发送一个透传信息<br><img src="/images/baidu_push_send_message.png" alt=""><br>LogCat日志中打印出如下信息<br><img src="/images/baidu_push_client_message.png" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/推送/">推送</a><a href="/tags/网络编程/">网络编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/08/31/Android/Android网络之百度云推送的使用（一）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/31/Android/Android网络之百度云推送的使用（一）/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -435,7 +430,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/AI/" title="AI">AI<sup>3</sup></a></li>
+			<li><a href="/categories/AI/" title="AI">AI<sup>5</sup></a></li>
 		  
 		
 		  
@@ -492,11 +487,11 @@
 			
 		
 			
-				<li><a href="/tags/数据格式/" title="数据格式">数据格式<sup>8</sup></a></li>
+				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>8</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>6</sup></a></li>
+				<li><a href="/tags/数据格式/" title="数据格式">数据格式<sup>8</sup></a></li>
 			
 		
 			
@@ -504,11 +499,11 @@
 			
 		
 			
-				<li><a href="/tags/算法/" title="算法">算法<sup>4</sup></a></li>
+				<li><a href="/tags/AI/" title="AI">AI<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AI/" title="AI">AI<sup>3</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>4</sup></a></li>
 			
 		
 			
