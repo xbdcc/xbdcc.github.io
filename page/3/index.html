@@ -87,6 +87,72 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/28/Android/Android调用WCF服务/" title="Android调用WCF服务" itemprop="url">Android调用WCF服务</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-28T14:32:42.000Z" itemprop="datePublished"> 发表于 2015-11-28</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="简单介绍">简单介绍</h1><p>本篇博客是Android调用WCF服务的简单实例。</p>
+<h1 id="实例">实例</h1><p>本例以简单的一个创建通知的WCF接口为例讲述Android与WCF的交互。<br>首先可使用WcfTestClient测试下WCF接口的CreateNotice方法，可参照上篇Java调用WCF的博客。<br>新建WCFService调用WCF的工具类如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.Message;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.SoapEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapSerializationEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.transport.HttpTransportSE;</span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParserException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 访问WCF工具类</span><br><span class="line"> * Created by carlos on 2015/11/28.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WCFService</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String WCF_URL=<span class="string">""</span>;<span class="comment">//引号类改为自己的</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAMESPACE=<span class="string">""</span>;<span class="comment">//引号类改为自己的</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String SOAP=<span class="string">""</span>;<span class="comment">//引号类改为自己的</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ExecutorService executorService= Executors.newFixedThreadPool(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 调用WCF方法</span><br><span class="line">     * <span class="doctag">@param</span> methodName</span><br><span class="line">     * <span class="doctag">@param</span> properties</span><br><span class="line">     * <span class="doctag">@param</span> wcfServiceCallBack</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">callWCFService</span><span class="params">(<span class="keyword">final</span> String methodName,Map properties, <span class="keyword">final</span> WCFServiceCallBack</span><br><span class="line">                                 wcfServiceCallBack)</span></span>&#123;</span><br><span class="line">        <span class="comment">// 创建HttpTransportSE对象，传递WCFService服务器地址</span></span><br><span class="line">        <span class="keyword">final</span> HttpTransportSE httpTransportSE=<span class="keyword">new</span> HttpTransportSE(WCF_URL);</span><br><span class="line">        SoapObject soapObject=<span class="keyword">new</span> SoapObject(NAMESPACE,methodName);</span><br><span class="line">        <span class="keyword">if</span>(properties!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">for</span>(Iterator&lt;Map.Entry&lt;String,Object&gt;&gt; it=properties.entrySet().iterator();it.hasNext();)&#123;</span><br><span class="line">                Map.Entry&lt;String,Object&gt; entry=it.next();</span><br><span class="line">                soapObject.addProperty(entry.getKey(),entry.getValue());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 实例化SoapSerializationEnvelope，传入WebService的SOAP协议的版本号</span></span><br><span class="line">        <span class="keyword">final</span> SoapSerializationEnvelope soapEnvelope=<span class="keyword">new</span> SoapSerializationEnvelope(SoapEnvelope.VER11);</span><br><span class="line">        soapEnvelope.bodyOut=soapObject;</span><br><span class="line">        <span class="comment">// 设置是否调用的是.Net开发的WCFService</span></span><br><span class="line">        soapEnvelope.setOutputSoapObject(soapObject);</span><br><span class="line">        soapEnvelope.dotNet=<span class="keyword">true</span>;</span><br><span class="line">        httpTransportSE.debug=<span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 用于子线程与主线程通信的Handler</span></span><br><span class="line">        <span class="keyword">final</span> Handler mHandler=<span class="keyword">new</span> Handler()&#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">super</span>.handleMessage(msg);</span><br><span class="line">                <span class="comment">// 将返回值回调到callBack的参数中</span></span><br><span class="line">                wcfServiceCallBack.callBack((SoapObject) msg.obj);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 开启线程去访问WCFService</span></span><br><span class="line">        executorService.submit(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                SoapObject resultSoapObject=<span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    httpTransportSE.call(SOAP+methodName,soapEnvelope);</span><br><span class="line">                    <span class="keyword">if</span>(soapEnvelope.getResponse()!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                        resultSoapObject= (SoapObject) soapEnvelope.bodyIn;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (XmlPullParserException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">                    <span class="comment">// 将获取的消息利用Handler发送到主线程</span></span><br><span class="line">                    mHandler.sendMessage(mHandler.obtainMessage(<span class="number">0</span>,resultSoapObject));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 回调接口</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">WCFServiceCallBack</span></span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">callBack</span><span class="params">(SoapObject result)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>MainActivity类里面调用该方法打印出返回的WCF结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Button b_get_WCFResult;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String TAG=<span class="string">"WCFResult"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        b_get_WCFResult= (Button) findViewById(R.id.b_get_WCFResult);</span><br><span class="line"></span><br><span class="line">        b_get_WCFResult.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                getWCFResult();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getWCFResult</span><span class="params">()</span></span>&#123;</span><br><span class="line">        HashMap&lt;String,Object&gt; map=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"title"</span>, <span class="string">"提醒"</span>);</span><br><span class="line">        map.put(<span class="string">"content"</span>, <span class="string">"晚上写篇博客"</span>);</span><br><span class="line">        WCFService.callWCFService(<span class="string">"CreateNotice"</span>, map, <span class="keyword">new</span> WCFService.WCFServiceCallBack() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">callBack</span><span class="params">(SoapObject result)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(result!=<span class="keyword">null</span>)&#123;</span><br><span class="line">                    Toast.makeText(MainActivity.<span class="keyword">this</span>,result.toString(),Toast.LENGTH_SHORT).show();</span><br><span class="line">                    Log.i(TAG, result.toString());</span><br><span class="line"></span><br><span class="line">                    SoapObject soapObject=(SoapObject)result.getProperty(<span class="string">"result"</span>);</span><br><span class="line">                    Log.i(TAG,soapObject.toString());</span><br><span class="line">                    <span class="keyword">if</span>(soapObject.toString().equals(<span class="string">"anyType&#123;&#125;"</span>))&#123;</span><br><span class="line">                        Log.i(TAG,<span class="string">"没有结果"</span>);</span><br><span class="line">                    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;soapObject.getPropertyCount();i++)&#123;</span><br><span class="line">                            Log.i(<span class="string">"WCFResult"</span>,soapObject.getProperty(i).toString());</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>点击获取WCF结果的按钮后控制台输出的结果<br><img src="/images/wcf_result_console.png" alt=""></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/WCF/">WCF</a><a href="/tags/网络编程/">网络编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/11/28/Android/Android调用WCF服务/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/28/Android/Android调用WCF服务/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/27/JAVA/Java调用WCF服务/" title="Java调用WCF服务" itemprop="url">Java调用WCF服务</a>
   </h1>
   <p class="article-author">By
@@ -346,75 +412,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/09/20/算法/算法题之A + B Problem/" title="算法题之A + B Problem" itemprop="url">算法题之A + B Problem</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-09-20T06:26:01.000Z" itemprop="datePublished"> 发表于 2015-09-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="题目">题目</h1><p>杭电acm题目：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1000" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=1000</a><br><img src="/images/algorithm/hdu1000.png" alt=""></p>
-<h1 id="解答">解答</h1><p>以下为在杭电hdu acm上已AC的C语言、C++和Java实现的三种方法</p>
-<h2 id="C语言实现">C语言实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a,b,sum;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span> (<span class="string">"%d %d"</span>,&amp;a,&amp;b)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">    sum=a+b;</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"%d\n"</span>,sum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="C++实现">C++实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a,b;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;a&gt;&gt;b)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;a+b&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Java实现">Java实现</h2><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a,b,sum;</span><br><span class="line">        Scanner scanner=<span class="keyword">new</span> Scanner(System.<span class="keyword">in</span>);</span><br><span class="line">        <span class="keyword">while</span>(scanner.hasNext())&#123;</span><br><span class="line">            a=scanner.nextInt();</span><br><span class="line">            b=scanner.nextInt();</span><br><span class="line">            sum=a+b;</span><br><span class="line">            System.<span class="keyword">out</span>.println(a+b);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/算法/">算法</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/算法/">算法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/09/20/算法/算法题之A + B Problem/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/20/算法/算法题之A + B Problem/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
   </nav>
 
 </div>
@@ -430,7 +430,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/AI/" title="AI">AI<sup>5</sup></a></li>
+			<li><a href="/categories/AI/" title="AI">AI<sup>6</sup></a></li>
 		  
 		
 		  
@@ -487,7 +487,7 @@
 			
 		
 			
-				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>8</sup></a></li>
+				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>9</sup></a></li>
 			
 		
 			
@@ -495,11 +495,11 @@
 			
 		
 			
-				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
+				<li><a href="/tags/AI/" title="AI">AI<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AI/" title="AI">AI<sup>5</sup></a></li>
+				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
 			
 		
 			
@@ -508,6 +508,10 @@
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			
@@ -528,10 +532,6 @@
 		
 			
 				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			

@@ -87,6 +87,71 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/08/04/Android/Android解析XML之PULL方式（三）/" title="Android解析XML之PULL方式（三）" itemprop="url">Android解析XML之PULL方式（三）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-04T12:51:34.000Z" itemprop="datePublished"> 发表于 2015-08-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>以下是用PULL方式解析XML数据的实例<br>我们可以在项目自带的assets文件夹中新建一个xml文件保存xml数据以供解析,以下是我在assets文件夹下建的userinfo.xml。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">root</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">userinfo</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">username</span>&gt;</span>Carlos<span class="tag">&lt;/<span class="title">username</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">age</span>&gt;</span>21<span class="tag">&lt;/<span class="title">age</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">userinfo</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">userinfo</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">username</span>&gt;</span>Jack<span class="tag">&lt;/<span class="title">username</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">age</span>&gt;</span>19<span class="tag">&lt;/<span class="title">age</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">userinfo</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">root</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>PULL解析类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.xml;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParser;</span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParserException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.util.Xml;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PullParseXml</span> <span class="keyword">extends</span> <span class="title">Activity</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG=<span class="string">"PullParseXml"</span>;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		</span><br><span class="line">		parseXml();</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">parseXml</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			InputStream inputStream=getResources().getAssets().open(<span class="string">"userinfo.xml"</span>);</span><br><span class="line">			</span><br><span class="line">			XmlPullParser parser=Xml.newPullParser();</span><br><span class="line">			parser.setInput(inputStream,<span class="string">"utf-8"</span>);</span><br><span class="line">			<span class="keyword">int</span> eventType=parser.getEventType();</span><br><span class="line">			List&lt;UserInfo&gt; infos = <span class="keyword">null</span>;</span><br><span class="line">			UserInfo info = <span class="keyword">null</span>;</span><br><span class="line">			<span class="keyword">while</span>(eventType!=XmlPullParser.END_DOCUMENT)&#123;</span><br><span class="line">				<span class="keyword">switch</span> (eventType) &#123;</span><br><span class="line">				<span class="keyword">case</span> XmlPullParser.START_DOCUMENT:<span class="comment">//文档开始</span></span><br><span class="line">					infos=<span class="keyword">new</span> ArrayList&lt;UserInfo&gt;();</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> XmlPullParser.START_TAG:<span class="comment">//标签开始</span></span><br><span class="line">					<span class="keyword">if</span> (parser.getName().equals(<span class="string">"userinfo"</span>)) &#123;</span><br><span class="line">						info=<span class="keyword">new</span> UserInfo();</span><br><span class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"username"</span>.equals(parser.getName())) &#123;</span><br><span class="line">						info.setUsername(parser.nextText());</span><br><span class="line">						Log.i(TAG, info.getUsername());</span><br><span class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"age"</span>.equals(parser.getName())) &#123;</span><br><span class="line">						info.setAge(parser.nextText());</span><br><span class="line">						Log.i(TAG, info.getAge());</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> XmlPullParser.END_TAG:<span class="comment">//标签结束</span></span><br><span class="line">					<span class="keyword">if</span> (parser.getName().equals(<span class="string">"userinfo"</span>)) &#123;</span><br><span class="line">						infos.add(info);</span><br><span class="line">					&#125;</span><br><span class="line">				<span class="keyword">default</span>:</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				eventType=parser.next();</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println(<span class="string">"----------"</span>+infos.size());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (XmlPullParserException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Logcat日志中打印出的结果<br><img src="/images/xml_parse_pull.png" alt=""></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android数据格式/">Android数据格式</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据格式/">数据格式</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/08/04/Android/Android解析XML之PULL方式（三）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/04/Android/Android解析XML之PULL方式（三）/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/08/04/Android/Android解析XML之SAX方式（二）/" title="Android解析XML之SAX方式（二）" itemprop="url">Android解析XML之SAX方式（二）</a>
   </h1>
   <p class="article-author">By
@@ -342,74 +407,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/07/29/JAVA/Java中常用数据类型，时间类型的转换方法之归纳总结/" title="Java中常用数据类型，时间类型的转换方法之归纳总结" itemprop="url">Java中常用数据类型，时间类型的转换方法之归纳总结</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-07-29T10:57:05.000Z" itemprop="datePublished"> 发表于 2015-07-29</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>本次介绍在Java中常见数据格式的转换和时间的转换，在Android中也会经常用到，掌握后对于开发会更加方便。</p>
-<h1 id="实例">实例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.data;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.Timestamp;</span><br><span class="line"><span class="keyword">import</span> java.text.ParseException;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Data</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">static</span> String s;</span><br><span class="line">	<span class="keyword">static</span> Timestamp timestamp;</span><br><span class="line">	<span class="keyword">static</span> Date date;</span><br><span class="line">	<span class="keyword">static</span> SimpleDateFormat dateFormat;</span><br><span class="line">	<span class="keyword">static</span> String time;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">		i=<span class="number">1</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//int类型转换为String</span></span><br><span class="line">		s=Integer.toString(i);</span><br><span class="line">		println(<span class="string">"通过Integer将int转换为String的结果为:\n"</span>+s);</span><br><span class="line">		s=String.valueOf(i);</span><br><span class="line">		println(<span class="string">"通过String将int转换为String的结果为:\n"</span>+s);</span><br><span class="line">		s=i+<span class="string">""</span>;</span><br><span class="line">		println(<span class="string">"通过加空字符串将int转换为String的结果为:\n"</span>+s);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//String类型转换为int</span></span><br><span class="line">		i=Integer.parseInt(s);</span><br><span class="line">		println(<span class="string">"通过Integer的parseInt将String转换为int的结果为:\n"</span>+i);</span><br><span class="line">		i=Integer.valueOf(s);</span><br><span class="line">		println(<span class="string">"通过Integer的valueOf将String转换为int的结果为:\n"</span>+i);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//Timestamp转String</span></span><br><span class="line">		timestamp=<span class="keyword">new</span> Timestamp(System.currentTimeMillis());</span><br><span class="line">		time=timestamp.toString();</span><br><span class="line">		println(<span class="string">"Timestamp转换为String的结果为:\n"</span>+time);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//String转Timestamp</span></span><br><span class="line">		timestamp=<span class="keyword">new</span> Timestamp(System.currentTimeMillis());</span><br><span class="line">		time=<span class="string">"2015-06-23 23:02:34.125"</span>;</span><br><span class="line">		timestamp=Timestamp.valueOf(time);</span><br><span class="line">		println(<span class="string">"String转换为Timestamp的结果为:\n"</span>+timestamp);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//String转Date</span></span><br><span class="line">		date=<span class="keyword">new</span> Date();</span><br><span class="line">		dateFormat=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			date=dateFormat.parse(time);</span><br><span class="line">			println(<span class="string">"String转换为Date的结果为:\n"</span>+date);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Date转换为String</span></span><br><span class="line">		date=<span class="keyword">new</span> Date();</span><br><span class="line">		dateFormat=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy/MM/dd HH:mm:ss"</span>);</span><br><span class="line">		time=dateFormat.format(date);</span><br><span class="line">		System.out.println(<span class="string">"Date转换为String的结果为:\n"</span>+time);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Timestamp转换为Date</span></span><br><span class="line">		timestamp=<span class="keyword">new</span> Timestamp(System.currentTimeMillis());</span><br><span class="line">		date=timestamp;</span><br><span class="line">		println(<span class="string">"Timestamp转换为Date的结果为:\n"</span>+date);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Date转换为Timestamp</span></span><br><span class="line">		date=<span class="keyword">new</span> Date(System.currentTimeMillis());</span><br><span class="line">		timestamp=<span class="keyword">new</span> Timestamp(date.getTime());</span><br><span class="line">		println(<span class="string">"Date转换为Timestamp的结果为:\n"</span>+timestamp);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line">		System.out.println(s);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>控制台输出的结果为：<br><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">通过Integer将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过<span class="built_in">String</span>将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过加空字符串将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过Integer的parseInt将<span class="built_in">String</span>转换为<span class="built_in">int</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过Integer的valueOf将<span class="built_in">String</span>转换为<span class="built_in">int</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">Timestamp转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">2015</span>-<span class="number">07</span>-<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.019</span></span><br><span class="line"><span class="built_in">String</span>转换为Timestamp的结果为:</span><br><span class="line"><span class="number">2015</span>-<span class="number">06</span>-<span class="number">23</span> <span class="number">23</span>:<span class="number">02</span>:<span class="number">34.125</span></span><br><span class="line"><span class="built_in">String</span>转换为<span class="built_in">Date</span>的结果为:</span><br><span class="line">Tue Jun <span class="number">23</span> <span class="number">23</span>:<span class="number">02</span>:<span class="number">34</span> CST <span class="number">2015</span></span><br><span class="line"><span class="built_in">Date</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">2015</span>/<span class="number">07</span>/<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20</span></span><br><span class="line">Timestamp转换为<span class="built_in">Date</span>的结果为:</span><br><span class="line"><span class="number">2015</span>-<span class="number">07</span>-<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.118</span></span><br><span class="line"><span class="built_in">Date</span>转换为Timestamp的结果为:</span><br><span class="line"><span class="number">2015</span>-<span class="number">07</span>-<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.118</span></span><br></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/数据格式/">数据格式</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/07/29/JAVA/Java中常用数据类型，时间类型的转换方法之归纳总结/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/29/JAVA/Java中常用数据类型，时间类型的转换方法之归纳总结/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/6/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/">Next<span></span></a>
   </nav>
 
 </div>
@@ -425,7 +425,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/AI/" title="AI">AI<sup>5</sup></a></li>
+			<li><a href="/categories/AI/" title="AI">AI<sup>6</sup></a></li>
 		  
 		
 		  
@@ -482,7 +482,7 @@
 			
 		
 			
-				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>8</sup></a></li>
+				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>9</sup></a></li>
 			
 		
 			
@@ -490,11 +490,11 @@
 			
 		
 			
-				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
+				<li><a href="/tags/AI/" title="AI">AI<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AI/" title="AI">AI<sup>5</sup></a></li>
+				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
 			
 		
 			
@@ -503,6 +503,10 @@
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			
@@ -523,10 +527,6 @@
 		
 			
 				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			

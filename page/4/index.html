@@ -87,6 +87,72 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/09/20/算法/算法题之A + B Problem/" title="算法题之A + B Problem" itemprop="url">算法题之A + B Problem</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-09-20T06:26:01.000Z" itemprop="datePublished"> 发表于 2015-09-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="题目">题目</h1><p>杭电acm题目：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1000" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=1000</a><br><img src="/images/algorithm/hdu1000.png" alt=""></p>
+<h1 id="解答">解答</h1><p>以下为在杭电hdu acm上已AC的C语言、C++和Java实现的三种方法</p>
+<h2 id="C语言实现">C语言实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a,b,sum;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span> (<span class="string">"%d %d"</span>,&amp;a,&amp;b)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">    sum=a+b;</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"%d\n"</span>,sum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="C++实现">C++实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a,b;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;a&gt;&gt;b)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;a+b&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Java实现">Java实现</h2><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a,b,sum;</span><br><span class="line">        Scanner scanner=<span class="keyword">new</span> Scanner(System.<span class="keyword">in</span>);</span><br><span class="line">        <span class="keyword">while</span>(scanner.hasNext())&#123;</span><br><span class="line">            a=scanner.nextInt();</span><br><span class="line">            b=scanner.nextInt();</span><br><span class="line">            sum=a+b;</span><br><span class="line">            System.<span class="keyword">out</span>.println(a+b);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/算法/">算法</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/算法/">算法</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/09/20/算法/算法题之A + B Problem/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/20/算法/算法题之A + B Problem/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/09/02/Android/Android网络之百度云推送的使用（二）/" title="Android网络编程之百度云推送的使用（二）" itemprop="url">Android网络编程之百度云推送的使用（二）</a>
   </h1>
   <p class="article-author">By
@@ -358,77 +424,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/08/24/Android/Android网络之网页抓包获取数据实例（二）/" title="Android网络之网页抓包获取数据实例（二）" itemprop="url">Android网络之网页抓包获取数据实例（二）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-08-24T06:17:55.000Z" itemprop="datePublished"> 发表于 2015-08-24</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>以下是使用HttpWatch抓包获取网页信息解析筛选自己需要的信息放到手机上的一个实例，HttpWatch的简单使用教程可以看上一篇博客。</p>
-<h1 id="实例">实例</h1><p>代码比较多这里就不贴出全部的，介绍下主要代码及实现的方法。<br>首先我们要得到Post的参数键值对，通过抓包可以获取下来，解析用的Jsoup方法比较快捷，解析筛选的主要代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Document document=Jsoup.parse(html);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 获取学期列表</span><br><span class="line"> */</span></span><br><span class="line">Elements e_term=document.select(<span class="string">"select[name=Sel_XNXQ]"</span>).select(<span class="string">"option"</span>);	</span><br><span class="line"><span class="keyword">for</span>(Element e:e_term)&#123;</span><br><span class="line">	schedule_term_id.add(e.attr(<span class="string">"value"</span>).toString());</span><br><span class="line">	schedule_term_data.add(e.text().toString());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 获取班级列表</span><br><span class="line"> */</span></span><br><span class="line">Elements e_class=document.select(<span class="string">"select[name=Sel_XZBJ]"</span>).select(<span class="string">"option"</span>);</span><br><span class="line"><span class="keyword">for</span>(Element e:e_class)&#123;</span><br><span class="line">	schedule_class_id.add(e.attr(<span class="string">"value"</span>).toString());</span><br><span class="line">	schedule_class_data.add(e.text().toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>将获取到的学期和班级数据放到Spinner上去<br><img src="/images/capture_select.png" alt="" title="选择学期班级点击查询开始查询"><br>然后Post参数给获取返回的课表结果解析<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pairs=<span class="keyword">new</span> ArrayList&lt;BasicNameValuePair&gt;();</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Sel_XNXQ"</span>, term_id));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"txtxzbj"</span>, <span class="string">""</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"type"</span>, <span class="string">"2"</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"chkrxkc"</span>, <span class="string">"1"</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Sel_XZBJ"</span>, class_id));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Submit01"</span>, <span class="string">"????"</span>));</span><br><span class="line">Schedule_AsyncTask task=<span class="keyword">new</span> Schedule_AsyncTask(Schedule_Main.<span class="keyword">this</span>, schedule_handler, pairs);</span><br><span class="line">task.execute(Schedule_RequestType.Schedule_Query);</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">datas=<span class="keyword">new</span> ArrayList&lt;Schedule_Query_Data&gt;();</span><br><span class="line"></span><br><span class="line">Element elements=Jsoup.parse(html).select(<span class="string">"table"</span>).remove(<span class="number">3</span>);</span><br><span class="line">Elements e_schedule=elements.select(<span class="string">"tr"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;e_schedule.size();i++)&#123;</span><br><span class="line">	Schedule_Query_Data data=<span class="keyword">new</span> Schedule_Query_Data();</span><br><span class="line">	data.setCoures(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">0</span>).text());</span><br><span class="line">	data.setScore(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">1</span>).text());</span><br><span class="line">	data.setStudy_time(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">2</span>).text());</span><br><span class="line">	data.setTest_way(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">3</span>).text());</span><br><span class="line">	data.setTeacher(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">4</span>).text());</span><br><span class="line">	data.setSchedule_id(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">5</span>).text());</span><br><span class="line">	data.setSchedule_number(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">6</span>).text());</span><br><span class="line">	data.setWeek(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">7</span>).text());</span><br><span class="line">	data.setSection(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">8</span>).text());</span><br><span class="line">	data.setPlace(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">9</span>).text());</span><br><span class="line">	datas.add(data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>点击查询按钮后下面即显示课表信息<br><img src="/images/capture_information.jpg" alt="" title="课表信息"><br>点击某一项课表弹出对话框显示课表详情信息<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">lv_schdule_detail.setOnItemClickListener(<span class="keyword">new</span> OnItemClickListener() &#123;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView&lt;?&gt; arg0, View arg1,</span><br><span class="line">			<span class="keyword">int</span> arg2, <span class="keyword">long</span> arg3)</span> </span>&#123;</span><br><span class="line">		AlertDialog.Builder builder=<span class="keyword">new</span> AlertDialog.Builder(Schedule_Main.<span class="keyword">this</span>);</span><br><span class="line">		builder.setTitle(<span class="string">"课表信息"</span>);</span><br><span class="line">		Schedule_Query_Data data=list.get(arg2);</span><br><span class="line">		builder.setMessage(<span class="string">"课程:\t"</span>+data.getCoures()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"学分:\t"</span>+data.getScore()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"总学时:\t"</span>+data.getStudy_time()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"考核方式:\t"</span>+data.getTest_way()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"教师:\t"</span>+data.getTeacher()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"上课班号:\t"</span>+data.getSchedule_id()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"上课人数:\t"</span>+data.getSchedule_number()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"周次:\t"</span>+data.getWeek()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"节次:\t"</span>+data.getSection()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"地点:\t"</span>+data.getPlace()+<span class="string">"\n"</span></span><br><span class="line">				);</span><br><span class="line">		builder.setPositiveButton(<span class="string">"确定"</span>, <span class="keyword">null</span>);</span><br><span class="line">		builder.create();</span><br><span class="line">		builder.show();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>显示的结果如下<br><img src="/images/capture_detail.png" alt="" title="课表详情"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/抓包/">抓包</a><a href="/tags/网络编程/">网络编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/08/24/Android/Android网络之网页抓包获取数据实例（二）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/24/Android/Android网络之网页抓包获取数据实例（二）/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
   </nav>
 
 </div>
@@ -444,7 +442,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/AI/" title="AI">AI<sup>5</sup></a></li>
+			<li><a href="/categories/AI/" title="AI">AI<sup>6</sup></a></li>
 		  
 		
 		  
@@ -501,7 +499,7 @@
 			
 		
 			
-				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>8</sup></a></li>
+				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>9</sup></a></li>
 			
 		
 			
@@ -509,11 +507,11 @@
 			
 		
 			
-				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
+				<li><a href="/tags/AI/" title="AI">AI<sup>6</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/AI/" title="AI">AI<sup>5</sup></a></li>
+				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
 			
 		
 			
@@ -522,6 +520,10 @@
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			
@@ -542,10 +544,6 @@
 		
 			
 				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			
