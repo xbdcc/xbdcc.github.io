@@ -87,6 +87,77 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/08/24/Android/Android图片获取的几种方式/" title="Android图片获取的几种方式" itemprop="url">Android图片获取的几种方式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-24T10:07:22.000Z" itemprop="datePublished"> 发表于 2015-08-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="简单介绍">简单介绍</h1><p>在Android中获取图片的方式有多种，这里概况在Android中几种常用的获取图片的方式。</p>
+<h1 id="实例">实例</h1><p>几种方式都比较方便，按照个人喜好可以熟练掌握自己觉得适合的方法。</p>
+<h2 id="读取res文件夹">读取res文件夹</h2><p>第一种，读取res文件夹下的图片<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.xiaobudian);</span><br><span class="line">imageView.setImageBitmap(bitmap);</span><br></pre></td></tr></table></figure></p>
+<h2 id="读取sdcard中图片">读取sdcard中图片</h2><p>第二种，读取SD卡中图片<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bitmap=BitmapFactory.decodeFile(<span class="string">"/mnt/sdcard/xiaobudian.png"</span>);</span><br><span class="line">imageView.setImageBitmap(bitmap);</span><br></pre></td></tr></table></figure></p>
+<h2 id="读取assets文件夹下图片">读取assets文件夹下图片</h2><p>第三种，读取assets文件夹下的图片<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">		AssetManager assetManager = getResources().getAssets();</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			InputStream stream = assetManager.open(<span class="string">"xiaobudian.png"</span>);</span><br><span class="line"><span class="comment">//			 通过下面一种方法也可以</span></span><br><span class="line"><span class="comment">//			InputStream stream = getClass().getResourceAsStream("/assets/xiaobudian.png");</span></span><br><span class="line">			Bitmap bitmap = BitmapFactory.decodeStream(stream);</span><br><span class="line">			imageView.setImageBitmap(bitmap);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="读取src文件夹下">读取src文件夹下</h2><p>第四种，读取src文件夹下的图片<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String path=<span class="string">"com/carlos/img/xiaobudian.png"</span>;</span><br><span class="line">InputStream stream=getClassLoader().getResourceAsStream(path);</span><br><span class="line">Bitmap bitmap=BitmapFactory.decodeStream(stream);</span><br><span class="line">imageView.setImageBitmap(bitmap);</span><br></pre></td></tr></table></figure></p>
+<h2 id="读取网络图片">读取网络图片</h2><p>第五种，读取网络图片<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ImageTask task=<span class="keyword">new</span> ImageTask();</span><br><span class="line">task.execute(<span class="string">"http://xbdcc.github.io/images/picture_xiaobudian.png"</span>);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImageTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">String</span>, <span class="title">Void</span>, <span class="title">Drawable</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> Drawable <span class="title">doInBackground</span><span class="params">(String... arg0)</span> </span>&#123;</span><br><span class="line">		URL url;</span><br><span class="line">		Drawable drawable = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			url = <span class="keyword">new</span> URL(arg0[<span class="number">0</span>]);</span><br><span class="line">			InputStream stream=url.openStream();</span><br><span class="line">			drawable=Drawable.createFromStream(stream, <span class="string">"xiaobudian.png"</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> drawable;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Drawable result)</span> </span>&#123;</span><br><span class="line">		imageView.setImageDrawable(result);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="读取图片显示的结果">读取图片显示的结果</h1><p><img src="/images/picture_get.png" alt=""></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android图片/">Android图片</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/图片/">图片</a><a href="/tags/控件/">控件</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/08/24/Android/Android图片获取的几种方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/24/Android/Android图片获取的几种方式/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/08/24/Android/Android网络之网页抓包获取数据实例（二）/" title="Android网络之网页抓包获取数据实例（二）" itemprop="url">Android网络之网页抓包获取数据实例（二）</a>
   </h1>
   <p class="article-author">By
@@ -352,71 +423,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/08/18/Android/Android网络之WebView显示网页/" title="Android网络之WebView显示网页" itemprop="url">Android网络之WebView显示网页</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-08-18T11:24:24.000Z" itemprop="datePublished"> 发表于 2015-08-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>在Android中可以用WebView控件来显示网页内容，也可以用来自己设计自己的浏览器。</p>
-<h1 id="实例">实例</h1><p>以下是使用WebView简单显示个人博客网页的源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.webview;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.annotation.SuppressLint;</span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebSettings;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebView;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebViewClient;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.EditText;</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> EditText editText;</span><br><span class="line">	<span class="keyword">private</span> Button enter;</span><br><span class="line">	<span class="keyword">private</span> WebView webView;</span><br><span class="line">	<span class="keyword">private</span> Button goBack;</span><br><span class="line">	<span class="keyword">private</span> Button goFoward;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		editText = getViewById(R.id.editText);</span><br><span class="line">		enter = getViewById(R.id.enter);</span><br><span class="line">		webView = getViewById(R.id.webView1);</span><br><span class="line">		goBack = getViewById(R.id.goBack);</span><br><span class="line">		goFoward = getViewById(R.id.goFoward);</span><br><span class="line">		enter.setOnClickListener(listener);</span><br><span class="line">		goBack.setOnClickListener(listener);</span><br><span class="line">		goFoward.setOnClickListener(listener);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">loadWebView</span><span class="params">(<span class="keyword">final</span> String url)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">new</span> Thread() &#123;</span><br><span class="line">			<span class="annotation">@SuppressLint</span>(<span class="string">"SetJavaScriptEnabled"</span>)</span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				webView.loadUrl(url);</span><br><span class="line">				<span class="comment">// 启用支持JavaScript</span></span><br><span class="line">				WebSettings settings = webView.getSettings();</span><br><span class="line">				settings.setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开</span></span><br><span class="line">				webView.setWebViewClient(<span class="keyword">new</span> WebViewClient() &#123;</span><br><span class="line">					<span class="annotation">@Override</span></span><br><span class="line">					<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view,</span><br><span class="line">							String url)</span> </span>&#123;</span><br><span class="line">						view.loadUrl(url);</span><br><span class="line">						<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;.start();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	OnClickListener listener = <span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">		<span class="annotation">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View arg0)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">switch</span> (arg0.getId()) &#123;</span><br><span class="line">			<span class="keyword">case</span> R.id.enter:</span><br><span class="line">				loadWebView(editText.getText().toString());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> R.id.goBack:</span><br><span class="line">				webView.goBack();<span class="comment">// 后退，返回上一个页面</span></span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> R.id.goFoward:</span><br><span class="line">				webView.goForward();<span class="comment">// 前进，返回后面一个页面</span></span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	&lt;T extends View&gt; <span class="function">T <span class="title">getViewById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (T) findViewById(id);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassCastException e) &#123;</span><br><span class="line">			Log.e(<span class="string">"MainActivity"</span>, <span class="string">"Could not cast View to create class."</span>, e);</span><br><span class="line">			<span class="keyword">throw</span> e;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行后在模拟器中显示的结果<br>加载和点击后退键显示的结果<br><img src="/images/webview_goback.jpg" alt=""><br>点击一个页面后后退然后再点击前进页面显示的结果<br><img src="/images/webview_forward.jpg" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/控件/">控件</a><a href="/tags/网络编程/">网络编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/08/18/Android/Android网络之WebView显示网页/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/18/Android/Android网络之WebView显示网页/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
@@ -456,6 +462,10 @@
 		
 		  
 			<li><a href="/categories/Android数据格式/" title="Android数据格式">Android数据格式<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android第三方SDK/" title="Android第三方SDK">Android第三方SDK<sup>1</sup></a></li>
 		  
 		
 		  
@@ -516,7 +526,7 @@
 			
 		
 			
-				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
@@ -524,7 +534,7 @@
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>2</sup></a></li>
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -532,11 +542,15 @@
 			
 		
 			
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
+				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
 			
 		
 			

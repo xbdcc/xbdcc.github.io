@@ -4,22 +4,27 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Carlos</title>
+    <title>Android极光推送的配置教程 | Carlos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Carlos">
     
 
     
-    <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Carlos">
-<meta property="og:url" content="http://yoursite.com/index.html">
+    <meta name="description" content="简单介绍鉴于去年使用百度云推送很多延迟问题或者有些手机收不到的问题，前两个月老师接的一个项目需要用到推送就又学习了极光推送的简单使用。配置时Jpush文档中关于Android Studio有一个很重要的问题导入so包没有写出来，刚开始配置经常出错，后来搜了好久搜到了解决办法，这里分享下简单配置极光推送使用。
+实例开始当然还是在Jpush控制台里申请一个应用，此应用要和自己Android Studi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android极光推送的配置教程">
+<meta property="og:url" content="http://yoursite.com/2016/03/11/Android极光推送的配置教程/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description">
+<meta property="og:description" content="简单介绍鉴于去年使用百度云推送很多延迟问题或者有些手机收不到的问题，前两个月老师接的一个项目需要用到推送就又学习了极光推送的简单使用。配置时Jpush文档中关于Android Studio有一个很重要的问题导入so包没有写出来，刚开始配置经常出错，后来搜了好久搜到了解决办法，这里分享下简单配置极光推送使用。
+实例开始当然还是在Jpush控制台里申请一个应用，此应用要和自己Android Studi">
+<meta property="og:image" content="http://yoursite.com/images/android/jpush_1.png">
+<meta property="og:updated_time" content="2016-03-15T04:34:39.331Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Carlos">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Android极光推送的配置教程">
+<meta name="twitter:description" content="简单介绍鉴于去年使用百度云推送很多延迟问题或者有些手机收不到的问题，前两个月老师接的一个项目需要用到推送就又学习了极光推送的简单使用。配置时Jpush文档中关于Android Studio有一个很重要的问题导入so包没有写出来，刚开始配置经常出错，后来搜了好久搜到了解决办法，这里分享下简单配置极光推送使用。
+实例开始当然还是在Jpush控制台里申请一个应用，此应用要和自己Android Studi">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -79,12 +84,10 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2016/03/11/Android极光推送的配置教程/" title="Android极光推送的配置教程" itemprop="url">Android极光推送的配置教程</a>
@@ -98,21 +101,23 @@
     
   </p>
 </header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>鉴于去年使用百度云推送很多延迟问题或者有些手机收不到的问题，前两个月老师接的一个项目需要用到推送就又学习了极光推送的简单使用。配置时Jpush文档中关于Android Studio有一个很重要的问题导入so包没有写出来，刚开始配置经常出错，后来搜了好久搜到了解决办法，这里分享下简单配置极光推送使用。</p>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="简单介绍">简单介绍</h1><p>鉴于去年使用百度云推送很多延迟问题或者有些手机收不到的问题，前两个月老师接的一个项目需要用到推送就又学习了极光推送的简单使用。配置时Jpush文档中关于Android Studio有一个很重要的问题导入so包没有写出来，刚开始配置经常出错，后来搜了好久搜到了解决办法，这里分享下简单配置极光推送使用。</p>
 <h1 id="实例">实例</h1><p>开始当然还是在Jpush控制台里申请一个应用，此应用要和自己Android Studio使用到Jpush的应用包名一样。将所需的jar包导入libs目录下，so文件按官网文档导入As里面的方法会出问题，得在main下新建一个jniLibs目录放在下面，如图：<br><img src="/images/android/jpush_1.png" alt=""><br>在AndroidManifest.xlm中加入所需的权限<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Required 自定义用来收发消息的相关权限 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">permission</span></span><br><span class="line">        <span class="attribute">android:name</span>=<span class="value">"$&#123;applicationId&#125;.permission.JPUSH_MESSAGE"</span></span><br><span class="line">        <span class="attribute">android:protectionLevel</span>=<span class="value">"signature"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Required 一些系统要求的权限，如访问网络等--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"$&#123;applicationId&#125;.permission.JPUSH_MESSAGE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.RECEIVE_USER_PRESENT"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.INTERNET"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.WAKE_LOCK"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.READ_PHONE_STATE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.WRITE_EXTERNAL_STORAGE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.READ_EXTERNAL_STORAGE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.WRITE_SETTINGS"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.VIBRATE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_NETWORK_STATE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_WIFI_STATE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.SYSTEM_ALERT_WINDOW"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Optional for location --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_COARSE_LOCATION"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.CHANGE_WIFI_STATE"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_FINE_LOCATION"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">uses-permission</span> <span class="attribute">android:name</span>=<span class="value">"android.permission.CHANGE_NETWORK_STATE"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>加入activity、service、receiver<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Required SDK核心功能--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">activity</span></span><br><span class="line">          <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.ui.PushActivity"</span></span><br><span class="line">          <span class="attribute">android:configChanges</span>=<span class="value">"orientation|keyboardHidden"</span></span><br><span class="line">          <span class="attribute">android:theme</span>=<span class="value">"@android:style/Theme.NoTitleBar"</span></span><br><span class="line">          <span class="attribute">android:exported</span>=<span class="value">"false"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.ui.PushActivity"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.category.DEFAULT"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"$&#123;applicationId&#125;"</span> /&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">activity</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">&lt;!-- Required SDK核心功能--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">service</span></span><br><span class="line">          <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.service.DownloadService"</span></span><br><span class="line">          <span class="attribute">android:enabled</span>=<span class="value">"true"</span></span><br><span class="line">          <span class="attribute">android:exported</span>=<span class="value">"false"</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">service</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">&lt;!-- Required SDK 核心功能--&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- option since 2.0.5 可配置PushService，DaemonService,PushReceiver,AlarmReceiver的android:process参数 将JPush相关组件设置为一个独立进程 --&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 如：android:process=":remote" --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">service</span></span><br><span class="line">          <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.service.PushService"</span></span><br><span class="line">          <span class="attribute">android:enabled</span>=<span class="value">"true"</span></span><br><span class="line">          <span class="attribute">android:exported</span>=<span class="value">"false"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.intent.REGISTER"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.intent.REPORT"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.intent.PushService"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.intent.PUSH_TIME"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">          <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">service</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">&lt;!-- Required SDK 核心功能 since 1.8.0 --&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">service</span></span><br><span class="line">          <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.service.DaemonService"</span></span><br><span class="line">          <span class="attribute">android:enabled</span>=<span class="value">"true"</span></span><br><span class="line">          <span class="attribute">android:exported</span>=<span class="value">"true"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">intent-filter</span> &gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.intent.DaemonService"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"$&#123;applicationId&#125;"</span>/&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">service</span>&gt;</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">&lt;!-- Required SDK核心功能--&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">receiver</span></span><br><span class="line">          <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.service.PushReceiver"</span></span><br><span class="line">          <span class="attribute">android:enabled</span>=<span class="value">"true"</span></span><br><span class="line">          <span class="attribute">android:exported</span>=<span class="value">"false"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">intent-filter</span> <span class="attribute">android:priority</span>=<span class="value">"1000"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"</span> /&gt;</span> <span class="comment">&lt;!--Required 显示通知栏 --&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">category</span> <span class="attribute">android:name</span>=<span class="value">"$&#123;applicationId&#125;"</span> /&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.USER_PRESENT"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.net.conn.CONNECTIVITY_CHANGE"</span> /&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">          <span class="comment">&lt;!-- Optional --&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.PACKAGE_ADDED"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">action</span> <span class="attribute">android:name</span>=<span class="value">"android.intent.action.PACKAGE_REMOVED"</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="title">data</span> <span class="attribute">android:scheme</span>=<span class="value">"package"</span> /&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="title">intent-filter</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">receiver</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>加入meta-data<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Required . Enable it you can get statistics data with channel --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="title">meta-data</span> <span class="attribute">android:name</span>=<span class="value">"JPUSH_CHANNEL"</span> <span class="attribute">android:value</span>=<span class="value">"developer-default"</span>/&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="title">meta-data</span> <span class="attribute">android:name</span>=<span class="value">"JPUSH_APPKEY"</span> <span class="attribute">android:value</span>=<span class="value">"这里替换成自己的appkey"</span> /&gt;</span> <span class="comment">&lt;!-- &lt;/&gt;值来自开发者平台取得的AppKey--&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>新建一个继承Application的类<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ExampleApplication</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Application</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        <span class="type">JPushInterface</span>.setDebugMode(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">JPushInterface</span>.init(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
+  
+	</div>
+		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
@@ -130,287 +135,69 @@
 
 
 
-
-<div class="comments-count">
+	<div class="article-share" id="share">
 	
-	  	<span></span>
-		<a href="/2016/03/11/Android极光推送的配置教程/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/11/Android极光推送的配置教程/" data-count-type="comments">&nbsp;</a>
-	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
 </div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2049638" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
 
 </footer>
 
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/02/17/毕业设计项目文理小助手2-版界面设计/" title="毕业设计项目文理小助手2.版界面设计" itemprop="url">毕业设计项目文理小助手2.版界面设计</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2016-02-17T08:32:45.000Z" itemprop="datePublished"> 发表于 2016-02-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>本篇为自己为毕业设计重新设计的界面图。去年十月十一月自己学了PS,AI的一些基础的就学着画了。因为以前版本的文理小助手用的原生界面只是把一些控件简单放上去了，把功能实现了。但是看起来太丑了，毕业设计选了这个课题，自己也想好好学点前端的知识就学着自己设计界面画界面了。虽然界面看起来还有些不规范，但我觉得比起我以前版本的文理小助手要好多了。</p>
-<h1 id="UI设计图">UI设计图</h1><p><table border="1" style="table-layout:fixed"><tr><td><img src="/images/xiaobudian/huastools/0启动页.jpg" alt="启动页"></td><td><img src="/images/xiaobudian/huastools/1首页.jpg" alt="首页"></td><td><img src="/images/xiaobudian/huastools/2教务系统_登录.jpg" alt="教务系统登录页"></td><td><img src="/images/xiaobudian/huastools/3教务系统_成绩.jpg" alt="教务系统登录页"></td><!--<td style="text-align:center"><img src="images/xiaobudian/huastools/3教务系统_成绩.jpg"title="教务系统成绩页">教务系统成绩页</td>--></tr><tr><td><img src="/images/xiaobudian/huastools/4教务系统_成绩详情.jpg" alt="教务系统成绩详情页"></td><td><img src="/images/xiaobudian/huastools/5教务系统_课表.jpg" alt="教务系统课表页"></td><td><img src="/images/xiaobudian/huastools/6教务系统_课表详情.jpg" alt="教务系统课表详情页"></td><td><img src="/images/xiaobudian/huastools/7教务系统_选课.jpg" alt="教务系统选课页"></td></tr><tr><td><img src="/images/xiaobudian/huastools/8教务系统_选修课详情.jpg" alt="教务系统选课详情页"></td><td><img src="/images/xiaobudian/huastools/9教务系统_选课监控管理.jpg" alt="教务系统选课监控管理页"></td><td><img src="/images/xiaobudian/huastools/10教务系统_选课监控设置.jpg" alt="教务系统选课监控设置页"></td><td><img src="/images/xiaobudian/huastools/11教务系统_选课正选结果.jpg" alt="教务系统选课正选结果页"></td></tr><tr><td><img src="/images/xiaobudian/huastools/8教务系统_选修课详情.jpg" alt="教务系统选课详情页"></td><td><img src="/images/xiaobudian/huastools/9教务系统_选课监控管理.jpg" alt="教务系统选课监控管理页"></td><td><img src="/images/xiaobudian/huastools/10教务系统_选课监控设置.jpg" alt="教务系统选课监控设置页"></td><td><img src="/images/xiaobudian/huastools/11教务系统_选课正选结果.jpg" alt="教务系统选课正选结果页"></td></tr><tr><td><img src="/images/xiaobudian/huastools/12教务系统_评教.jpg" alt="教务系统评教页"></td><td><img src="/images/xiaobudian/huastools/13数字图书馆_登录.jpg" alt="数字图书馆登录页"></td><td><img src="/images/xiaobudian/huastools/14数字图书馆_外网查书.jpg" alt="数字图书馆外网查书页"></td><td><img src="/images/xiaobudian/huastools/15数字图书馆_外网续借.jpg" alt="数字图书馆内网续借页"></td></tr><tr><td><img src="/images/xiaobudian/huastools/16数字图书馆_内网查书.jpg" alt="数字图书馆内网查书页"></td><td><img src="/images/xiaobudian/huastools/17数字图书馆_内网续借.jpg" alt="数字图书馆内网续借页"></td><td><img src="/images/xiaobudian/huastools/18阳光服务_回复.jpg" alt="阳光服务回复页"></td><td><img src="/images/xiaobudian/huastools/19阳光服务_回复详情.jpg" alt="阳光服务回复详情页"></td></tr><tr><td><img src="/images/xiaobudian/huastools/20阳光服务_说话.jpg" alt="阳光服务说话页"></td><td><img src="/images/xiaobudian/huastools/21个人.jpg" alt="个人页"></td><td><img src="/images/xiaobudian/huastools/18阳光服务_回复.jpg" alt="阳光服务回复页"></td><td><img src="/images/xiaobudian/huastools/22设置.jpg" alt="设置页"></td></tr></table><img src="/images/xiaobudian/huastools/design.jpg" alt="设置页"></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/AI/">AI</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/AI/">AI</a><a href="/tags/UI设计/">UI设计</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
+   	       
+	</article>
 	
-	  	<span></span>
-		<a href="/2016/02/17/毕业设计项目文理小助手2-版界面设计/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/02/17/毕业设计项目文理小助手2-版界面设计/" data-count-type="comments">&nbsp;</a>
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/02/17/毕业设计项目文理小助手2-版界面设计/"  title="毕业设计项目文理小助手2.版界面设计">
+ <strong>下一篇：</strong><br/> 
+ <span>毕业设计项目文理小助手2.版界面设计
+</span>
+</a>
+</div>
+
+</nav>
+
 	
-</div>
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/11/Android极光推送的配置教程/" data-title="Android极光推送的配置教程" data-url="http://yoursite.com/2016/03/11/Android极光推送的配置教程/"></div>
+</section>
 
-</footer>
 
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/01/31/AI/AI画垃圾桶图标/" title="AI画垃圾桶图标" itemprop="url">AI画垃圾桶图标</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2016-01-31T06:35:04.000Z" itemprop="datePublished"> 发表于 2016-01-31</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>本篇介绍用AI怎么简单地画垃圾桶图标。</p>
-<h1 id="实例">实例</h1><p>1.首先，打开AI新建一个文档，选择矩形工具画一个矩形，然后切换直线段工具从矩形正中心画三条竖线，如图：<br><img src="/images/ai/trash_1.png" alt=""><br>2.然后画上方的盖子，切换回矩形工具画一个小矩形盖在上面，填充颜色为白色，如图：<br><img src="/images/ai/trash_2.png" alt=""><br>3.再使用圆角矩形工具，在上面画个椭圆，置于底层，如图：<br><img src="/images/ai/trash_3.png" alt=""><br>4.调整合适大小，导出为透明的png格式，如图：<br><img src="/images/ai/trash_4.png" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/AI/">AI</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/AI/">AI</a><a href="/tags/UI设计/">UI设计</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/01/31/AI/AI画垃圾桶图标/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/01/31/AI/AI画垃圾桶图标/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/01/31/AI/AI画设置图标/" title="AI画设置图标" itemprop="url">AI画设置图标</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2016-01-31T06:04:41.000Z" itemprop="datePublished"> 发表于 2016-01-31</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>本篇介绍用AI怎么简单地画设置图标。</p>
-<h1 id="实例">实例</h1><p>1.首先，打开AI新建一个文档，选择椭圆工具从正中心画一个正圆，然后切换到矩形工具，从正中心往外画一个小矩形，右键选择变换、旋转，角度设为45度，点击预览，如图：<br><img src="/images/ai/setting_1.png" alt=""><br>2.点击复制即旋转，按住Ctrl和D键再次变换即再制，填充一圈，如图：<br><img src="/images/ai/setting_2.png" alt=""><br>3.选中路径查找器中形状模式下的联集，如图：<br><img src="/images/ai/setting_3.png" alt=""><br>4.复合后的形状如图：<br><img src="/images/ai/setting_4.png" alt=""><br>5.再切换回椭圆工具，按住Ctrl和Shift键充正中心画一个小正圆，设置图标的样子大概就出来了，再自己调些细节，导出为透明的png格式，如图:<br><img src="/images/ai/setting_5.png" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/AI/">AI</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/AI/">AI</a><a href="/tags/UI设计/">UI设计</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/01/31/AI/AI画设置图标/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/01/31/AI/AI画设置图标/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/01/31/AI/AI画放大镜图标/" title="AI画放大镜图标" itemprop="url">AI画放大镜图标</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2016-01-31T04:02:39.000Z" itemprop="datePublished"> 发表于 2016-01-31</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>本篇介绍用AI怎么简单的画放大镜图标。</p>
-<h1 id="实例">实例</h1><p>1.首先，打开AI新建一个文档，选择椭圆工具从正中心画一个正圆，填充改为无，描边选择合适的大小。然后选择直线段工具在合适位置画一条直线，描边断点改为圆头端点，效果如图：<br><img src="/images/ai/magnifier_1.png" alt=""><br>2.切换到选择工具选中圆，按Ctrl+C键复制，按Ctrl+F键在当前位置粘贴，然后缩小为合适大小，描边改为合适大小，如图：<br><img src="/images/ai/magnifier_2.png" alt=""><br>3.选择剪刀工具，选择两个点点击，然后选中一部分按Delete键即减去了，如图：<br><img src="/images/ai/magnifier_3.png" alt=""><br>4.用同样的方法再减去一块，如图：<br><img src="/images/ai/magnifier_4.png" alt=""><br>5.选中对象导出为透明的png格式，如图:<br><img src="/images/ai/magnifier_5.png" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/AI/">AI</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/AI/">AI</a><a href="/tags/UI设计/">UI设计</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/01/31/AI/AI画放大镜图标/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/01/31/AI/AI画放大镜图标/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-
-  <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
-  </nav>
-
-</div>
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -687,8 +474,36 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
   });
 });
 </script>
@@ -766,4 +581,4 @@ $(document).ready(function(){
 
 
   </body>
- </html>
+</html>
