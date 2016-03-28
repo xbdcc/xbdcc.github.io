@@ -87,6 +87,73 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/08/19/Android/Android网络之Socket通信TCP方式/" title="Android网络之Socket通信TCP方式" itemprop="url">Android网络之Socket通信TCP方式</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-19T10:38:56.000Z" itemprop="datePublished"> 发表于 2015-08-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="简单介绍">简单介绍</h1><p>在Android中除了Http通信比较常用还有Socket通信也用得比较多，Socket通信有面向连接的TCP方式，和无连接的UDP方式，本篇先介绍TCP的使用。</p>
+<h1 id="实例">实例</h1><p>本例用Java在电脑上做服务端开启Socket端口供客户端连接<br>服务端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.tcp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> port=<span class="number">3123</span>;</span><br><span class="line">		<span class="keyword">boolean</span> endFlag=<span class="keyword">false</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//开启服务器端口</span></span><br><span class="line">			ServerSocket serverSocket=<span class="keyword">new</span> ServerSocket(port);</span><br><span class="line">			System.out.println(<span class="string">"服务器端口号:"</span>+port+<span class="string">"已开启"</span>);</span><br><span class="line">			<span class="keyword">while</span>(!endFlag)&#123;</span><br><span class="line">				<span class="comment">//等待客户端连接</span></span><br><span class="line">				Socket socket=serverSocket.accept();</span><br><span class="line">				BufferedReader reader=<span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(socket.getInputStream()));</span><br><span class="line">				<span class="comment">//第二个参数为true将会自动flush，否则需要手动操作writer.flush()</span></span><br><span class="line">				PrintWriter writer=<span class="keyword">new</span> PrintWriter(socket.getOutputStream(),<span class="keyword">true</span>);</span><br><span class="line">				String message=reader.readLine();</span><br><span class="line">				System.out.println(<span class="string">"收到"</span>+socket.getInetAddress()+<span class="string">"请求发送给服务器的消息:"</span>+message);</span><br><span class="line">				writer.println(<span class="string">"你发送给服务器的消息:"</span>+message+<span class="string">"   已经发送成功"</span>);</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">if</span> (<span class="string">"shutdown"</span>.equals(message)) &#123;</span><br><span class="line">					endFlag=<span class="keyword">true</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				socket.close();</span><br><span class="line">			&#125;</span><br><span class="line">			serverSocket.close();</span><br><span class="line">		</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>XML布局<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:<span class="variable">android=</span><span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:<span class="variable">layout_width=</span><span class="string">"fill_parent"</span></span><br><span class="line">    android:<span class="variable">layout_height=</span><span class="string">"fill_parent"</span></span><br><span class="line">    android:<span class="variable">orientation=</span><span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span> &gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">layout_marginRight=</span><span class="string">"5dp"</span></span><br><span class="line">            android:<span class="variable">text=</span><span class="string">"服务器ip地址"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;EditText</span><br><span class="line">            android:<span class="variable">id=</span><span class="string">"@+id/ipAddress"</span></span><br><span class="line">            android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">            android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">layout_weight=</span><span class="string">"1"</span></span><br><span class="line">            android:<span class="variable">background=</span><span class="string">"@android:drawable/edit_text"</span> /&gt;</span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span> &gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">layout_marginRight=</span><span class="string">"5dp"</span></span><br><span class="line">            android:<span class="variable">text=</span><span class="string">"服务器开启的端口号"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;EditText</span><br><span class="line">            android:<span class="variable">id=</span><span class="string">"@+id/port"</span></span><br><span class="line">            android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">            android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">background=</span><span class="string">"@android:drawable/edit_text"</span> /&gt;</span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span> &gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">layout_marginRight=</span><span class="string">"5dp"</span></span><br><span class="line">            android:<span class="variable">text=</span><span class="string">"想要发送的信息"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;EditText</span><br><span class="line">            android:<span class="variable">id=</span><span class="string">"@+id/message"</span></span><br><span class="line">            android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">            android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">            android:<span class="variable">background=</span><span class="string">"@android:drawable/edit_text"</span></span><br><span class="line">            android:<span class="variable">maxLength=</span><span class="string">"100"</span> /&gt;</span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Button</span><br><span class="line">        android:<span class="variable">id=</span><span class="string">"@+id/send"</span></span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">text=</span><span class="string">"发送信息"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ScrollView</span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"match_parent"</span> &gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:<span class="variable">id=</span><span class="string">"@+id/receive"</span></span><br><span class="line">            android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">            android:<span class="variable">layout_height=</span><span class="string">"match_parent"</span></span><br><span class="line">            android:<span class="variable">text=</span><span class="string">"接收到服务器返回的信息：\n"</span> /&gt;</span><br><span class="line">    &lt;/ScrollView&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>客户端代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.tcpclient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">import</span> java.net.UnknownHostException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.app.ProgressDialog;</span><br><span class="line"><span class="keyword">import</span> android.os.AsyncTask;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> TextView ipAddress;</span><br><span class="line">	<span class="keyword">private</span> TextView port;</span><br><span class="line">	<span class="keyword">private</span> TextView message;</span><br><span class="line">	<span class="keyword">private</span> Button send;</span><br><span class="line">	<span class="keyword">private</span> TextView receive;</span><br><span class="line">	<span class="keyword">private</span> String result;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		ipAddress = getViewById(R.id.ipAddress);</span><br><span class="line">		port = getViewById(R.id.port);</span><br><span class="line">		message = getViewById(R.id.message);</span><br><span class="line">		send = getViewById(R.id.send);</span><br><span class="line">		receive = getViewById(R.id.receive);</span><br><span class="line"></span><br><span class="line">		send.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="annotation">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View arg0)</span> </span>&#123;</span><br><span class="line">				Task task = <span class="keyword">new</span> Task();</span><br><span class="line">				task.execute();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">connect</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		String IP = ipAddress.getText().toString();</span><br><span class="line">		<span class="keyword">int</span> TCP_SERVER_PORT = Integer.valueOf(port.getText().toString());</span><br><span class="line">		Socket socket;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			socket = <span class="keyword">new</span> Socket(IP, TCP_SERVER_PORT);</span><br><span class="line"></span><br><span class="line">			OutputStream stream = socket.getOutputStream();</span><br><span class="line">			<span class="comment">// 二个参数据为true将会自动flush，否则需要需要手动操作stream.flush()</span></span><br><span class="line">			PrintWriter writer = <span class="keyword">new</span> PrintWriter(stream, <span class="keyword">true</span>);</span><br><span class="line">			result = message.getText().toString();</span><br><span class="line">			writer.println(result);</span><br><span class="line"></span><br><span class="line">			BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(</span><br><span class="line">					socket.getInputStream()));</span><br><span class="line">			result = reader.readLine();</span><br><span class="line">			socket.close();</span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	&lt;T extends View&gt; <span class="function">T <span class="title">getViewById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (T) findViewById(id);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassCastException e) &#123;</span><br><span class="line">			Log.e(<span class="string">"MainActivity"</span>, <span class="string">"Could not cast View to create class."</span>, e);</span><br><span class="line">			<span class="keyword">throw</span> e;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">Task</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">Void</span>, <span class="title">Void</span>, <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">		ProgressDialog dialog;</span><br><span class="line"></span><br><span class="line">		<span class="annotation">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPreExecute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			dialog = ProgressDialog.show(MainActivity.<span class="keyword">this</span>, <span class="string">""</span>, <span class="string">"发送数据中，请稍后..."</span>,</span><br><span class="line">					<span class="keyword">true</span>, <span class="keyword">true</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="annotation">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">protected</span> String <span class="title">doInBackground</span><span class="params">(Void... arg0)</span> </span>&#123;</span><br><span class="line">			connect();</span><br><span class="line">			<span class="keyword">return</span> result;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="annotation">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(String result)</span> </span>&#123;</span><br><span class="line">			dialog.dismiss();</span><br><span class="line">			receive.append(result + <span class="string">"\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>服务端开启一个端口，把客户端做成的apk安装到手机上后在联网的情况下输入服务端ip地址、服务端开启的端口号、以及客户端想要传递给服务端的信息然后点击发送按钮即可向服务器发送信息。服务器收到信息后在控制台打印出收到的客户端发送的信息，并且客户端显示服务端返回的信息。<br>以下是服务端控制台输出的信息<br><img src="/images/socket_tcp_server.png" alt=""><br>以下是客户端信息的信息<br><img src="/images/socket_tcp_client.jpg" alt=""> </p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Socket/">Socket</a><a href="/tags/网络编程/">网络编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/08/19/Android/Android网络之Socket通信TCP方式/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/19/Android/Android网络之Socket通信TCP方式/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/08/18/Android/Android网络之WebView显示网页/" title="Android网络之WebView显示网页" itemprop="url">Android网络之WebView显示网页</a>
   </h1>
   <p class="article-author">By
@@ -342,71 +409,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/08/12/Android/Android线程之Thread/" title="Android多线程之Thread" itemprop="url">Android多线程之Thread</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-08-12T01:41:31.000Z" itemprop="datePublished"> 发表于 2015-08-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>在Anroid中通常需要处理一些比较耗时的操作通常需要用到多线程，而使用多线程一般简单的处理可以创建一个Thread线程通过Handler与主线程通信，也可以直接创建一个异步任务继承AsyncTask实现多线程，本篇介绍Android中Thread的使用。</p>
-<h1 id="实例">实例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.Message;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> TextView textView;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		textView = (TextView) findViewById(R.id.textview);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 方式一，Thread创建一个线程，Handler实现主线程和UI线程间的通信</span></span><br><span class="line">		thread.start();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 方式二，直接创建一个UI线程</span></span><br><span class="line">		runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">			<span class="annotation">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				textView.setText(<span class="string">"新创建的UI线程"</span>);</span><br><span class="line">				Log.i(<span class="string">"runOnUiThread"</span>, <span class="string">"新创建的UI线程"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	Thread thread = <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					sleep(<span class="number">1000</span>);<span class="comment">// 每隔一秒休眠一次</span></span><br><span class="line">					Log.i(<span class="string">"thread"</span>, i + <span class="string">""</span>);</span><br><span class="line">				&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			handler.sendEmptyMessage(<span class="number">1</span>);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	Handler handler = <span class="keyword">new</span> Handler() &#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">				Log.i(<span class="string">"handler"</span>, <span class="string">"1"</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Logcat日志中打印出的结果<br><img src="/images/thread_logcat.png" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Android线程/">Android线程</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/线程/">线程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/08/12/Android/Android线程之Thread/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/12/Android/Android线程之Thread/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/5/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">Next<span></span></a>
@@ -449,7 +451,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Android第三方SDK/" title="Android第三方SDK">Android第三方SDK<sup>1</sup></a></li>
+			<li><a href="/categories/Android第三方SDK及框架/" title="Android第三方SDK及框架">Android第三方SDK及框架<sup>2</sup></a></li>
 		  
 		
 		  
@@ -514,11 +516,11 @@
 			
 		
 			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
 			
 		
 			
@@ -526,19 +528,27 @@
 			
 		
 			
-				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/框架/" title="框架">框架<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
 			
 		
 			
@@ -551,14 +561,6 @@
 		
 			
 				<li><a href="/tags/上传下载/" title="上传下载">上传下载<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
 			
 		
 		</ul>
