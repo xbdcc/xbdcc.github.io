@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <update>
 	<information>
 		<versionCode>1</versionCode>
@@ -13,5 +13,12 @@
 		<versionTime>2016-02-24</versionTime>
 		<apkUrl>http://files.cnblogs.com/files/xbdcc/QiangHongBao_1.0.1.apk</apkUrl>
 		<description>修复抢QQ红包bug，完善推送功能。</description>
+	</information>
+	<information>
+		<versionCode>3</versionCode>
+		<versionName>1.0.2</versionName>
+		<versionTime>2016-03-29</versionTime>
+		<apkUrl>http://files.cnblogs.com/files/xbdcc/QiangHongBao_1.0.2.apk</apkUrl>
+		<description>延长使用时间。</description>
 	</information>
 </update>
