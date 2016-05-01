@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <update>
 	<information>
 		<versionCode>1</versionCode>
@@ -60,7 +60,7 @@
 		<versionCode>9</versionCode>
 		<versionName>2.0</versionName>
 		<versionTime>2016-01-08</versionTime>
-		<apkUrl></apkUrl>
+		<apkUrl>http://files.cnblogs.com/files/xbdcc/HuasTools_2.0.apk</apkUrl>
 		<description>界面全新改版，获取新教务系统的数据。现在实现的功能教务系统选课和评教，其他功能开发中。</description>
 	</information>
 </update>
