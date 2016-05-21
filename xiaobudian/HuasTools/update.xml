@@ -63,4 +63,11 @@
 		<apkUrl>http://files.cnblogs.com/files/xbdcc/HuasTools_2.0.apk</apkUrl>
 		<description>界面全新改版，获取新教务系统的数据。现在实现的功能教务系统选课和评教，其他功能开发中。</description>
 	</information>
+	<information>
+		<versionCode>10</versionCode>
+		<versionName>3.0</versionName>
+		<versionTime>2016-05-21</versionTime>
+		<apkUrl>http://files.cnblogs.com/files/xbdcc/HuasTools_3.0.apk</apkUrl>
+		<description>界面全新改版，获取新教务系统的数据。现在实现的功能教务系统选课和评教，其他功能开发中。</description>
+	</information>
 </update>
