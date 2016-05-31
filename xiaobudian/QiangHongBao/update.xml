@@ -21,4 +21,11 @@
 		<apkUrl>http://files.cnblogs.com/files/xbdcc/QiangHongBao_1.0.2.apk</apkUrl>
 		<description>延长使用时间。</description>
 	</information>
+	<information>
+		<versionCode>4</versionCode>
+		<versionName>1.0.3</versionName>
+		<versionTime>2016-03-29</versionTime>
+		<apkUrl>http://xbdcc.github.io/xiaobudian/QiangHongBao/apk/QiangHongBao_1.0.3.apk</apkUrl>
+		<description>延长使用时间。</description>
+	</information>
 </update>
