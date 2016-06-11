@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <update>
 	<information>
 		<versionCode>1</versionCode>
@@ -68,6 +68,13 @@
 		<versionName>3.0</versionName>
 		<versionTime>2016-05-21</versionTime>
 		<apkUrl>http://xbdcc.github.io/xiaobudian/HuasTools/apk/HuasTools_3.0.apk</apkUrl>
-		<description>界面全新改版，获取新教务系统的数据。现在实现的功能教务系统选课和评教，其他功能开发中。</description>
+		<description>全新开发，稳定性更好，此版本选课和评教功能还未加上来，2.0版新教务系统选课和评教功能都已实现，若到选课还未发布新版本加上该功能可回到2.0版本进行抢课。</description>
+	</information>
+	<information>
+		<versionCode>11</versionCode>
+		<versionName>3.1</versionName>
+		<versionTime>2016-06-11</versionTime>
+		<apkUrl>http://files.cnblogs.com/files/xbdcc/HuasTools_3.1.apk</apkUrl>
+		<description>新增教务系统评教功能，修复已知bug。</description>
 	</information>
 </update>
