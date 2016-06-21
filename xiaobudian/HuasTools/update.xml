@@ -81,7 +81,7 @@
 		<versionCode>12</versionCode>
 		<versionName>3.2</versionName>
 		<versionTime>2016-06-21</versionTime>
-		<apkUrl>http://files.cnblogs.com/files/xbdcc/HuasTools_3.2.apk</apkUrl>
+		<apkUrl>http://xbdcc.github.io/xiaobudian/HuasTools/apk/HuasTools_3.2.apk</apkUrl>
 		<description>新增教务系统选课功能，修复已知bug。</description>
 	</information>
 </update>
