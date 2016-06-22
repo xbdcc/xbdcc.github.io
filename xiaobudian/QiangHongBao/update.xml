@@ -25,7 +25,14 @@
 		<versionCode>4</versionCode>
 		<versionName>1.0.3</versionName>
 		<versionTime>2016-05-31</versionTime>
-		<apkUrl>http://xbdcc.github.io/xiaobudian/QiangHongBao/apk/QiangHongBao_1.0.3.apk</apkUrl>
+		<apkUrl>http://files.cnblogs.com/files/xbdcc/QiangHongBao_1.0.3.apk</apkUrl>
 		<description>修复Android高版本卡顿bug，新增红包记录功能。</description>
+	</information>
+		<information>
+		<versionCode>5</versionCode>
+		<versionName>1.0.4</versionName>
+		<versionTime>2016-06-22</versionTime>
+		<apkUrl>http://xbdcc.github.io/xiaobudian/QiangHongBao/apk/QiangHongBao_1.0.4.apk</apkUrl>
+		<description>延长使用时间。</description>
 	</information>
 </update>
