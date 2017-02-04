@@ -87,6 +87,73 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/07/27/Android/Android中JSON数据的生成与解析/" title="Android中JSON数据的生成与解析" itemprop="url">Android中JSON数据的生成与解析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-27T08:20:28.000Z" itemprop="datePublished"> 发表于 2015-07-27</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="简单介绍">简单介绍</h1><p>在Android中默认提供了org.json的jar包用于处理JSON数据。另外也可以自己导入上篇介绍的在Java中生成和解析JSON数据的jar包，谷歌也提供了Gson用于处理JSON格式的的数据。都尝试过，个人觉得在Android中还是使用org.json来处理JSON数据方便简洁。</p>
+<h1 id="使用实例">使用实例</h1><p>主类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.json;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.json.JSONArray;</span><br><span class="line"><span class="keyword">import</span> org.json.JSONException;</span><br><span class="line"><span class="keyword">import</span> org.json.JSONObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> TextView textView;</span><br><span class="line">	<span class="keyword">private</span> JSONObject object;</span><br><span class="line">	<span class="keyword">private</span> JSONArray array;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		textView = (TextView) findViewById(R.id.textview);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 生成JSON数据</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			array = <span class="keyword">new</span> JSONArray();</span><br><span class="line">			object = <span class="keyword">new</span> JSONObject();</span><br><span class="line">			object.put(<span class="string">"username"</span>, <span class="string">"Carlos"</span>);</span><br><span class="line">			object.put(<span class="string">"password"</span>, <span class="string">"123456"</span>);</span><br><span class="line">			array.put(object);</span><br><span class="line">			object = <span class="keyword">new</span> JSONObject();</span><br><span class="line">			object.put(<span class="string">"username"</span>, <span class="string">"Jack"</span>);</span><br><span class="line">			object.put(<span class="string">"password"</span>, <span class="string">"654321"</span>);</span><br><span class="line">			array.put(object);</span><br><span class="line">			object = <span class="keyword">new</span> JSONObject();</span><br><span class="line">			object.put(<span class="string">"users"</span>, array);</span><br><span class="line">			System.out.println(object.toString());</span><br><span class="line">			textView.setText(<span class="string">"生成的JSON数据为:\n"</span> + object.toString() + <span class="string">"\n"</span>);</span><br><span class="line">			Log.i(<span class="string">"JSON"</span>, <span class="string">"生成的JSON数据为:\n"</span> + object.toString());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (JSONException e) &#123;</span><br><span class="line">			Log.e(<span class="string">"JSON"</span>, <span class="string">"生成JSON数据异常"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 解析JSON数据</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			object = <span class="keyword">new</span> JSONObject(object.toString());</span><br><span class="line">			array = object.getJSONArray(<span class="string">"users"</span>);</span><br><span class="line">			textView.append(<span class="string">"\n解析得到的结果为：\n"</span>);</span><br><span class="line">			Log.i(<span class="string">"JSON"</span>, <span class="string">"解析JSON数据得到的结果"</span>);</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.length(); i++) &#123;</span><br><span class="line">				object = array.getJSONObject(i);</span><br><span class="line">				String username = object.getString(<span class="string">"username"</span>);</span><br><span class="line">				String password = object.getString(<span class="string">"password"</span>);</span><br><span class="line">				textView.append(<span class="string">"用户名:"</span> + username + <span class="string">"的密码为:"</span> + password + <span class="string">"\n"</span>);</span><br><span class="line">				Log.i(<span class="string">"JSON"</span>, <span class="string">"用户名:"</span> + username + <span class="string">"的密码为:"</span> + password);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (JSONException e) &#123;</span><br><span class="line">			Log.e(<span class="string">"JSON"</span>, <span class="string">"解析JSON数据异常"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>xml布局<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout xmlns:<span class="variable">android=</span><span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:<span class="variable">tools=</span><span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:<span class="variable">layout_width=</span><span class="string">"match_parent"</span></span><br><span class="line">    android:<span class="variable">layout_height=</span><span class="string">"match_parent"</span></span><br><span class="line">    tools:<span class="variable">context=</span><span class="string">"<span class="subst">$&#123;relativePackage&#125;</span>.<span class="subst">$&#123;activityClass&#125;</span>"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:<span class="variable">id=</span><span class="string">"@+id/textview"</span></span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">text=</span><span class="string">"@string/hello_world"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Genymotion里面显示的结果<br><img src="/images/json_textview.png" alt=""></p>
+<p>Logcat日志中显示的结果<br><img src="/images/json_logcat.png" alt=""></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android数据格式/">Android数据格式</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/数据格式/">数据格式</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/07/27/Android/Android中JSON数据的生成与解析/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/27/Android/Android中JSON数据的生成与解析/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/07/27/JAVA/Java中JSON数据的生成与解析/" title="Java中JSON数据的生成与解析" itemprop="url">Java中JSON数据的生成与解析</a>
   </h1>
   <p class="article-author">By
@@ -416,6 +483,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/算法/" title="算法">算法<sup>5</sup></a></li>
 		  
 		
@@ -449,15 +520,11 @@
 			
 		
 			
-				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
 			
 		
 			
@@ -465,7 +532,11 @@
 			
 		
 			
-				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
 			
 		
 			
@@ -473,7 +544,7 @@
 			
 		
 			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			
@@ -585,7 +656,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

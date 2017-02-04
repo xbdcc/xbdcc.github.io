@@ -87,6 +87,75 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/08/24/Android/Android网络之网页抓包获取数据HttpWatch使用方法（一）/" title="Android网络之网页抓包获取数据HttpWatch使用方法（一）" itemprop="url">Android网络之网页抓包获取数据HttpWatch使用方法（一）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-24T01:48:34.000Z" itemprop="datePublished"> 发表于 2015-08-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="HttpWatch干什么用">HttpWatch干什么用</h1><p>通常很多做成网页的东西想获取到手机上，我们可以通过浏览器来访问，但有些手机浏览器不能完全显示出效果或者我们有一些不想要的信息。那么我们就可以通过网页抓包获取信息，将需要的筛选下来放到手机上。网页抓包的工具很多，在这里就介绍比较实用的HttpWatch，下载安装后在IE浏览器工具菜单下可以打开或关闭HttpWatch，使用HttpWatch可以很方便的看出各种参数，可以得到很多信息，通过获取下来的信息我们在Android中直接Get或Post获取返回的Html代码然后解析筛选自己想要的结果放在自己设计的界面上。</p>
+<h1 id="HttpWatch使用方法">HttpWatch使用方法</h1><p>下面以湖南文理学院班级课表的网页信息为例介绍HttpWatch抓包的使用方法</p>
+<h2 id="IE浏览器打开HttpWatch功能">IE浏览器打开HttpWatch功能</h2><p>首先打开IE浏览器，工具选项下调出HttpWatch，结果如下<br><img src="/images/capture_httpwatch_open.jpg" alt="" title="打开HttpWatch"></p>
+<h2 id="HttpWatch开启监控">HttpWatch开启监控</h2><p>开始Record按钮为红色，此时没开始监控，点击该按钮即开始监控，点击Stop按钮可停止监控，点击Clear按钮可清除之前监控的结果。在这里点击Record按钮可看到按钮变为灰色了，此时即开始监控，浏览器输入网址：<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx" target="_blank" rel="external">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx</a> ，然后进入网页可看到HttpWatch抓取的结果显示出来了<br><img src="/images/capture_httpwatch_main.jpg" alt="" title="HttpWatch抓取的结果"></p>
+<h2 id="抓取Get方法的信息">抓取Get方法的信息</h2><p>此时选择<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx" target="_blank" rel="external">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx</a> ，点击Content可以看到下面显示出来了一长串Html代码，此即为Get方法返回的结果，点击Content可以看到下面显示出来了一长串Html代码，此即为Get方法返回的结果，我们可以从中筛选出下一步查找班级课表需要的所选的班级和其他信息以便后面Post方法获取班级课表信息用<br><img src="/images/capture_httpwatch_get.png" alt="" title="查看需要的信息"></p>
+<h2 id="抓取Post方法的信息">抓取Post方法的信息</h2><p>选择学期班级和格式后点击检索开始查询，下面即监控到了Post方法的信息。此时点击<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx" target="_blank" rel="external">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx</a> 网页这一栏点击POST Data可以看到Post的参数，我们只需要Post下面勾选的几个参数就可以获取返回的Content了。然后再解析筛选就可以获得课表的信息了。<br><img src="/images/capture_httpwatch_post.jpg" alt="" title="Post的参数"></p>
+<h1 id="总结">总结</h1><p>使用HttpWatch或其他的一些抓包工具可以抓取网页的信息，方便将自己需要的网页信息搬运到手机上。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/抓包/">抓包</a><a href="/tags/网络编程/">网络编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/08/24/Android/Android网络之网页抓包获取数据HttpWatch使用方法（一）/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/24/Android/Android网络之网页抓包获取数据HttpWatch使用方法（一）/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/08/19/Android/Android网络之Socket通信UDP方式/" title="Android网络之Socket通信UDP方式" itemprop="url">Android网络之Socket通信UDP方式</a>
   </h1>
   <p class="article-author">By
@@ -345,71 +414,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/08/13/Android/Android网络之HTTP协议HttpURlConnection方法/" title="Android网络之HTTP协议HttpURlConnection方法" itemprop="url">Android网络之HTTP协议HttpURlConnection方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-08-13T09:19:17.000Z" itemprop="datePublished"> 发表于 2015-08-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>在Android中，通常需要网络通信，HTTP协议通信比较常见，经常通过HttpURLConnection和HttpClient接口来实现，本篇先介绍在Android中使用HttpURLConnection来进行网络通信。</p>
-<h1 id="实例">实例</h1><p>进行网络多线程操作使用AsyncTask异步类更好，但这里主要介绍HttpURlConnection的使用就通过Thread线程来简单操作，不要忘了加允许联网的权限。还是以湖南文理学院班级课表为例，以下是简单实现的源代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.httpurlconnection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.DataOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStreamReader;</span><br><span class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</span><br><span class="line"><span class="keyword">import</span> java.net.MalformedURLException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 开启线程</span></span><br><span class="line">		thread.start();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 创建线程，里面调用下面写的get和post方法</span></span><br><span class="line">	Thread thread = <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			get();</span><br><span class="line">			post();</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// HttpURLConnection之get方法</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		URL url;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			url = <span class="keyword">new</span> URL(<span class="string">"http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx"</span>);</span><br><span class="line">			HttpURLConnection connection = (HttpURLConnection) url</span><br><span class="line">					.openConnection();</span><br><span class="line">			connection.setConnectTimeout(<span class="number">10</span> * <span class="number">000</span>);<span class="comment">// 设置连接超时时间</span></span><br><span class="line">			connection.connect();</span><br><span class="line">			<span class="comment">// 通过InputStreamReader读取流，设置编码防止中文乱码</span></span><br><span class="line">			InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(</span><br><span class="line">					connection.getInputStream(), <span class="string">"GBK"</span>);</span><br><span class="line">			BufferedReader reader = <span class="keyword">new</span> BufferedReader(isr);</span><br><span class="line">			String inputLine = <span class="keyword">null</span>;</span><br><span class="line">			String resultData = <span class="string">""</span>;</span><br><span class="line">			<span class="keyword">while</span> ((inputLine = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">				resultData += inputLine;</span><br><span class="line">			&#125;</span><br><span class="line">			Log.i(<span class="string">"Http通信之HttpURLConnection"</span>, <span class="string">"get方法\n"</span> + resultData);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// HttpURLConnection之post方法</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">post</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		URL url;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			url = <span class="keyword">new</span> URL(<span class="string">"http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx"</span>);</span><br><span class="line">			<span class="comment">// 使用HttpURLConnection打开连接</span></span><br><span class="line">			HttpURLConnection connection = (HttpURLConnection) url.openConnection();</span><br><span class="line">			connection.setDoOutput(<span class="keyword">true</span>);</span><br><span class="line">			connection.setDoInput(<span class="keyword">true</span>);</span><br><span class="line">			<span class="comment">// 设置请求方法为POST</span></span><br><span class="line">			connection.setRequestMethod(<span class="string">"POST"</span>);</span><br><span class="line">			<span class="comment">// 请求不能使用缓存</span></span><br><span class="line">			connection.setUseCaches(<span class="keyword">false</span>);</span><br><span class="line">			connection.setInstanceFollowRedirects(<span class="keyword">true</span>);</span><br><span class="line">			<span class="comment">// 配置请求的Content-type</span></span><br><span class="line">			connection.setRequestProperty(<span class="string">"Content-type"</span>,<span class="string">"application/x-www-form-urlencoded"</span>);</span><br><span class="line">			<span class="comment">// 连接</span></span><br><span class="line">			connection.connect();</span><br><span class="line">			DataOutputStream dos = <span class="keyword">new</span> DataOutputStream(</span><br><span class="line">					connection.getOutputStream());</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 需要post的参数</span></span><br><span class="line">			StringBuffer buffer = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">			buffer.append(<span class="string">"chkrxkc=1"</span>).append(<span class="string">"&amp;"</span>).append(<span class="string">"Sel_XNXQ=20141"</span>)</span><br><span class="line">					.append(<span class="string">"&amp;"</span>).append(<span class="string">"Sel_XZBJ=2013120402"</span>).append(<span class="string">"&amp;"</span>)</span><br><span class="line">					.append(<span class="string">"Submit01=????"</span>).append(<span class="string">"&amp;"</span>).append(<span class="string">"txtxzbj="</span>)</span><br><span class="line">					.append(<span class="string">"&amp;"</span>).append(<span class="string">"type=2"</span>);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">byte</span>[] bytes = buffer.toString().getBytes();</span><br><span class="line">			dos.write(bytes);</span><br><span class="line">			dos.flush();</span><br><span class="line">			dos.close();</span><br><span class="line"></span><br><span class="line">			InputStream is = connection.getInputStream();</span><br><span class="line">			InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(is, <span class="string">"GBK"</span>);</span><br><span class="line">			BufferedReader reader = <span class="keyword">new</span> BufferedReader(isr);</span><br><span class="line">			String temp;</span><br><span class="line">			StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">			<span class="keyword">while</span> ((temp = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">				sb.append(temp);</span><br><span class="line">			&#125;</span><br><span class="line">			is.close();</span><br><span class="line">			connection.disconnect();</span><br><span class="line">			String result = sb.toString();</span><br><span class="line">			Log.i(<span class="string">"Http通信之HttpURLConnection"</span>, <span class="string">"post方法\n"</span> + result);</span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Logcat日志中打印出的结果<br><img src="/images/htturlconnection_get.png" alt=""><br><img src="/images/htturlconnection_post.png" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/HTTP/">HTTP</a><a href="/tags/网络编程/">网络编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/08/13/Android/Android网络之HTTP协议HttpURlConnection方法/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/13/Android/Android网络之HTTP协议HttpURlConnection方法/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/5/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/">Next<span></span></a>
@@ -472,6 +476,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/算法/" title="算法">算法<sup>5</sup></a></li>
 		  
 		
@@ -505,15 +513,11 @@
 			
 		
 			
-				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
 			
 		
 			
@@ -521,7 +525,11 @@
 			
 		
 			
-				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
 			
 		
 			
@@ -529,7 +537,7 @@
 			
 		
 			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
 			
 		
 			
@@ -641,7 +649,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		
