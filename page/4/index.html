@@ -81,340 +81,137 @@
     <div id="container">
       <div id="main">
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/27/JAVA/Java调用WCF服务/" title="Java调用WCF服务" itemprop="url">Java调用WCF服务</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-27T07:06:47.000Z" itemprop="datePublished"> 发表于 2015-11-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="简单介绍">简单介绍</h1><p>在Java中使用ksoap2调用.NET的WCF接口挺方便，我们需要导入此方法的jar包实现该功能，可以向WCF服务提交数据获取返回信息。</p>
-<h1 id="实例">实例</h1><p>本例以简单的一个创建通知的WCF接口为例讲述Java与WCF的交互。<br>首先使用WcfTestClient测试下WCF接口的CreateNotice方法<br><img src="/images/java/wcf_test1.png" alt=""><br><img src="/images/java/wcf_test2.png" alt=""><br>测试传title和content两个字段值后返回IsSuccess和Message值。<br>下面新建一个Java项目导入ksoap2 jar包。<br>以下为我导入的jar包<br><img src="/images/java/wcf_java_jar.png" alt=""><br>新建一个接口ISoapService类, 用于专门读取WCF返回的SoapObject对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ISoapService</span> </span>&#123;</span><br><span class="line">	<span class="function">SoapObject <span class="title">LoadResult</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>调用WCF接口的类WcfService<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.SoapEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapSerializationEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.transport.HttpTransportSE;</span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParserException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WcfService</span> <span class="keyword">implements</span> <span class="title">ISoapService</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAMESPACE=<span class="string">""</span>;<span class="comment">//引号内改为自己接口的命名空间</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String URL=<span class="string">""</span>;<span class="comment">//引号内改为自己接口的网址</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SOAP_ACTION=<span class="string">""</span>;引号内改为自己接口的SOAP_ACTION</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String METHODNAME=<span class="string">"CreateNotice"</span>;<span class="comment">//引号内改为自己接口的方法名</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Map&lt;String, String&gt; map;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">WcfService</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.map=map;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> SoapObject <span class="title">LoadResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		SoapObject object=<span class="keyword">new</span> SoapObject(NAMESPACE, METHODNAME);</span><br><span class="line">		<span class="keyword">for</span>(Map.Entry&lt;String, String&gt; entry:map.entrySet())&#123;</span><br><span class="line">			System.out.println(<span class="string">"key= "</span>+entry.getKey()+<span class="string">" and value= "</span>+entry.getValue());</span><br><span class="line">			object.addProperty(entry.getKey(), entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SoapSerializationEnvelope envelope=<span class="keyword">new</span> SoapSerializationEnvelope(SoapEnvelope.VER11);</span><br><span class="line">		envelope.bodyOut=object;</span><br><span class="line">		envelope.dotNet=<span class="keyword">true</span>;</span><br><span class="line">		envelope.setOutputSoapObject(object);</span><br><span class="line">		</span><br><span class="line">		HttpTransportSE transportSE=<span class="keyword">new</span> HttpTransportSE(URL);</span><br><span class="line">		transportSE.debug=<span class="keyword">true</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			transportSE.call(SOAP_ACTION, envelope);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			System.out.println(<span class="string">"IOException"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (XmlPullParserException e) &#123;</span><br><span class="line">			System.out.println(<span class="string">"XmlPullParserException"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SoapObject result=(SoapObject) envelope.bodyIn;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>WcfTest主类，获取返回结果并解析打印输出到控制台<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WcfTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Map&lt;String, String&gt; map=<span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">		map.put(<span class="string">"title"</span>, <span class="string">"提醒"</span>);</span><br><span class="line">		map.put(<span class="string">"content"</span>, <span class="string">"晚上写篇博客"</span>);</span><br><span class="line">		WcfService wcf=<span class="keyword">new</span> WcfService(map);</span><br><span class="line">		SoapObject result=(SoapObject) wcf.LoadResult().getProperty(<span class="string">"result"</span>);</span><br><span class="line">		System.out.println(result);<span class="comment">//返回的结果</span></span><br><span class="line">		<span class="keyword">int</span> length=result.getPropertyCount();</span><br><span class="line">		System.out.println(result.getPropertyCount());</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)&#123;</span><br><span class="line">			System.out.println(result.getProperty(i));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>控制台打印出的信息<br><img src="/images/java/wcf_java_console.png" alt=""></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>
-</div>
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/WCF/">WCF</a><a href="/tags/网络编程/">网络编程</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/27/JAVA/Java调用WCF服务/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/27/JAVA/Java调用WCF服务/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/09/21/算法/算法题之Number Sequence/" title="算法题之Number Sequence" itemprop="url">算法题之Number Sequence</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-09-21T15:52:33.000Z" itemprop="datePublished"> 发表于 2015-09-21</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="题目">题目</h1><p>杭电acm题目：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1003" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=1003</a><br><img src="/images/algorithm/hdu1003.png" alt=""></p>
-<h1 id="解答">解答</h1><p>以下为在杭电hdu acm上已AC的C语言、C++实现的两种方法</p>
-<h2 id="C语言实现">C语言实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;stdio.h&gt;</span></span><br><span class="line"><span class="keyword">int</span> f[<span class="number">10000</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> A,B,n;</span><br><span class="line">    f[<span class="number">1</span>]=f[<span class="number">2</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>,&amp;A,&amp;B,&amp;n),A||B||n)&#123;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">3</span>;i&lt;<span class="number">10000</span>;i++)&#123;</span><br><span class="line">            f[i]=(A*f[i-<span class="number">1</span>]+B*f[i-<span class="number">2</span>])%<span class="number">7</span>;</span><br><span class="line">            <span class="keyword">if</span>(f[i]==<span class="number">1</span>&amp;&amp;f[i-<span class="number">1</span>]==<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        n=n%(i-<span class="number">2</span>);</span><br><span class="line">        f[<span class="number">0</span>]=f[i-<span class="number">2</span>];</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>,f[n]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="C++实现">C++实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;   </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">int</span> arr[<span class="number">10000</span>];   </span><br><span class="line">   </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> A,B,n;  </span><br><span class="line">    arr[<span class="number">1</span>] = arr[<span class="number">2</span>] = <span class="number">1</span>;  </span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;A&gt;&gt;B&gt;&gt;n, A || B || n)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">int</span> i;  </span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">3</span>; i&lt;<span class="number">10000</span> ;i++)  </span><br><span class="line">        &#123;  </span><br><span class="line">            arr[i] = (A*arr[i-<span class="number">1</span>] + B*arr[i-<span class="number">2</span>]) % <span class="number">7</span>;  </span><br><span class="line">              </span><br><span class="line">            <span class="comment">//如果有两个连着 =1，则后面的全部和前面相同，即出现了周期   </span></span><br><span class="line">            <span class="comment">//这时就没必要再进行下去了，跳出循环, i-2为周期    </span></span><br><span class="line">            <span class="keyword">if</span>(arr[i] == <span class="number">1</span> &amp;&amp; arr[i-<span class="number">1</span>] == <span class="number">1</span>)              </span><br><span class="line">                <span class="keyword">break</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        n = n % (i-<span class="number">2</span>);  </span><br><span class="line">          </span><br><span class="line">        <span class="comment">// 把n对周期求模，当n = i-2时, n=0,此时本来应该取arr[i-2]的，所以把arr[0]=arr[i-2]    </span></span><br><span class="line">        <span class="comment">//也可以这样：   </span></span><br><span class="line">        <span class="comment">//if(n==0)   n=i-2;                   </span></span><br><span class="line">        arr[<span class="number">0</span>] = arr[i-<span class="number">2</span>];    </span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; arr[n] &lt;&lt; endl;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/算法/">算法</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/算法/">算法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/09/21/算法/算法题之Number Sequence/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/21/算法/算法题之Number Sequence/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/09/20/算法/算法题之Max-Sum/" title="算法题之Max Sum" itemprop="url">算法题之Max Sum</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-09-20T15:36:53.000Z" itemprop="datePublished"> 发表于 2015-09-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="题目">题目</h1><p>杭电acm题目：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1003" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=1003</a><br><img src="/images/algorithm/hdu1003.png" alt=""></p>
-<h1 id="解答">解答</h1><p>以下为在杭电hdu acm上已AC的C语言、C++和Java实现的三种方法</p>
-<h2 id="C语言实现">C语言实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;stdio.h&gt;</span></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100001</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t,c,b,i,s,n,m,max,k,j;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;t);</span><br><span class="line">    <span class="keyword">for</span>(k=<span class="number">1</span>;k&lt;=t;k++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i]);</span><br><span class="line">        max=-<span class="number">1000000</span>;</span><br><span class="line">        j=<span class="number">1</span>;</span><br><span class="line">        s=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            s+=a[i];</span><br><span class="line">            <span class="keyword">if</span>(s&gt;max)</span><br><span class="line">            &#123;</span><br><span class="line">                max=s;</span><br><span class="line">                c=j;</span><br><span class="line">                b=i;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(s&lt;<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                s=<span class="number">0</span>;</span><br><span class="line">                j=i+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Case %d:\n%d %d %d\n"</span>,k,max,c,b);</span><br><span class="line">        <span class="keyword">if</span>(k&lt;t)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="C++实现">C++实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i,j,k,h,g,t,n,sum,max;</span><br><span class="line">    <span class="keyword">int</span> a[<span class="number">100001</span>];</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;t;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=t;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt;a[j];</span><br><span class="line">        max=-<span class="number">1000000</span>;</span><br><span class="line">        sum=<span class="number">0</span>;</span><br><span class="line">        k=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">            sum+=a[j];</span><br><span class="line">            <span class="keyword">if</span>(sum&gt;max)&#123;</span><br><span class="line">                max=sum;</span><br><span class="line">                h=k;</span><br><span class="line">                g=j;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(sum&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                sum=<span class="number">0</span>;</span><br><span class="line">                k=j+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"Case "</span>&lt;&lt;i&lt;&lt;<span class="string">":"</span>&lt;&lt;endl&lt;&lt;max&lt;&lt;<span class="string">" "</span>&lt;&lt;h&lt;&lt;<span class="string">" "</span>&lt;&lt;g&lt;&lt;endl;</span><br><span class="line">        <span class="keyword">if</span>(i&lt;t)&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Java实现">Java实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i,j,t,n,k,h = <span class="number">0</span>,g = <span class="number">0</span>,sum,max;</span><br><span class="line">        <span class="keyword">int</span> a[]=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">100001</span>];</span><br><span class="line">        Scanner scanner=<span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        t=scanner.nextInt();</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=t;i++)&#123;</span><br><span class="line">            System.out.println(<span class="string">"Case "</span>+i+<span class="string">":"</span>);</span><br><span class="line">            n=scanner.nextInt();</span><br><span class="line">            <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)</span><br><span class="line">                a[j]=scanner.nextInt();</span><br><span class="line">            max=-<span class="number">1000000</span>;</span><br><span class="line">            sum=<span class="number">0</span>;</span><br><span class="line">            k=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">                sum+=a[j];</span><br><span class="line">                <span class="keyword">if</span> (sum&gt;max) &#123;</span><br><span class="line">                    max=sum;</span><br><span class="line">                    h=k;</span><br><span class="line">                    g=j;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (sum&lt;<span class="number">0</span>) &#123;</span><br><span class="line">                    sum=<span class="number">0</span>;</span><br><span class="line">                    k=j+<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(max+<span class="string">" "</span>+h+<span class="string">" "</span>+g);</span><br><span class="line">            <span class="keyword">if</span> (i&lt;t) &#123;</span><br><span class="line">                System.out.println();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/算法/">算法</a>
-</div>
-
-
-  <div class="article-tags">
+    <a href="/2015/09/20/算法/算法题之Max-Sum/" title="算法题之Max Sum" itemprop="url">
   
-  <span></span> <a href="/tags/算法/">算法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/09/20/算法/算法题之Max-Sum/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/20/算法/算法题之Max-Sum/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <h1 itemprop="name">算法题之Max Sum</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
+     
+           <p itemprop="description" >题目杭电acm题目：http://acm.hdu.edu.cn/showproblem.php?pid=1003
+解答以下为在杭电hdu acm上已AC的C语言、C++和Java实现的三种方法
+C语言实现12345678910111213141516171819202122232</p>
+        
     
-      <a href="/2015/09/20/算法/算法题之Sum Problem/" title="算法题之Sum Problem" itemprop="url">算法题之Sum Problem</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-09-20T15:12:40.000Z" itemprop="datePublished"> 发表于 2015-09-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="题目">题目</h1><p>杭电acm题目：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1001" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=1001</a><br><img src="/images/algorithm/hdu1001.png" alt=""></p>
-<h1 id="解答">解答</h1><p>以下为在杭电hdu acm上已AC的C语言、C++和Java实现的三种方法</p>
-<h2 id="C语言实现">C语言实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;stdio.h&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum;</span><br><span class="line">    <span class="keyword">int</span> i,n;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">            sum+=i;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n\n"</span>,sum);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="C++实现">C++实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i,n,s;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n)</span><br><span class="line">    &#123;</span><br><span class="line">        s=<span class="number">0</span>;</span><br><span class="line">        n++;</span><br><span class="line">        <span class="keyword">while</span>(--n)</span><br><span class="line">                s+=n;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;s&lt;&lt;endl&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Java实现">Java实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n,sum;</span><br><span class="line">        Scanner scanner=<span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">while</span>(scanner.hasNext())&#123;</span><br><span class="line">            n=scanner.nextInt();</span><br><span class="line">            sum=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)&#123;</span><br><span class="line">                sum+=i;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(sum);</span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/算法/">算法</a>
-</div>
+    <time datetime="2015-09-20T15:36:53.000Z" itemprop="datePublished">2015-09-20</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/算法/">算法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/09/20/算法/算法题之Sum Problem/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/20/算法/算法题之Sum Problem/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/09/20/算法/算法题之A + B Problem/" title="算法题之A + B Problem" itemprop="url">算法题之A + B Problem</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
-		
-  <p class="article-time">
-    <time datetime="2015-09-20T06:26:01.000Z" itemprop="datePublished"> 发表于 2015-09-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="题目">题目</h1><p>杭电acm题目：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1000" target="_blank" rel="external">http://acm.hdu.edu.cn/showproblem.php?pid=1000</a><br><img src="/images/algorithm/hdu1000.png" alt=""></p>
-<h1 id="解答">解答</h1><p>以下为在杭电hdu acm上已AC的C语言、C++和Java实现的三种方法</p>
-<h2 id="C语言实现">C语言实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a,b,sum;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span> (<span class="string">"%d %d"</span>,&amp;a,&amp;b)!=EOF)</span><br><span class="line">    &#123;</span><br><span class="line">    sum=a+b;</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"%d\n"</span>,sum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="C++实现">C++实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span>&lt;iostream&gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> a,b;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;a&gt;&gt;b)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;a+b&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Java实现">Java实现</h2><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a,b,sum;</span><br><span class="line">        Scanner scanner=<span class="keyword">new</span> Scanner(System.<span class="keyword">in</span>);</span><br><span class="line">        <span class="keyword">while</span>(scanner.hasNext())&#123;</span><br><span class="line">            a=scanner.nextInt();</span><br><span class="line">            b=scanner.nextInt();</span><br><span class="line">            sum=a+b;</span><br><span class="line">            System.<span class="keyword">out</span>.println(a+b);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/算法/">算法</a>
-</div>
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/算法/">算法</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/09/20/算法/算法题之A + B Problem/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/09/20/算法/算法题之A + B Problem/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
+    <a href="/2015/09/20/算法/算法题之Sum Problem/" title="算法题之Sum Problem" itemprop="url">
+  
+    <h1 itemprop="name">算法题之Sum Problem</h1>
+    
+     
+           <p itemprop="description" >题目杭电acm题目：http://acm.hdu.edu.cn/showproblem.php?pid=1001
+解答以下为在杭电hdu acm上已AC的C语言、C++和Java实现的三种方法
+C语言实现1234567891011121314#include&amp;lt;stdio.h</p>
+        
+    
+    <time datetime="2015-09-20T15:12:40.000Z" itemprop="datePublished">2015-09-20</time>
+  </a>
+</section>
 
 
 
 
 
 
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2015/09/20/算法/算法题之A + B Problem/" title="算法题之A + B Problem" itemprop="url">
+  
+    <h1 itemprop="name">算法题之A + B Problem</h1>
+    
+     
+           <p itemprop="description" >题目杭电acm题目：http://acm.hdu.edu.cn/showproblem.php?pid=1000
+解答以下为在杭电hdu acm上已AC的C语言、C++和Java实现的三种方法
+C语言实现12345678910#include &amp;lt;stdio.h&amp;gt;voi</p>
+        
+    
+    <time datetime="2015-09-20T06:26:01.000Z" itemprop="datePublished">2015-09-20</time>
+  </a>
+</section>
 
-  <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2015/09/02/Android/Android网络之百度云推送的使用（二）/" title="Android网络编程之百度云推送的使用（二）" itemprop="url">
+  
+    <h1 itemprop="name">Android网络编程之百度云推送的使用（二）</h1>
+    
+     
+           <p itemprop="description" >简单介绍上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。
+实例首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。首先写个PushTool工具类123456789101112131415161718192021</p>
+        
+    
+    <time datetime="2015-09-02T09:57:34.000Z" itemprop="datePublished">2015-09-02</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2015/08/31/Android/Android网络之百度云推送的使用（一）/" title="Android网络之百度云推送的使用（一）" itemprop="url">
+  
+    <h1 itemprop="name">Android网络之百度云推送的使用（一）</h1>
+    
+     
+           <p itemprop="description" >简单介绍手机获取网络数据的方式大体分为两种，一种是拉的方式，即用户主动去获取，另一种是推的方式，即服务器推送给用户。在如今的很多APP上都会有推送的功能，有新的版本我们需要推送给用户提示更新，像微博或什么的有新的消息也需要推给用户。关于推送的几种方法这里就不介绍了可以自行搜索。这</p>
+        
+    
+    <time datetime="2015-08-31T14:23:36.000Z" itemprop="datePublished">2015-08-31</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2015/08/28/Android/Android应用检测更新/" title="Android应用检测更新" itemprop="url">
+  
+    <h1 itemprop="name">Android应用检测更新</h1>
+    
+     
+           <p itemprop="description" >简单介绍在现在的大部分Android应用中，检测更新是一个很重要的功能。当有新的版本时推送给用户或让用户自己手动检测更新，或者放到Android应用市场上让提示更新。本篇介绍怎么实现手动检测更新。关于推送更新在以后篇章中介绍推送时可以用推送功能提醒更新。
+实例本章介绍的检测更新是</p>
+        
+    
+    <time datetime="2015-08-28T11:58:43.000Z" itemprop="datePublished">2015-08-28</time>
+  </a>
+</section>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix unexpand">
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
   </nav>
 
 </div>
@@ -443,6 +240,10 @@
 		
 		  
 			<li><a href="/categories/Android应用常用功能/" title="Android应用常用功能">Android应用常用功能<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android性能/" title="Android性能">Android性能<sup>1</sup></a></li>
 		  
 		
 		  
@@ -491,7 +292,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>25</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>26</sup></a></li>
 			
 		
 			
@@ -527,10 +328,6 @@
 			
 		
 			
-				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
 			
 		
@@ -539,15 +336,19 @@
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
 			
 		
 			
@@ -555,11 +356,11 @@
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
+				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
 			
 		
 			
@@ -593,12 +394,6 @@
           <li>
             
             	<a href="http://mkblog.cn/" target="_blank" title="孟坤博客">孟坤博客</a>
-            
-          </li>
-        
-          <li>
-            
-            	<a href="http://www.valseek.com" target="_blank" title="valseek">valseek</a>
             
           </li>
         
