@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
     <title>Java中常用数据类型，时间类型的转换方法之归纳总结 | Carlos</title>
@@ -11,19 +11,18 @@
     
 
     
-    <meta name="description" content="简单介绍本次介绍在Java中常见数据格式的转换和时间的转换，在Android中也会经常用到，掌握后对于开发会更加方便。
-实例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+    <meta name="description" content="简单介绍本次介绍在Java中常见数据格式的转换和时间的转换，在Android中也会经常用到，掌握后对于开发会更加方便。 实例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+<meta name="keywords" content="数据格式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java中常用数据类型，时间类型的转换方法之归纳总结">
 <meta property="og:url" content="http://yoursite.com/2015/07/29/JAVA/Java中常用数据类型，时间类型的转换方法之归纳总结/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="简单介绍本次介绍在Java中常见数据格式的转换和时间的转换，在Android中也会经常用到，掌握后对于开发会更加方便。
-实例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+<meta property="og:description" content="简单介绍本次介绍在Java中常见数据格式的转换和时间的转换，在Android中也会经常用到，掌握后对于开发会更加方便。 实例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2015-08-14T03:15:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中常用数据类型，时间类型的转换方法之归纳总结">
-<meta name="twitter:description" content="简单介绍本次介绍在Java中常见数据格式的转换和时间的转换，在Android中也会经常用到，掌握后对于开发会更加方便。
-实例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
+<meta name="twitter:description" content="简单介绍本次介绍在Java中常见数据格式的转换和时间的转换，在Android中也会经常用到，掌握后对于开发会更加方便。 实例123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -35,14 +34,14 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
 
 
 </head>
-
+</html>
   <body>
     <header>
       
@@ -111,7 +110,7 @@
 		
 		<h1 id="简单介绍">简单介绍</h1><p>本次介绍在Java中常见数据格式的转换和时间的转换，在Android中也会经常用到，掌握后对于开发会更加方便。</p>
 <h1 id="实例">实例</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.data;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.Timestamp;</span><br><span class="line"><span class="keyword">import</span> java.text.ParseException;</span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Data</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">static</span> String s;</span><br><span class="line">	<span class="keyword">static</span> Timestamp timestamp;</span><br><span class="line">	<span class="keyword">static</span> Date date;</span><br><span class="line">	<span class="keyword">static</span> SimpleDateFormat dateFormat;</span><br><span class="line">	<span class="keyword">static</span> String time;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">		i=<span class="number">1</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//int类型转换为String</span></span><br><span class="line">		s=Integer.toString(i);</span><br><span class="line">		println(<span class="string">"通过Integer将int转换为String的结果为:\n"</span>+s);</span><br><span class="line">		s=String.valueOf(i);</span><br><span class="line">		println(<span class="string">"通过String将int转换为String的结果为:\n"</span>+s);</span><br><span class="line">		s=i+<span class="string">""</span>;</span><br><span class="line">		println(<span class="string">"通过加空字符串将int转换为String的结果为:\n"</span>+s);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//String类型转换为int</span></span><br><span class="line">		i=Integer.parseInt(s);</span><br><span class="line">		println(<span class="string">"通过Integer的parseInt将String转换为int的结果为:\n"</span>+i);</span><br><span class="line">		i=Integer.valueOf(s);</span><br><span class="line">		println(<span class="string">"通过Integer的valueOf将String转换为int的结果为:\n"</span>+i);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//Timestamp转String</span></span><br><span class="line">		timestamp=<span class="keyword">new</span> Timestamp(System.currentTimeMillis());</span><br><span class="line">		time=timestamp.toString();</span><br><span class="line">		println(<span class="string">"Timestamp转换为String的结果为:\n"</span>+time);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//String转Timestamp</span></span><br><span class="line">		timestamp=<span class="keyword">new</span> Timestamp(System.currentTimeMillis());</span><br><span class="line">		time=<span class="string">"2015-06-23 23:02:34.125"</span>;</span><br><span class="line">		timestamp=Timestamp.valueOf(time);</span><br><span class="line">		println(<span class="string">"String转换为Timestamp的结果为:\n"</span>+timestamp);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//String转Date</span></span><br><span class="line">		date=<span class="keyword">new</span> Date();</span><br><span class="line">		dateFormat=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			date=dateFormat.parse(time);</span><br><span class="line">			println(<span class="string">"String转换为Date的结果为:\n"</span>+date);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Date转换为String</span></span><br><span class="line">		date=<span class="keyword">new</span> Date();</span><br><span class="line">		dateFormat=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy/MM/dd HH:mm:ss"</span>);</span><br><span class="line">		time=dateFormat.format(date);</span><br><span class="line">		System.out.println(<span class="string">"Date转换为String的结果为:\n"</span>+time);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Timestamp转换为Date</span></span><br><span class="line">		timestamp=<span class="keyword">new</span> Timestamp(System.currentTimeMillis());</span><br><span class="line">		date=timestamp;</span><br><span class="line">		println(<span class="string">"Timestamp转换为Date的结果为:\n"</span>+date);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//Date转换为Timestamp</span></span><br><span class="line">		date=<span class="keyword">new</span> Date(System.currentTimeMillis());</span><br><span class="line">		timestamp=<span class="keyword">new</span> Timestamp(date.getTime());</span><br><span class="line">		println(<span class="string">"Date转换为Timestamp的结果为:\n"</span>+timestamp);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">println</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line">		System.out.println(s);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>控制台输出的结果为：<br><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">通过Integer将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过<span class="built_in">String</span>将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过加空字符串将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过Integer的parseInt将<span class="built_in">String</span>转换为<span class="built_in">int</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过Integer的valueOf将<span class="built_in">String</span>转换为<span class="built_in">int</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">Timestamp转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">2015</span>-<span class="number">07</span>-<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.019</span></span><br><span class="line"><span class="built_in">String</span>转换为Timestamp的结果为:</span><br><span class="line"><span class="number">2015</span>-<span class="number">06</span>-<span class="number">23</span> <span class="number">23</span>:<span class="number">02</span>:<span class="number">34.125</span></span><br><span class="line"><span class="built_in">String</span>转换为<span class="built_in">Date</span>的结果为:</span><br><span class="line">Tue Jun <span class="number">23</span> <span class="number">23</span>:<span class="number">02</span>:<span class="number">34</span> CST <span class="number">2015</span></span><br><span class="line"><span class="built_in">Date</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">2015</span>/<span class="number">07</span>/<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20</span></span><br><span class="line">Timestamp转换为<span class="built_in">Date</span>的结果为:</span><br><span class="line"><span class="number">2015</span>-<span class="number">07</span>-<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.118</span></span><br><span class="line"><span class="built_in">Date</span>转换为Timestamp的结果为:</span><br><span class="line"><span class="number">2015</span>-<span class="number">07</span>-<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.118</span></span><br></pre></td></tr></table></figure></p>
+<p>控制台输出的结果为：<br><figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">通过Integer将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过<span class="built_in">String</span>将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过加空字符串将<span class="built_in">int</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过Integer的<span class="built_in">parseInt</span>将<span class="built_in">String</span>转换为<span class="built_in">int</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">通过Integer的valueOf将<span class="built_in">String</span>转换为<span class="built_in">int</span>的结果为:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">Timestamp转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">2015</span><span class="number">-07</span><span class="number">-29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.019</span></span><br><span class="line"><span class="built_in">String</span>转换为Timestamp的结果为:</span><br><span class="line"><span class="number">2015</span><span class="number">-06</span><span class="number">-23</span> <span class="number">23</span>:<span class="number">02</span>:<span class="number">34.125</span></span><br><span class="line"><span class="built_in">String</span>转换为<span class="built_in">Date</span>的结果为:</span><br><span class="line">Tue Jun <span class="number">23</span> <span class="number">23</span>:<span class="number">02</span>:<span class="number">34</span> CST <span class="number">2015</span></span><br><span class="line"><span class="built_in">Date</span>转换为<span class="built_in">String</span>的结果为:</span><br><span class="line"><span class="number">2015</span>/<span class="number">07</span>/<span class="number">29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20</span></span><br><span class="line">Timestamp转换为<span class="built_in">Date</span>的结果为:</span><br><span class="line"><span class="number">2015</span><span class="number">-07</span><span class="number">-29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.118</span></span><br><span class="line"><span class="built_in">Date</span>转换为Timestamp的结果为:</span><br><span class="line"><span class="number">2015</span><span class="number">-07</span><span class="number">-29</span> <span class="number">19</span>:<span class="number">01</span>:<span class="number">20.118</span></span><br></pre></td></tr></table></figure></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -270,7 +269,7 @@
 		  
 		
 		  
-			<li><a href="/categories/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -283,7 +282,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>27</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>28</sup></a></li>
 			
 		
 			
@@ -311,23 +310,11 @@
 			
 		
 			
-				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
 			
 		
 			
@@ -335,7 +322,19 @@
 			
 		
 			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -343,23 +342,23 @@
 			
 		
 			
-				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -433,7 +432,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

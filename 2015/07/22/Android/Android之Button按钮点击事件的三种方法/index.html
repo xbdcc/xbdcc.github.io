@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
     <title>Android之Button按钮点击事件的三种方法 | Carlos</title>
@@ -12,16 +12,19 @@
 
     
     <meta name="description" content="通过三种方法实现Button的点击事件，通过泛型简化查找控件的id。12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667package com.carlos.button;import android.">
+<meta name="keywords" content="Android,点击事件,控件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android之Button按钮点击事件的三种方法">
 <meta property="og:url" content="http://yoursite.com/2015/07/22/Android/Android之Button按钮点击事件的三种方法/index.html">
 <meta property="og:site_name" content="Carlos">
 <meta property="og:description" content="通过三种方法实现Button的点击事件，通过泛型简化查找控件的id。12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667package com.carlos.button;import android.">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/button_click_log.png">
 <meta property="og:updated_time" content="2016-03-28T03:06:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android之Button按钮点击事件的三种方法">
 <meta name="twitter:description" content="通过三种方法实现Button的点击事件，通过泛型简化查找控件的id。12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667package com.carlos.button;import android.">
+<meta name="twitter:image" content="http://yoursite.com/images/button_click_log.png">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -33,14 +36,14 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
 
 
 </head>
-
+</html>
   <body>
     <header>
       
@@ -107,8 +110,8 @@
 		
 		</div>
 		
-		<p>通过三种方法实现Button的点击事件，通过泛型简化查找控件的id。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.button;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Button button1;</span><br><span class="line">	<span class="keyword">private</span> Button button2;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		button1 = getViewById(R.id.button1);</span><br><span class="line">		button2 = getViewById(R.id.button2);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 第一种方法，匿名内部类实现点击事件。</span></span><br><span class="line">		button1.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="annotation">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View arg0)</span> </span>&#123;</span><br><span class="line">				showInfo(<span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 第二种方法，调用外部定义的点击事件接口实现。</span></span><br><span class="line">		button2.setOnClickListener(listener);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 定义接口给button2使用</span></span><br><span class="line">	OnClickListener listener = <span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">		<span class="annotation">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View arg0)</span> </span>&#123;</span><br><span class="line">			showInfo(<span class="number">2</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 第三种方法,xml布局里面定义button3的onClick事件</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">button</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		showInfo(<span class="number">3</span>);</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 用Logcat显示日志观察点击的哪一项</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">showInfo</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">		Log.i(TAG, <span class="string">"你点击了第"</span> + i + <span class="string">"个按钮"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 通过泛型简化findViewById</span></span><br><span class="line">	<span class="annotation">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	&lt;T extends View&gt; <span class="function">T <span class="title">getViewById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (T) findViewById(id);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassCastException e) &#123;</span><br><span class="line">			Log.e(TAG, <span class="string">"Could not cast View to create class."</span>, e);</span><br><span class="line">			<span class="keyword">throw</span> e;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>xml布局<br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:<span class="variable">android=</span><span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:<span class="variable">layout_width=</span><span class="string">"fill_parent"</span></span><br><span class="line">    android:<span class="variable">layout_height=</span><span class="string">"fill_parent"</span></span><br><span class="line">    android:<span class="variable">orientation=</span><span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;Button</span><br><span class="line">        android:<span class="variable">id=</span><span class="string">"@+id/button1"</span></span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">text=</span><span class="string">"Button1"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Button</span><br><span class="line">        android:<span class="variable">id=</span><span class="string">"@+id/button2"</span></span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">text=</span><span class="string">"Button2"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Button</span><br><span class="line">        android:<span class="variable">layout_width=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">layout_height=</span><span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="variable">onClick=</span><span class="string">"button"</span></span><br><span class="line">        android:<span class="variable">text=</span><span class="string">"Button3"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
+		<p>通过三种方法实现Button的点击事件，通过泛型简化查找控件的id。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.button;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Button button1;</span><br><span class="line">	<span class="keyword">private</span> Button button2;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		button1 = getViewById(R.id.button1);</span><br><span class="line">		button2 = getViewById(R.id.button2);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 第一种方法，匿名内部类实现点击事件。</span></span><br><span class="line">		button1.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View arg0)</span> </span>&#123;</span><br><span class="line">				showInfo(<span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 第二种方法，调用外部定义的点击事件接口实现。</span></span><br><span class="line">		button2.setOnClickListener(listener);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 定义接口给button2使用</span></span><br><span class="line">	OnClickListener listener = <span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View arg0)</span> </span>&#123;</span><br><span class="line">			showInfo(<span class="number">2</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 第三种方法,xml布局里面定义button3的onClick事件</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">button</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		showInfo(<span class="number">3</span>);</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 用Logcat显示日志观察点击的哪一项</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">showInfo</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">		Log.i(TAG, <span class="string">"你点击了第"</span> + i + <span class="string">"个按钮"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 通过泛型简化findViewById</span></span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	&lt;T extends View&gt; <span class="function">T <span class="title">getViewById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (T) findViewById(id);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassCastException e) &#123;</span><br><span class="line">			Log.e(TAG, <span class="string">"Could not cast View to create class."</span>, e);</span><br><span class="line">			<span class="keyword">throw</span> e;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>xml布局<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"fill_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"fill_parent"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;Button</span><br><span class="line">        android:<span class="built_in">id</span>=<span class="string">"@+id/button1"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="built_in">text</span>=<span class="string">"Button1"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Button</span><br><span class="line">        android:<span class="built_in">id</span>=<span class="string">"@+id/button2"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:<span class="built_in">text</span>=<span class="string">"Button2"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Button</span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:onClick=<span class="string">"button"</span></span><br><span class="line">        android:<span class="built_in">text</span>=<span class="string">"Button3"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
 <p>Logcat日志中TAG标签的结果<br><img src="/images/button_click_log.png" style="margin:auto"></p>
   
 	</div>
@@ -123,7 +126,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/控件/">控件</a><a href="/tags/点击事件/">点击事件</a>
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/点击事件/">点击事件</a><a href="/tags/控件/">控件</a>
   </div>
 
 </div>
@@ -268,7 +271,7 @@
 		  
 		
 		  
-			<li><a href="/categories/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -281,7 +284,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>27</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>28</sup></a></li>
 			
 		
 			
@@ -309,23 +312,11 @@
 			
 		
 			
-				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
 			
 		
 			
@@ -333,7 +324,19 @@
 			
 		
 			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -341,23 +344,23 @@
 			
 		
 			
-				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -431,7 +434,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

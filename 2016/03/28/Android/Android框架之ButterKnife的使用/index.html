@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
     <title>Android框架之ButterKnife的使用 | Carlos</title>
@@ -11,14 +11,14 @@
     
 
     
-    <meta name="description" content="简单介绍本篇介绍ButterKnife懒人库框架的基本使用，使用这个开源库可以让我们从大量的findViewById()和setonclicktListener()解放出来，节省大量的开发时间。
-实例打开Android Studio设置，插件中搜索ButterKnife安装插件，如图我的是已经安装的如果没有安装点击这个按钮安装然后在自己的项目build中加入依赖1compile &apos;com.jake">
+    <meta name="description" content="简单介绍本篇介绍ButterKnife懒人库框架的基本使用，使用这个开源库可以让我们从大量的findViewById()和setonclicktListener()解放出来，节省大量的开发时间。 实例打开Android Studio设置，插件中搜索ButterKnife安装插件，如图我的是已经安装的如果没有安装点击这个按钮安装然后在自己的项目build中加入依赖1compile &apos;com.jake">
+<meta name="keywords" content="Android,框架">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android框架之ButterKnife的使用">
 <meta property="og:url" content="http://yoursite.com/2016/03/28/Android/Android框架之ButterKnife的使用/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="简单介绍本篇介绍ButterKnife懒人库框架的基本使用，使用这个开源库可以让我们从大量的findViewById()和setonclicktListener()解放出来，节省大量的开发时间。
-实例打开Android Studio设置，插件中搜索ButterKnife安装插件，如图我的是已经安装的如果没有安装点击这个按钮安装然后在自己的项目build中加入依赖1compile &apos;com.jake">
+<meta property="og:description" content="简单介绍本篇介绍ButterKnife懒人库框架的基本使用，使用这个开源库可以让我们从大量的findViewById()和setonclicktListener()解放出来，节省大量的开发时间。 实例打开Android Studio设置，插件中搜索ButterKnife安装插件，如图我的是已经安装的如果没有安装点击这个按钮安装然后在自己的项目build中加入依赖1compile &apos;com.jake">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/android/butterknife_1.png">
 <meta property="og:image" content="http://yoursite.com/images/android/butterknife_2.png">
 <meta property="og:image" content="http://yoursite.com/images/android/butterknife_3.png">
@@ -27,8 +27,8 @@
 <meta property="og:updated_time" content="2016-03-28T03:06:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android框架之ButterKnife的使用">
-<meta name="twitter:description" content="简单介绍本篇介绍ButterKnife懒人库框架的基本使用，使用这个开源库可以让我们从大量的findViewById()和setonclicktListener()解放出来，节省大量的开发时间。
-实例打开Android Studio设置，插件中搜索ButterKnife安装插件，如图我的是已经安装的如果没有安装点击这个按钮安装然后在自己的项目build中加入依赖1compile &apos;com.jake">
+<meta name="twitter:description" content="简单介绍本篇介绍ButterKnife懒人库框架的基本使用，使用这个开源库可以让我们从大量的findViewById()和setonclicktListener()解放出来，节省大量的开发时间。 实例打开Android Studio设置，插件中搜索ButterKnife安装插件，如图我的是已经安装的如果没有安装点击这个按钮安装然后在自己的项目build中加入依赖1compile &apos;com.jake">
+<meta name="twitter:image" content="http://yoursite.com/images/android/butterknife_1.png">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -40,14 +40,14 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
 
 
 </head>
-
+</html>
   <body>
     <header>
       
@@ -115,8 +115,8 @@
 		</div>
 		
 		<h1 id="简单介绍">简单介绍</h1><p>本篇介绍ButterKnife懒人库框架的基本使用，使用这个开源库可以让我们从大量的findViewById()和setonclicktListener()解放出来，节省大量的开发时间。</p>
-<h1 id="实例">实例</h1><p>打开Android Studio设置，插件中搜索ButterKnife安装插件，如图我的是已经安装的<br><img src="/images/android/butterknife_1.png" alt=""><br>如果没有安装点击这个按钮安装<br><img src="/images/android/butterknife_2.png" alt=""><br>然后在自己的项目build中加入依赖<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'com.jakewharton:butterknife:7.0.1'</span></span><br></pre></td></tr></table></figure></p>
-<p>在Activity中的layout处右键点击Generate可以选择自动生成插件代码<br><img src="/images/android/butterknife_3.png" alt=""><br>选择所需要生成的控件部分<br><img src="/images/android/butterknife_4.png" alt=""><br>最后自动生成的代码<br><img src="/images/android/butterknife_5.png" alt=""><br>这样无需手写大量的findViewById和setOnClickListener，大大提高了开发效率。</p>
+<h1 id="实例">实例</h1><p>打开Android Studio设置，插件中搜索ButterKnife安装插件，如图我的是已经安装的<br><img src="/images/android/butterknife_1.png" alt><br>如果没有安装点击这个按钮安装<br><img src="/images/android/butterknife_2.png" alt><br>然后在自己的项目build中加入依赖<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">compile</span> <span class="string">'com.jakewharton:butterknife:7.0.1'</span></span><br></pre></td></tr></table></figure></p>
+<p>在Activity中的layout处右键点击Generate可以选择自动生成插件代码<br><img src="/images/android/butterknife_3.png" alt><br>选择所需要生成的控件部分<br><img src="/images/android/butterknife_4.png" alt><br>最后自动生成的代码<br><img src="/images/android/butterknife_5.png" alt><br>这样无需手写大量的findViewById和setOnClickListener，大大提高了开发效率。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -275,7 +275,7 @@
 		  
 		
 		  
-			<li><a href="/categories/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -288,7 +288,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>27</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>28</sup></a></li>
 			
 		
 			
@@ -316,23 +316,11 @@
 			
 		
 			
-				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
 			
 		
 			
@@ -340,7 +328,19 @@
 			
 		
 			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -348,23 +348,23 @@
 			
 		
 			
-				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -438,7 +438,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

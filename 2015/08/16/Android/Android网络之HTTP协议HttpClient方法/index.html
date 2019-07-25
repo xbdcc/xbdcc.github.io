@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
     <title>Android网络之HTTP协议HttpClient方法 | Carlos</title>
@@ -11,21 +11,21 @@
     
 
     
-    <meta name="description" content="简单介绍本篇介绍使用Android中自带的Apache的HttpClient接口进行HTTP操作，为了方便，这里还是使用Thread来简单操作。
-实例以下是通过HttpClient的Get方法和Post方法获取湖南文理学院班级课表的有关信息的源码12345678910111213141516171819202122232425262728293031323334353637383940414243">
+    <meta name="description" content="简单介绍本篇介绍使用Android中自带的Apache的HttpClient接口进行HTTP操作，为了方便，这里还是使用Thread来简单操作。 实例以下是通过HttpClient的Get方法和Post方法获取湖南文理学院班级课表的有关信息的源码12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta name="keywords" content="Android,网络编程,HTTP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android网络之HTTP协议HttpClient方法">
 <meta property="og:url" content="http://yoursite.com/2015/08/16/Android/Android网络之HTTP协议HttpClient方法/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="简单介绍本篇介绍使用Android中自带的Apache的HttpClient接口进行HTTP操作，为了方便，这里还是使用Thread来简单操作。
-实例以下是通过HttpClient的Get方法和Post方法获取湖南文理学院班级课表的有关信息的源码12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta property="og:description" content="简单介绍本篇介绍使用Android中自带的Apache的HttpClient接口进行HTTP操作，为了方便，这里还是使用Thread来简单操作。 实例以下是通过HttpClient的Get方法和Post方法获取湖南文理学院班级课表的有关信息的源码12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/httpclient_get.png">
 <meta property="og:image" content="http://yoursite.com/images/httpclient_post.png">
 <meta property="og:updated_time" content="2016-03-28T03:06:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android网络之HTTP协议HttpClient方法">
-<meta name="twitter:description" content="简单介绍本篇介绍使用Android中自带的Apache的HttpClient接口进行HTTP操作，为了方便，这里还是使用Thread来简单操作。
-实例以下是通过HttpClient的Get方法和Post方法获取湖南文理学院班级课表的有关信息的源码12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta name="twitter:description" content="简单介绍本篇介绍使用Android中自带的Apache的HttpClient接口进行HTTP操作，为了方便，这里还是使用Thread来简单操作。 实例以下是通过HttpClient的Get方法和Post方法获取湖南文理学院班级课表的有关信息的源码12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta name="twitter:image" content="http://yoursite.com/images/httpclient_get.png">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -37,14 +37,14 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
 
 
 </head>
-
+</html>
   <body>
     <header>
       
@@ -112,8 +112,8 @@
 		</div>
 		
 		<h1 id="简单介绍">简单介绍</h1><p>本篇介绍使用Android中自带的Apache的HttpClient接口进行HTTP操作，为了方便，这里还是使用Thread来简单操作。</p>
-<h1 id="实例">实例</h1><p>以下是通过HttpClient的Get方法和Post方法获取湖南文理学院班级课表的有关信息的源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.httpclient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpEntity;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpResponse;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpStatus;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.ClientProtocolException;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.HttpClient;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.entity.UrlEncodedFormEntity;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.methods.HttpGet;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.methods.HttpPost;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.conn.params.ConnManagerParams;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.impl.client.DefaultHttpClient;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.message.BasicNameValuePair;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.params.HttpConnectionParams;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.protocol.HTTP;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.util.EntityUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        </span><br><span class="line">        thread.start();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Thread thread=<span class="keyword">new</span> Thread()&#123;</span><br><span class="line">    	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    		get();</span><br><span class="line">    		post();</span><br><span class="line">    	&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	String url=<span class="string">"http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx"</span>;</span><br><span class="line">    	<span class="comment">//HttpGet连接对象</span></span><br><span class="line">    	HttpGet get=<span class="keyword">new</span> HttpGet(url);</span><br><span class="line">    	<span class="comment">//取得HttpClient对象</span></span><br><span class="line">    	HttpClient client=<span class="keyword">new</span> DefaultHttpClient();</span><br><span class="line">    	<span class="comment">//设置连接超时</span></span><br><span class="line">    	HttpConnectionParams.setConnectionTimeout(client.getParams(), <span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">    	<span class="comment">//设置读取时间超时</span></span><br><span class="line">    	HttpConnectionParams.setSoTimeout(client.getParams(), <span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">    	<span class="comment">//设置从连接池中取连接超时</span></span><br><span class="line">    	ConnManagerParams.setTimeout(client.getParams(), <span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">    	<span class="comment">//请求HttpClient，取得HttpResponse</span></span><br><span class="line">    	<span class="keyword">try</span> &#123;</span><br><span class="line">			HttpResponse response=client.execute(get);</span><br><span class="line">			<span class="keyword">if</span> (response.getStatusLine().getStatusCode()==<span class="number">200</span>) &#123;</span><br><span class="line">				<span class="comment">//取得返回的字符串</span></span><br><span class="line">				String result=EntityUtils.toString(response.getEntity());</span><br><span class="line">				Log.i(<span class="string">"Http通信之HttpClient"</span>, <span class="string">"get方法"</span>+result);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClientProtocolException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">post</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	String url=<span class="string">"http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx"</span>;</span><br><span class="line">    	<span class="comment">//取得HttpClient对象</span></span><br><span class="line">    	HttpClient client=<span class="keyword">new</span> DefaultHttpClient();</span><br><span class="line">    	<span class="comment">//HttpPost连接对象</span></span><br><span class="line">    	HttpPost post=<span class="keyword">new</span> HttpPost(url);</span><br><span class="line">    	<span class="comment">//使用BasicNameValuePair来保存要传递的Post参数</span></span><br><span class="line">    	List&lt;BasicNameValuePair&gt; pairs=<span class="keyword">new</span> ArrayList&lt;BasicNameValuePair&gt;();</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"chkrxkc"</span>, <span class="string">"1"</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Sel_XNXQ"</span>, <span class="string">"20141"</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Sel_XZBJ"</span>, <span class="string">"2013120402"</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Submit01"</span>, <span class="string">"????"</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"txtxzbj"</span>, <span class="string">""</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"type"</span>, <span class="string">"2"</span>));</span><br><span class="line">    	<span class="comment">//设置连接超时</span></span><br><span class="line">    	HttpConnectionParams.setConnectionTimeout(client.getParams(), <span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">    	</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//设置字符集</span></span><br><span class="line">			HttpEntity entity = <span class="keyword">new</span> UrlEncodedFormEntity(pairs,HTTP.UTF_8);</span><br><span class="line">			post.setEntity(entity);</span><br><span class="line">			HttpResponse response=client.execute(post);</span><br><span class="line">			<span class="keyword">if</span> (response.getStatusLine().getStatusCode()==HttpStatus.SC_OK) &#123;</span><br><span class="line">				String result=EntityUtils.toString(response.getEntity());</span><br><span class="line">				Log.i(<span class="string">"Http通信之HttpClient"</span>, <span class="string">"post方法"</span>+result);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClientProtocolException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Logcat日志中打印出的结果<br><img src="/images/httpclient_get.png" alt=""><br><img src="/images/httpclient_post.png" alt=""></p>
+<h1 id="实例">实例</h1><p>以下是通过HttpClient的Get方法和Post方法获取湖南文理学院班级课表的有关信息的源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.httpclient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpEntity;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpResponse;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.HttpStatus;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.ClientProtocolException;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.HttpClient;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.entity.UrlEncodedFormEntity;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.methods.HttpGet;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.client.methods.HttpPost;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.conn.params.ConnManagerParams;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.impl.client.DefaultHttpClient;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.message.BasicNameValuePair;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.params.HttpConnectionParams;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.protocol.HTTP;</span><br><span class="line"><span class="keyword">import</span> org.apache.http.util.EntityUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        </span><br><span class="line">        thread.start();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Thread thread=<span class="keyword">new</span> Thread()&#123;</span><br><span class="line">    	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    		get();</span><br><span class="line">    		post();</span><br><span class="line">    	&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	String url=<span class="string">"http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx"</span>;</span><br><span class="line">    	<span class="comment">//HttpGet连接对象</span></span><br><span class="line">    	HttpGet get=<span class="keyword">new</span> HttpGet(url);</span><br><span class="line">    	<span class="comment">//取得HttpClient对象</span></span><br><span class="line">    	HttpClient client=<span class="keyword">new</span> DefaultHttpClient();</span><br><span class="line">    	<span class="comment">//设置连接超时</span></span><br><span class="line">    	HttpConnectionParams.setConnectionTimeout(client.getParams(), <span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">    	<span class="comment">//设置读取时间超时</span></span><br><span class="line">    	HttpConnectionParams.setSoTimeout(client.getParams(), <span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">    	<span class="comment">//设置从连接池中取连接超时</span></span><br><span class="line">    	ConnManagerParams.setTimeout(client.getParams(), <span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">    	<span class="comment">//请求HttpClient，取得HttpResponse</span></span><br><span class="line">    	<span class="keyword">try</span> &#123;</span><br><span class="line">			HttpResponse response=client.execute(get);</span><br><span class="line">			<span class="keyword">if</span> (response.getStatusLine().getStatusCode()==<span class="number">200</span>) &#123;</span><br><span class="line">				<span class="comment">//取得返回的字符串</span></span><br><span class="line">				String result=EntityUtils.toString(response.getEntity());</span><br><span class="line">				Log.i(<span class="string">"Http通信之HttpClient"</span>, <span class="string">"get方法"</span>+result);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClientProtocolException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">post</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	String url=<span class="string">"http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx"</span>;</span><br><span class="line">    	<span class="comment">//取得HttpClient对象</span></span><br><span class="line">    	HttpClient client=<span class="keyword">new</span> DefaultHttpClient();</span><br><span class="line">    	<span class="comment">//HttpPost连接对象</span></span><br><span class="line">    	HttpPost post=<span class="keyword">new</span> HttpPost(url);</span><br><span class="line">    	<span class="comment">//使用BasicNameValuePair来保存要传递的Post参数</span></span><br><span class="line">    	List&lt;BasicNameValuePair&gt; pairs=<span class="keyword">new</span> ArrayList&lt;BasicNameValuePair&gt;();</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"chkrxkc"</span>, <span class="string">"1"</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Sel_XNXQ"</span>, <span class="string">"20141"</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Sel_XZBJ"</span>, <span class="string">"2013120402"</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Submit01"</span>, <span class="string">"????"</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"txtxzbj"</span>, <span class="string">""</span>));</span><br><span class="line">    	pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"type"</span>, <span class="string">"2"</span>));</span><br><span class="line">    	<span class="comment">//设置连接超时</span></span><br><span class="line">    	HttpConnectionParams.setConnectionTimeout(client.getParams(), <span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">    	</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//设置字符集</span></span><br><span class="line">			HttpEntity entity = <span class="keyword">new</span> UrlEncodedFormEntity(pairs,HTTP.UTF_8);</span><br><span class="line">			post.setEntity(entity);</span><br><span class="line">			HttpResponse response=client.execute(post);</span><br><span class="line">			<span class="keyword">if</span> (response.getStatusLine().getStatusCode()==HttpStatus.SC_OK) &#123;</span><br><span class="line">				String result=EntityUtils.toString(response.getEntity());</span><br><span class="line">				Log.i(<span class="string">"Http通信之HttpClient"</span>, <span class="string">"post方法"</span>+result);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClientProtocolException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Logcat日志中打印出的结果<br><img src="/images/httpclient_get.png" alt><br><img src="/images/httpclient_post.png" alt></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -127,7 +127,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/HTTP/">HTTP</a><a href="/tags/网络编程/">网络编程</a>
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/网络编程/">网络编程</a><a href="/tags/HTTP/">HTTP</a>
   </div>
 
 </div>
@@ -272,7 +272,7 @@
 		  
 		
 		  
-			<li><a href="/categories/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -285,7 +285,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>27</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>28</sup></a></li>
 			
 		
 			
@@ -313,23 +313,11 @@
 			
 		
 			
-				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
 			
 		
 			
@@ -337,7 +325,19 @@
 			
 		
 			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -345,23 +345,23 @@
 			
 		
 			
-				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -435,7 +435,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

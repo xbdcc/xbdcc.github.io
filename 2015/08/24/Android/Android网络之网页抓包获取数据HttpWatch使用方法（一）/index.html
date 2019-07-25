@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
     <title>Android网络之网页抓包获取数据HttpWatch使用方法（一） | Carlos</title>
@@ -12,11 +12,13 @@
 
     
     <meta name="description" content="HttpWatch干什么用通常很多做成网页的东西想获取到手机上，我们可以通过浏览器来访问，但有些手机浏览器不能完全显示出效果或者我们有一些不想要的信息。那么我们就可以通过网页抓包获取信息，将需要的筛选下来放到手机上。网页抓包的工具很多，在这里就介绍比较实用的HttpWatch，下载安装后在IE浏览器工具菜单下可以打开或关闭HttpWatch，使用HttpWatch可以很方便的看出各种参数，可以得到">
+<meta name="keywords" content="Android,网络编程,抓包">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android网络之网页抓包获取数据HttpWatch使用方法（一）">
 <meta property="og:url" content="http://yoursite.com/2015/08/24/Android/Android网络之网页抓包获取数据HttpWatch使用方法（一）/index.html">
 <meta property="og:site_name" content="Carlos">
 <meta property="og:description" content="HttpWatch干什么用通常很多做成网页的东西想获取到手机上，我们可以通过浏览器来访问，但有些手机浏览器不能完全显示出效果或者我们有一些不想要的信息。那么我们就可以通过网页抓包获取信息，将需要的筛选下来放到手机上。网页抓包的工具很多，在这里就介绍比较实用的HttpWatch，下载安装后在IE浏览器工具菜单下可以打开或关闭HttpWatch，使用HttpWatch可以很方便的看出各种参数，可以得到">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/capture_httpwatch_open.jpg">
 <meta property="og:image" content="http://yoursite.com/images/capture_httpwatch_main.jpg">
 <meta property="og:image" content="http://yoursite.com/images/capture_httpwatch_get.png">
@@ -25,6 +27,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android网络之网页抓包获取数据HttpWatch使用方法（一）">
 <meta name="twitter:description" content="HttpWatch干什么用通常很多做成网页的东西想获取到手机上，我们可以通过浏览器来访问，但有些手机浏览器不能完全显示出效果或者我们有一些不想要的信息。那么我们就可以通过网页抓包获取信息，将需要的筛选下来放到手机上。网页抓包的工具很多，在这里就介绍比较实用的HttpWatch，下载安装后在IE浏览器工具菜单下可以打开或关闭HttpWatch，使用HttpWatch可以很方便的看出各种参数，可以得到">
+<meta name="twitter:image" content="http://yoursite.com/images/capture_httpwatch_open.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -36,14 +39,14 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
 
 
 </head>
-
+</html>
   <body>
     <header>
       
@@ -112,10 +115,10 @@
 		
 		<h1 id="HttpWatch干什么用">HttpWatch干什么用</h1><p>通常很多做成网页的东西想获取到手机上，我们可以通过浏览器来访问，但有些手机浏览器不能完全显示出效果或者我们有一些不想要的信息。那么我们就可以通过网页抓包获取信息，将需要的筛选下来放到手机上。网页抓包的工具很多，在这里就介绍比较实用的HttpWatch，下载安装后在IE浏览器工具菜单下可以打开或关闭HttpWatch，使用HttpWatch可以很方便的看出各种参数，可以得到很多信息，通过获取下来的信息我们在Android中直接Get或Post获取返回的Html代码然后解析筛选自己想要的结果放在自己设计的界面上。</p>
 <h1 id="HttpWatch使用方法">HttpWatch使用方法</h1><p>下面以湖南文理学院班级课表的网页信息为例介绍HttpWatch抓包的使用方法</p>
-<h2 id="IE浏览器打开HttpWatch功能">IE浏览器打开HttpWatch功能</h2><p>首先打开IE浏览器，工具选项下调出HttpWatch，结果如下<br><img src="/images/capture_httpwatch_open.jpg" alt="" title="打开HttpWatch"></p>
-<h2 id="HttpWatch开启监控">HttpWatch开启监控</h2><p>开始Record按钮为红色，此时没开始监控，点击该按钮即开始监控，点击Stop按钮可停止监控，点击Clear按钮可清除之前监控的结果。在这里点击Record按钮可看到按钮变为灰色了，此时即开始监控，浏览器输入网址：<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx" target="_blank" rel="external">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx</a> ，然后进入网页可看到HttpWatch抓取的结果显示出来了<br><img src="/images/capture_httpwatch_main.jpg" alt="" title="HttpWatch抓取的结果"></p>
-<h2 id="抓取Get方法的信息">抓取Get方法的信息</h2><p>此时选择<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx" target="_blank" rel="external">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx</a> ，点击Content可以看到下面显示出来了一长串Html代码，此即为Get方法返回的结果，点击Content可以看到下面显示出来了一长串Html代码，此即为Get方法返回的结果，我们可以从中筛选出下一步查找班级课表需要的所选的班级和其他信息以便后面Post方法获取班级课表信息用<br><img src="/images/capture_httpwatch_get.png" alt="" title="查看需要的信息"></p>
-<h2 id="抓取Post方法的信息">抓取Post方法的信息</h2><p>选择学期班级和格式后点击检索开始查询，下面即监控到了Post方法的信息。此时点击<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx" target="_blank" rel="external">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx</a> 网页这一栏点击POST Data可以看到Post的参数，我们只需要Post下面勾选的几个参数就可以获取返回的Content了。然后再解析筛选就可以获得课表的信息了。<br><img src="/images/capture_httpwatch_post.jpg" alt="" title="Post的参数"></p>
+<h2 id="IE浏览器打开HttpWatch功能">IE浏览器打开HttpWatch功能</h2><p>首先打开IE浏览器，工具选项下调出HttpWatch，结果如下<br><img src="/images/capture_httpwatch_open.jpg" alt title="打开HttpWatch"></p>
+<h2 id="HttpWatch开启监控">HttpWatch开启监控</h2><p>开始Record按钮为红色，此时没开始监控，点击该按钮即开始监控，点击Stop按钮可停止监控，点击Clear按钮可清除之前监控的结果。在这里点击Record按钮可看到按钮变为灰色了，此时即开始监控，浏览器输入网址：<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx" target="_blank" rel="noopener">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx</a> ，然后进入网页可看到HttpWatch抓取的结果显示出来了<br><img src="/images/capture_httpwatch_main.jpg" alt title="HttpWatch抓取的结果"></p>
+<h2 id="抓取Get方法的信息">抓取Get方法的信息</h2><p>此时选择<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx" target="_blank" rel="noopener">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx</a> ，点击Content可以看到下面显示出来了一长串Html代码，此即为Get方法返回的结果，点击Content可以看到下面显示出来了一长串Html代码，此即为Get方法返回的结果，我们可以从中筛选出下一步查找班级课表需要的所选的班级和其他信息以便后面Post方法获取班级课表信息用<br><img src="/images/capture_httpwatch_get.png" alt title="查看需要的信息"></p>
+<h2 id="抓取Post方法的信息">抓取Post方法的信息</h2><p>选择学期班级和格式后点击检索开始查询，下面即监控到了Post方法的信息。此时点击<a href="http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx" target="_blank" rel="noopener">http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel_rpt.aspx</a> 网页这一栏点击POST Data可以看到Post的参数，我们只需要Post下面勾选的几个参数就可以获取返回的Content了。然后再解析筛选就可以获得课表的信息了。<br><img src="/images/capture_httpwatch_post.jpg" alt title="Post的参数"></p>
 <h1 id="总结">总结</h1><p>使用HttpWatch或其他的一些抓包工具可以抓取网页的信息，方便将自己需要的网页信息搬运到手机上。</p>
   
 	</div>
@@ -130,7 +133,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/抓包/">抓包</a><a href="/tags/网络编程/">网络编程</a>
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/网络编程/">网络编程</a><a href="/tags/抓包/">抓包</a>
   </div>
 
 </div>
@@ -275,7 +278,7 @@
 		  
 		
 		  
-			<li><a href="/categories/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -288,7 +291,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>27</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>28</sup></a></li>
 			
 		
 			
@@ -316,23 +319,11 @@
 			
 		
 			
-				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
 			
 		
 			
@@ -340,7 +331,19 @@
 			
 		
 			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -348,23 +351,23 @@
 			
 		
 			
-				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -438,7 +441,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

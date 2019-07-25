@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
     <title>Java中JSON数据的生成与解析 | Carlos</title>
@@ -11,20 +11,20 @@
     
 
     
-    <meta name="description" content="说明本篇先介绍在java中生成与解析JSON数据，下篇继续介绍在Android中生成和解析JSON格式数据。解析方法有好几种，个人觉得如果在Android中就用Android提供的jar包org.json中的方法很方便。如果在java中要加入好几个jar包。根据个人习惯可以选择自己觉得合适的方法。
-JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便于快速编写的特性。业内主流技术为其提供了">
+    <meta name="description" content="说明本篇先介绍在java中生成与解析JSON数据，下篇继续介绍在Android中生成和解析JSON格式数据。解析方法有好几种，个人觉得如果在Android中就用Android提供的jar包org.json中的方法很方便。如果在java中要加入好几个jar包。根据个人习惯可以选择自己觉得合适的方法。 JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便于快速编写的特性。业内主流技术为其提供了">
+<meta name="keywords" content="数据格式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java中JSON数据的生成与解析">
 <meta property="og:url" content="http://yoursite.com/2015/07/27/JAVA/Java中JSON数据的生成与解析/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="说明本篇先介绍在java中生成与解析JSON数据，下篇继续介绍在Android中生成和解析JSON格式数据。解析方法有好几种，个人觉得如果在Android中就用Android提供的jar包org.json中的方法很方便。如果在java中要加入好几个jar包。根据个人习惯可以选择自己觉得合适的方法。
-JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便于快速编写的特性。业内主流技术为其提供了">
+<meta property="og:description" content="说明本篇先介绍在java中生成与解析JSON数据，下篇继续介绍在Android中生成和解析JSON格式数据。解析方法有好几种，个人觉得如果在Android中就用Android提供的jar包org.json中的方法很方便。如果在java中要加入好几个jar包。根据个人习惯可以选择自己觉得合适的方法。 JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便于快速编写的特性。业内主流技术为其提供了">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/json_jar.png">
 <meta property="og:updated_time" content="2015-08-14T03:15:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中JSON数据的生成与解析">
-<meta name="twitter:description" content="说明本篇先介绍在java中生成与解析JSON数据，下篇继续介绍在Android中生成和解析JSON格式数据。解析方法有好几种，个人觉得如果在Android中就用Android提供的jar包org.json中的方法很方便。如果在java中要加入好几个jar包。根据个人习惯可以选择自己觉得合适的方法。
-JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便于快速编写的特性。业内主流技术为其提供了">
+<meta name="twitter:description" content="说明本篇先介绍在java中生成与解析JSON数据，下篇继续介绍在Android中生成和解析JSON格式数据。解析方法有好几种，个人觉得如果在Android中就用Android提供的jar包org.json中的方法很方便。如果在java中要加入好几个jar包。根据个人习惯可以选择自己觉得合适的方法。 JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便于快速编写的特性。业内主流技术为其提供了">
+<meta name="twitter:image" content="http://yoursite.com/images/json_jar.png">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -36,14 +36,14 @@ JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
 
 
 </head>
-
+</html>
   <body>
     <header>
       
@@ -120,10 +120,10 @@ JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便
 <li>JSON对数据的描述性比XML较差</li>
 <li>JSON的速度要远远快于XML</li>
 </ul>
-<h1 id="Java中的实例">Java中的实例</h1><p>在java中需要导入必须的几个jar包，缺一个都会报错，刚开始我用java学json数据时就是由于网上下载的一些jar包经常有缺失导致总会有一些错误导致不能运行。我的实例里面的jar包如下，网上也可以下载jar包加在自己项目里。<br><img src="/images/json_jar.png" alt=""><br>以下是我写的生成和解析JSON两种简便方法</p>
+<h1 id="Java中的实例">Java中的实例</h1><p>在java中需要导入必须的几个jar包，缺一个都会报错，刚开始我用java学json数据时就是由于网上下载的一些jar包经常有缺失导致总会有一些错误导致不能运行。我的实例里面的jar包如下，网上也可以下载jar包加在自己项目里。<br><img src="/images/json_jar.png" alt><br>以下是我写的生成和解析JSON两种简便方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.json;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> net.sf.json.JSONArray;</span><br><span class="line"><span class="keyword">import</span> net.sf.json.JSONObject;</span><br><span class="line"><span class="keyword">import</span> net.sf.json.util.JSONStringer;</span><br><span class="line"><span class="keyword">import</span> net.sf.json.util.JSONTokener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Json1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> List&lt;UserInfo&gt; infos;</span><br><span class="line">	<span class="keyword">static</span> UserInfo info;</span><br><span class="line">	<span class="keyword">static</span> JSONObject object;</span><br><span class="line">	<span class="keyword">static</span> JSONArray array;</span><br><span class="line">	<span class="keyword">static</span> JSONStringer stringer;</span><br><span class="line">	<span class="keyword">static</span> String json;</span><br><span class="line">	<span class="keyword">static</span> String username;</span><br><span class="line">	<span class="keyword">static</span> String password;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		infos = addList();<span class="comment">// 添加字段给下面生成JSON数据使用</span></span><br><span class="line"></span><br><span class="line">		json = addJsonObject(infos);<span class="comment">// 通过JSONObject方法生成Json数据</span></span><br><span class="line"></span><br><span class="line">		parseJsonObject(json);<span class="comment">// 通过JSONObject方法解析Json数据</span></span><br><span class="line"></span><br><span class="line">		json = addJsonStringer(infos);<span class="comment">// 通过JSONStringer方法生成Json数据</span></span><br><span class="line"></span><br><span class="line">		parseJsonTokener(json);<span class="comment">// 通过JSONStringer方法解析Json数据</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">static</span> List&lt;UserInfo&gt; <span class="title">addList</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		infos = <span class="keyword">new</span> ArrayList&lt;UserInfo&gt;();</span><br><span class="line">		info = <span class="keyword">new</span> UserInfo();</span><br><span class="line">		info.setUsername(<span class="string">"Carlos"</span>);</span><br><span class="line">		info.setPassword(<span class="string">"123456"</span>);</span><br><span class="line">		infos.add(info);</span><br><span class="line">		info = <span class="keyword">new</span> UserInfo();</span><br><span class="line">		info.setUsername(<span class="string">"Jack"</span>);</span><br><span class="line">		info.setPassword(<span class="string">"654321"</span>);</span><br><span class="line">		infos.add(info);</span><br><span class="line">		<span class="keyword">return</span> infos;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">static</span> String <span class="title">addJsonObject</span><span class="params">(List&lt;UserInfo&gt; infos)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		object = <span class="keyword">new</span> JSONObject();</span><br><span class="line">		array = <span class="keyword">new</span> JSONArray();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; infos.size(); i++) &#123;</span><br><span class="line">			JSONObject object2 = <span class="keyword">new</span> JSONObject();</span><br><span class="line">			info = infos.get(i);</span><br><span class="line">			object2.put(<span class="string">"username"</span>, info.getUsername());</span><br><span class="line">			object2.put(<span class="string">"password"</span>, info.getPassword());</span><br><span class="line">			array.add(object2);</span><br><span class="line">		&#125;</span><br><span class="line">		object.put(<span class="string">"users"</span>, array);</span><br><span class="line">		System.out.println(<span class="string">"JSONObject方法生成的json数据:\n"</span> + object);</span><br><span class="line">		<span class="keyword">return</span> object.toString();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">static</span> String <span class="title">addJsonStringer</span><span class="params">(List&lt;UserInfo&gt; infos)</span> </span>&#123;</span><br><span class="line">		stringer = <span class="keyword">new</span> JSONStringer();</span><br><span class="line">		stringer.object();</span><br><span class="line">		stringer.key(<span class="string">"users"</span>);</span><br><span class="line">		stringer.array();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; infos.size(); i++) &#123;</span><br><span class="line">			info = infos.get(i);</span><br><span class="line">			stringer.object();</span><br><span class="line">			stringer.key(<span class="string">"username"</span>).value(info.getUsername());</span><br><span class="line">			stringer.key(<span class="string">"password"</span>).value(info.getPassword());</span><br><span class="line">			stringer.endObject();</span><br><span class="line">		&#125;</span><br><span class="line">		stringer.endArray();</span><br><span class="line">		stringer.endObject();</span><br><span class="line">		System.out.println(<span class="string">"JSONStringer方法生成的json数据:\n"</span> + stringer);</span><br><span class="line">		<span class="keyword">return</span> stringer.toString();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">parseJsonObject</span><span class="params">(String json)</span> </span>&#123;</span><br><span class="line">		object = JSONObject.fromObject(json);</span><br><span class="line">		array = object.getJSONArray(<span class="string">"users"</span>);</span><br><span class="line">		System.out.println(<span class="string">"JSONObject方法解析的结果:"</span>);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.size(); i++) &#123;</span><br><span class="line">			object = array.getJSONObject(i);</span><br><span class="line">			username = object.getString(<span class="string">"username"</span>);</span><br><span class="line">			password = object.getString(<span class="string">"password"</span>);</span><br><span class="line">			System.out.println(<span class="string">"用户名："</span> + username + <span class="string">" 的密码是:"</span> + password);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">parseJsonTokener</span><span class="params">(String json)</span> </span>&#123;</span><br><span class="line">		JSONTokener tokener = <span class="keyword">new</span> JSONTokener(json);</span><br><span class="line">		object = (JSONObject) tokener.nextValue();</span><br><span class="line">		array = object.getJSONArray(<span class="string">"users"</span>);</span><br><span class="line">		System.out.println(<span class="string">"JSONTokener方法解析的结果:"</span>);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.size(); i++) &#123;</span><br><span class="line">			object = array.getJSONObject(i);</span><br><span class="line">			username = object.getString(<span class="string">"username"</span>);</span><br><span class="line">			password = object.getString(<span class="string">"password"</span>);</span><br><span class="line">			System.out.println(<span class="string">"用户名："</span> + username + <span class="string">" 的密码是:"</span> + password);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>UserInfo工具类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.json;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserInfo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> String username;</span><br><span class="line">	<span class="keyword">private</span> String password;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> username;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.username = username;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> password;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPassword</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.password = password;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>控制台输出的结果:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSONObject&#26041;&#27861;&#29983;&#25104;&#30340;json&#25968;&#25454;:&#10;&#123;&#34;users&#34;:[&#123;&#34;username&#34;:&#34;Carlos&#34;,&#34;password&#34;:&#34;123456&#34;&#125;,&#123;&#34;username&#34;:&#34;Jack&#34;,&#34;password&#34;:&#34;654321&#34;&#125;]&#125;&#10;JSONObject&#26041;&#27861;&#35299;&#26512;&#30340;&#32467;&#26524;:&#10;&#29992;&#25143;&#21517;&#65306;Carlos &#30340;&#23494;&#30721;&#26159;:123456&#10;&#29992;&#25143;&#21517;&#65306;Jack &#30340;&#23494;&#30721;&#26159;:654321&#10;JSONStringer&#26041;&#27861;&#29983;&#25104;&#30340;json&#25968;&#25454;:&#10;&#123;&#34;users&#34;:[&#123;&#34;username&#34;:&#34;Carlos&#34;,&#34;password&#34;:&#34;123456&#34;&#125;,&#123;&#34;username&#34;:&#34;Jack&#34;,&#34;password&#34;:&#34;654321&#34;&#125;]&#125;&#10;JSONTokener&#26041;&#27861;&#35299;&#26512;&#30340;&#32467;&#26524;:&#10;&#29992;&#25143;&#21517;&#65306;Carlos &#30340;&#23494;&#30721;&#26159;:123456&#10;&#29992;&#25143;&#21517;&#65306;Jack &#30340;&#23494;&#30721;&#26159;:654321</span><br></pre></td></tr></table></figure></p>
+<p>控制台输出的结果:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">JSONObject方法生成的json数据:</span><br><span class="line">&#123;&quot;users&quot;:[&#123;&quot;username&quot;:&quot;Carlos&quot;,&quot;password&quot;:&quot;123456&quot;&#125;,&#123;&quot;username&quot;:&quot;Jack&quot;,&quot;password&quot;:&quot;654321&quot;&#125;]&#125;</span><br><span class="line">JSONObject方法解析的结果:</span><br><span class="line">用户名：Carlos 的密码是:123456</span><br><span class="line">用户名：Jack 的密码是:654321</span><br><span class="line">JSONStringer方法生成的json数据:</span><br><span class="line">&#123;&quot;users&quot;:[&#123;&quot;username&quot;:&quot;Carlos&quot;,&quot;password&quot;:&quot;123456&quot;&#125;,&#123;&quot;username&quot;:&quot;Jack&quot;,&quot;password&quot;:&quot;654321&quot;&#125;]&#125;</span><br><span class="line">JSONTokener方法解析的结果:</span><br><span class="line">用户名：Carlos 的密码是:123456</span><br><span class="line">用户名：Jack 的密码是:654321</span><br></pre></td></tr></table></figure></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -282,7 +282,7 @@ JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便
 		  
 		
 		  
-			<li><a href="/categories/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -295,7 +295,7 @@ JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>27</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>28</sup></a></li>
 			
 		
 			
@@ -323,23 +323,11 @@ JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便
 			
 		
 			
-				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
 			
 		
 			
@@ -347,7 +335,19 @@ JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便
 			
 		
 			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -355,23 +355,23 @@ JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便
 			
 		
 			
-				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -445,7 +445,7 @@ JSON的定义 一种轻量级的数据交换格式，具有良好的可读和便
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
     <title>Android图片获取的几种方式 | Carlos</title>
@@ -11,23 +11,20 @@
     
 
     
-    <meta name="description" content="简单介绍在Android中获取图片的方式有多种，这里概况在Android中几种常用的获取图片的方式。
-实例几种方式都比较方便，按照个人喜好可以熟练掌握自己觉得适合的方法。
-读取res文件夹第一种，读取res文件夹下的图片12Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.xiaobudian);imageV">
+    <meta name="description" content="简单介绍在Android中获取图片的方式有多种，这里概况在Android中几种常用的获取图片的方式。 实例几种方式都比较方便，按照个人喜好可以熟练掌握自己觉得适合的方法。 读取res文件夹第一种，读取res文件夹下的图片12Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.xiaobudian);imageV">
+<meta name="keywords" content="Android,控件,图片">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android图片获取的几种方式">
 <meta property="og:url" content="http://yoursite.com/2015/08/24/Android/Android图片获取的几种方式/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="简单介绍在Android中获取图片的方式有多种，这里概况在Android中几种常用的获取图片的方式。
-实例几种方式都比较方便，按照个人喜好可以熟练掌握自己觉得适合的方法。
-读取res文件夹第一种，读取res文件夹下的图片12Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.xiaobudian);imageV">
+<meta property="og:description" content="简单介绍在Android中获取图片的方式有多种，这里概况在Android中几种常用的获取图片的方式。 实例几种方式都比较方便，按照个人喜好可以熟练掌握自己觉得适合的方法。 读取res文件夹第一种，读取res文件夹下的图片12Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.xiaobudian);imageV">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/picture_get.png">
 <meta property="og:updated_time" content="2016-03-28T03:06:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android图片获取的几种方式">
-<meta name="twitter:description" content="简单介绍在Android中获取图片的方式有多种，这里概况在Android中几种常用的获取图片的方式。
-实例几种方式都比较方便，按照个人喜好可以熟练掌握自己觉得适合的方法。
-读取res文件夹第一种，读取res文件夹下的图片12Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.xiaobudian);imageV">
+<meta name="twitter:description" content="简单介绍在Android中获取图片的方式有多种，这里概况在Android中几种常用的获取图片的方式。 实例几种方式都比较方便，按照个人喜好可以熟练掌握自己觉得适合的方法。 读取res文件夹第一种，读取res文件夹下的图片12Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.xiaobudian);imageV">
+<meta name="twitter:image" content="http://yoursite.com/images/picture_get.png">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -39,14 +36,14 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
 
 
 </head>
-
+</html>
   <body>
     <header>
       
@@ -120,8 +117,8 @@
 <h2 id="读取assets文件夹下图片">读取assets文件夹下图片</h2><p>第三种，读取assets文件夹下的图片<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">		AssetManager assetManager = getResources().getAssets();</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			InputStream stream = assetManager.open(<span class="string">"xiaobudian.png"</span>);</span><br><span class="line"><span class="comment">//			 通过下面一种方法也可以</span></span><br><span class="line"><span class="comment">//			InputStream stream = getClass().getResourceAsStream("/assets/xiaobudian.png");</span></span><br><span class="line">			Bitmap bitmap = BitmapFactory.decodeStream(stream);</span><br><span class="line">			imageView.setImageBitmap(bitmap);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="读取src文件夹下">读取src文件夹下</h2><p>第四种，读取src文件夹下的图片<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String path=<span class="string">"com/carlos/img/xiaobudian.png"</span>;</span><br><span class="line">InputStream stream=getClassLoader().getResourceAsStream(path);</span><br><span class="line">Bitmap bitmap=BitmapFactory.decodeStream(stream);</span><br><span class="line">imageView.setImageBitmap(bitmap);</span><br></pre></td></tr></table></figure></p>
 <h2 id="读取网络图片">读取网络图片</h2><p>第五种，读取网络图片<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ImageTask task=<span class="keyword">new</span> ImageTask();</span><br><span class="line">task.execute(<span class="string">"http://xbdcc.github.io/images/picture_xiaobudian.png"</span>);</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImageTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">String</span>, <span class="title">Void</span>, <span class="title">Drawable</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> Drawable <span class="title">doInBackground</span><span class="params">(String... arg0)</span> </span>&#123;</span><br><span class="line">		URL url;</span><br><span class="line">		Drawable drawable = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			url = <span class="keyword">new</span> URL(arg0[<span class="number">0</span>]);</span><br><span class="line">			InputStream stream=url.openStream();</span><br><span class="line">			drawable=Drawable.createFromStream(stream, <span class="string">"xiaobudian.png"</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> drawable;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Drawable result)</span> </span>&#123;</span><br><span class="line">		imageView.setImageDrawable(result);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="读取图片显示的结果">读取图片显示的结果</h1><p><img src="/images/picture_get.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImageTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">String</span>, <span class="title">Void</span>, <span class="title">Drawable</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> Drawable <span class="title">doInBackground</span><span class="params">(String... arg0)</span> </span>&#123;</span><br><span class="line">		URL url;</span><br><span class="line">		Drawable drawable = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			url = <span class="keyword">new</span> URL(arg0[<span class="number">0</span>]);</span><br><span class="line">			InputStream stream=url.openStream();</span><br><span class="line">			drawable=Drawable.createFromStream(stream, <span class="string">"xiaobudian.png"</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> drawable;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Drawable result)</span> </span>&#123;</span><br><span class="line">		imageView.setImageDrawable(result);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="读取图片显示的结果">读取图片显示的结果</h1><p><img src="/images/picture_get.png" alt></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -135,7 +132,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/图片/">图片</a><a href="/tags/控件/">控件</a>
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/控件/">控件</a><a href="/tags/图片/">图片</a>
   </div>
 
 </div>
@@ -280,7 +277,7 @@
 		  
 		
 		  
-			<li><a href="/categories/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -293,7 +290,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>27</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>28</sup></a></li>
 			
 		
 			
@@ -321,23 +318,11 @@
 			
 		
 			
-				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
 			
 		
 			
@@ -345,7 +330,19 @@
 			
 		
 			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -353,23 +350,23 @@
 			
 		
 			
-				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -443,7 +440,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
     <title>Gradle依赖冲突解决方式 | Carlos</title>
@@ -12,16 +12,19 @@
 
     
     <meta name="description" content="问题在Android开发中，相信遇到关于版本依赖的问题的同学有不少。虽然Android Studio一般都会自动帮我们去重，但是有时候去重失败了还是需要手动处理。在这里总结下自己长期遇到的各类问题的解决方式。为了方便看效果，我们改下gradle解决策略为有版本冲突时自动失败，如下：12345configurations.all &amp;#123;    resolutionStrategy &amp;#123;">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Gradle依赖冲突解决方式">
 <meta property="og:url" content="http://yoursite.com/2018/06/20/Gradle依赖冲突解决方式/index.html">
 <meta property="og:site_name" content="Carlos">
 <meta property="og:description" content="问题在Android开发中，相信遇到关于版本依赖的问题的同学有不少。虽然Android Studio一般都会自动帮我们去重，但是有时候去重失败了还是需要手动处理。在这里总结下自己长期遇到的各类问题的解决方式。为了方便看效果，我们改下gradle解决策略为有版本冲突时自动失败，如下：12345configurations.all &amp;#123;    resolutionStrategy &amp;#123;">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/gradle/gradle_fail.jpg">
 <meta property="og:updated_time" content="2018-06-20T09:51:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gradle依赖冲突解决方式">
 <meta name="twitter:description" content="问题在Android开发中，相信遇到关于版本依赖的问题的同学有不少。虽然Android Studio一般都会自动帮我们去重，但是有时候去重失败了还是需要手动处理。在这里总结下自己长期遇到的各类问题的解决方式。为了方便看效果，我们改下gradle解决策略为有版本冲突时自动失败，如下：12345configurations.all &amp;#123;    resolutionStrategy &amp;#123;">
+<meta name="twitter:image" content="http://yoursite.com/images/gradle/gradle_fail.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -33,14 +36,14 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
 
 
 </head>
-
+</html>
   <body>
     <header>
       
@@ -107,23 +110,23 @@
 		
 		</div>
 		
-		<h2 id="问题">问题</h2><p>在Android开发中，相信遇到关于版本依赖的问题的同学有不少。虽然Android Studio一般都会自动帮我们去重，但是有时候去重失败了还是需要手动处理。在这里总结下自己长期遇到的各类问题的解决方式。<br>为了方便看效果，我们改下gradle解决策略为有版本冲突时自动失败，如下：<br><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configurations.<span class="built_in">all</span> &#123;</span><br><span class="line">    resolutionStrategy &#123;</span><br><span class="line">        failOnVersionConflict()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当我们同时依赖不同版本rxjava时编译会报错如下：<br><img src="/images/gradle/gradle_fail.jpg" alt=""></p>
+		<h2 id="问题">问题</h2><p>在Android开发中，相信遇到关于版本依赖的问题的同学有不少。虽然Android Studio一般都会自动帮我们去重，但是有时候去重失败了还是需要手动处理。在这里总结下自己长期遇到的各类问题的解决方式。<br>为了方便看效果，我们改下gradle解决策略为有版本冲突时自动失败，如下：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configurations.<span class="class">all </span>&#123;</span><br><span class="line">    <span class="class">resolutionStrategy </span>&#123;</span><br><span class="line">        failOnVersionConflict()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当我们同时依赖不同版本rxjava时编译会报错如下：<br><img src="/images/gradle/gradle_fail.jpg" alt></p>
 <h2 id="解决方案">解决方案</h2><h3 id="1-统一版本管理">1.统一版本管理</h3><p>当一个project下有多个module或library时很适合使用统一版本管理方式</p>
 <ul>
 <li><p>创建config.gradle<br>在project目录下创建config.gradle文件，将需要统一管理的加在里面，如下：</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ext &#123;</span><br><span class="line">    <span class="comment">//Dependencies</span></span><br><span class="line">    supportLibraryVersion = <span class="string">'25.3.1'</span></span><br><span class="line">    okHttpVersion = <span class="string">'3.8.0'</span></span><br><span class="line">    domainTestDependencies = [</span><br><span class="line">            appcompatv7: <span class="string">"com.android.support:appcompat-v7:<span class="subst">$&#123;supportLibraryVersion&#125;</span>"</span>,</span><br><span class="line">            okHttp     : <span class="string">"com.squareup.okhttp3:okhttp:<span class="subst">$&#123;okHttpVersion&#125;</span>"</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>在project下的build.gradle开头加入</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="keyword">from</span>: <span class="string">"config.gradle"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">apply</span> <span class="keyword">from</span>: <span class="string">"config.gradle"</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>module或library下引用版本</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation rootProject<span class="class">.ext</span><span class="class">.dependencies</span>[<span class="string">"appcompatv7"</span>]</span><br><span class="line">implementation rootProject<span class="class">.ext</span><span class="class">.dependencies</span>[<span class="string">"okHttp"</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation rootProject<span class="selector-class">.ext</span><span class="selector-class">.dependencies</span>[<span class="string">"appcompatv7"</span>]</span><br><span class="line">implementation rootProject<span class="selector-class">.ext</span><span class="selector-class">.dependencies</span>[<span class="string">"okHttp"</span>]</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="2-去除冲突依赖">2.去除冲突依赖</h3><p>当我们使用网上的一些开源库，并且自己项目里面也用到了不同的版本库时，我们可以在依赖的开源库中用exclude去除重复。<br>假如我们依赖的库是com.carlos.test:Test:1.0.0,里面用到了rxjava和我们module用到了不同版本，那么我们可以这样做：<br><figure class="highlight puppet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">implementation (<span class="string">'com.carlos.test:Test:1.0.0'</span><span class="keyword">) &#123;</span></span><br><span class="line">    <span class="literal">exclude</span> <span class="literal">group</span>: <span class="string">"io.reactivex.rxjava2"</span>,module: <span class="string">"rxjava"</span></span><br><span class="line">    // <span class="literal">exclude</span> <span class="literal">group</span>: <span class="string">"io.reactivex.rxjava2:rxjava:2.1.11"</span></span><br><span class="line"><span class="keyword">&#125;</span></span><br><span class="line">implementation <span class="string">'io.reactivex.rxjava2:rxjava:2.1.13'</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="2-去除冲突依赖">2.去除冲突依赖</h3><p>当我们使用网上的一些开源库，并且自己项目里面也用到了不同的版本库时，我们可以在依赖的开源库中用exclude去除重复。<br>假如我们依赖的库是com.carlos.test:Test:1.0.0,里面用到了rxjava和我们module用到了不同版本，那么我们可以这样做：<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">implementation</span> (<span class="string">'com.carlos.test:Test:1.0.0'</span>) &#123;</span><br><span class="line">    exclude group: <span class="string">"io.reactivex.rxjava2"</span>,<span class="keyword">module</span>: <span class="string">"rxjava"</span></span><br><span class="line">    <span class="comment">// exclude group: "io.reactivex.rxjava2:rxjava:2.1.11"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">implementation</span> <span class="string">'io.reactivex.rxjava2:rxjava:2.1.13'</span></span><br></pre></td></tr></table></figure></p>
 <p>group为库的groupId，module为artifactId。我们也可以直接用注释中的方法指定具体的版本。</p>
-<h3 id="3-强制使用某版本依赖">3.强制使用某版本依赖</h3><p>我们也可以直接在策略里面强制使用某版本依赖<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">configurations</span>.all &#123;</span><br><span class="line">    resolutionStrategy &#123;</span><br><span class="line">        force <span class="string">'io.reactivex.rxjava2:rxjava:2.1.13'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-强制使用某版本依赖">3.强制使用某版本依赖</h3><p>我们也可以直接在策略里面强制使用某版本依赖<br><figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">configurations.<span class="literal">all</span> &#123;</span><br><span class="line">    resolutionStrategy &#123;</span><br><span class="line">        <span class="literal">force</span> <span class="string">'io.reactivex.rxjava2:rxjava:2.1.13'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这样就是强制rxjava使用2.1.13版本了。</p>
 <h2 id="总结">总结</h2><p>三种方式各有不同场景，适合自己的是最好的，如有遗漏或错误欢迎指出。希望能互相交流学习。</p>
   
@@ -183,6 +186,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2019/07/25/Android通过辅助功能实现抢微信红包原理简单介绍/" title="Android通过辅助功能实现抢微信红包原理简单介绍">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Android通过辅助功能实现抢微信红包原理简单介绍</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/07/27/Android多渠道打包简单介绍/"  title="Android多渠道打包简单介绍">
@@ -276,7 +287,7 @@
 		  
 		
 		  
-			<li><a href="/categories/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
 		  
 		
 		</ul>
@@ -289,7 +300,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Android/" title="Android">Android<sup>27</sup></a></li>
+				<li><a href="/tags/Android/" title="Android">Android<sup>28</sup></a></li>
 			
 		
 			
@@ -317,23 +328,11 @@
 			
 		
 			
-				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
 			
 		
 			
@@ -341,7 +340,19 @@
 			
 		
 			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
 			
 		
 			
@@ -349,23 +360,23 @@
 			
 		
 			
-				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Web/" title="Web">Web<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/数据库/" title="数据库">数据库<sup>1</sup></a></li>
+				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -439,7 +450,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2018 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		
