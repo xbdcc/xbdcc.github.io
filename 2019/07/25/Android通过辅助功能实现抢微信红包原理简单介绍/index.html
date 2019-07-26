@@ -11,23 +11,23 @@
     
 
     
-    <meta name="description" content="前言相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？  目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现，此方法不需要手机Root. 另外还有一种方式可以通过Xposed直接Hook微信的代码调用。通过Hook需要手机Root或者安装Xposed虚拟环境，并且要反编译结合源码分析，找到关键Hook点。">
+    <meta name="description" content="简书文章：https://www.jianshu.com/p/e1099a94b979 前言相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？  目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现，此方法不需要手机Root. 另外还有一种方式可以通过Xposed直接Hook微信的代码调用。通过Hook需要手">
 <meta name="keywords" content="Android,自动化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android通过辅助功能实现抢微信红包原理简单介绍">
 <meta property="og:url" content="http://yoursite.com/2019/07/25/Android通过辅助功能实现抢微信红包原理简单介绍/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="前言相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？  目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现，此方法不需要手机Root. 另外还有一种方式可以通过Xposed直接Hook微信的代码调用。通过Hook需要手机Root或者安装Xposed虚拟环境，并且要反编译结合源码分析，找到关键Hook点。">
+<meta property="og:description" content="简书文章：https://www.jianshu.com/p/e1099a94b979 前言相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？  目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现，此方法不需要手机Root. 另外还有一种方式可以通过Xposed直接Hook微信的代码调用。通过Hook需要手">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://github.com/xbdcc/GrabRedEnvelope/blob/master/images/demo/monitor_main.jpg">
+<meta property="og:image" content="https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_main.jpg">
 <meta property="og:image" content="https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_wechat_chat.jpg">
 <meta property="og:image" content="https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_wechat_open_redenvelope.jpg">
 <meta property="og:image" content="https://github.com/xbdcc/GrabRedEnvelope/raw/master/records/demo.gif">
-<meta property="og:updated_time" content="2019-07-25T09:45:31.985Z">
+<meta property="og:updated_time" content="2019-07-26T07:12:28.587Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android通过辅助功能实现抢微信红包原理简单介绍">
-<meta name="twitter:description" content="前言相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？  目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现，此方法不需要手机Root. 另外还有一种方式可以通过Xposed直接Hook微信的代码调用。通过Hook需要手机Root或者安装Xposed虚拟环境，并且要反编译结合源码分析，找到关键Hook点。">
-<meta name="twitter:image" content="https://github.com/xbdcc/GrabRedEnvelope/blob/master/images/demo/monitor_main.jpg">
+<meta name="twitter:description" content="简书文章：https://www.jianshu.com/p/e1099a94b979 前言相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？  目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现，此方法不需要手机Root. 另外还有一种方式可以通过Xposed直接Hook微信的代码调用。通过Hook需要手">
+<meta name="twitter:image" content="https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_main.jpg">
 
     
     <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
@@ -113,7 +113,8 @@
 		
 		</div>
 		
-		<h2 id="前言">前言</h2><p>相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？</p>
+		<p>简书文章：<a href="https://www.jianshu.com/p/e1099a94b979" target="_blank" rel="noopener">https://www.jianshu.com/p/e1099a94b979</a></p>
+<h2 id="前言">前言</h2><p>相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？</p>
 <ul>
 <li>目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现，此方法不需要手机Root.</li>
 <li>另外还有一种方式可以通过Xposed直接Hook微信的代码调用。通过Hook需要手机Root或者安装Xposed虚拟环境，并且要反编译结合源码分析，找到关键Hook点。</li>
@@ -123,7 +124,7 @@
 <h2 id="UI分析">UI分析</h2><ul>
 <li>首先我们打开安装的SDK目录，MAC下可以在Finlder按Shift+Command+G快捷键快速进入。<br>如我的SDK目录是/Users/caochang/Library/Android/sdk。进入tool文件夹打开monitor分析工具。如果是Eclipse的话可以直接打开DDMS</li>
 <li>手机连接电脑打开USB调试，可以通过adb devices命令查看是否连接上，如果连接不成功可以试试adb kill-server然后adb start-server。</li>
-<li>手机连接上后选中要看当前页面视图的进程名，如下图选中的当前测试的APP，点击圈中的图标中间就会显示当前顶层Activity视图如下：<br><img src="https://github.com/xbdcc/GrabRedEnvelope/blob/master/images/demo/monitor_main.jpg" alt="Monitor主界面"></li>
+<li>手机连接上后选中要看当前页面视图的进程名，如下图选中的当前测试的APP，点击圈中的图标中间就会显示当前顶层Activity视图如下：<br><img src="https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_main.jpg" alt="Monitor主界面"></li>
 <li>手机发个红包然后查看视图如下，我们可以找到id和text:<br><img src="https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_wechat_chat.jpg" alt="微信群聊收到红包UI"></li>
 <li>同理我们点击红包，进入红包弹框，可以找到点击拆的ID如图：<br><img src="https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_wechat_open_redenvelope.jpg" alt="拆红包弹框UI"></li>
 </ul>
@@ -144,7 +145,7 @@
 </ul>
 <h2 id="测试效果">测试效果</h2><p><img src="https://github.com/xbdcc/GrabRedEnvelope/raw/master/records/demo.gif" alt="测试Gif"></p>
 <h2 id="结语">结语</h2><p>以上就是实现微信自动抢红包的简单demo，你还可以做些优化做监听通知监听页面判断抢红包，以及延迟点击过滤口令，判断红包是否已抢等。</p>
-<h2 id="Demo完整代码地址">Demo完整代码地址</h2><p><a href="https://github.com/xbdcc/GrabRedEnvelope/tree/master/demo" target="_blank" rel="noopener">https://github.com/xbdcc/GrabRedEnvelope/tree/master/demo</a></p>
+<h2 id="Demo完整代码地址">Demo完整代码地址</h2><p><a href="https://github.com/xbdcc/GrabRedEnvelope/tree/2.0.1/demo" target="_blank" rel="noopener">https://github.com/xbdcc/GrabRedEnvelope/tree/2.0.1/demo</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -328,11 +329,11 @@
 			
 		
 			
-				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
 			
 		
 			
@@ -364,15 +365,11 @@
 			
 		
 			
-				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
+				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/框架/" title="框架">框架<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/点击事件/" title="点击事件">点击事件<sup>1</sup></a></li>
+				<li><a href="/tags/上传下载/" title="上传下载">上传下载<sup>1</sup></a></li>
 			
 		
 			
@@ -380,11 +377,15 @@
 			
 		
 			
+				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+				<li><a href="/tags/图片/" title="图片">图片<sup>1</sup></a></li>
 			
 		
 		</ul>
