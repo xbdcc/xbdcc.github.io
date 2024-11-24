@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="UTF-8">
   
     <title>Android线程之AsyncTask | Carlos</title>
@@ -12,19 +12,20 @@
 
     
     <meta name="description" content="简单介绍本篇介绍在Android中进行耗时操作使用AsyncTask异步类的方法。使用Jsoup方法快捷获取联网返回的html代码，例子是获取湖南文理学院班级课表选择页面的html代码，以后篇章将介绍抓包获取数据，使用Jsoup获取返回的html代码解析比较方便，可以很快捷的将网页上需要的信息获取筛选后放到手机上。 实例主类，通过调用异步任务类的构造方法传参进行处理，处理完后在Handler中进行">
-<meta name="keywords" content="Android,线程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android线程之AsyncTask">
-<meta property="og:url" content="http://yoursite.com/2015/08/12/Android/Android线程之AsyncTask/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/08/12/Android/Android%E7%BA%BF%E7%A8%8B%E4%B9%8BAsyncTask/index.html">
 <meta property="og:site_name" content="Carlos">
 <meta property="og:description" content="简单介绍本篇介绍在Android中进行耗时操作使用AsyncTask异步类的方法。使用Jsoup方法快捷获取联网返回的html代码，例子是获取湖南文理学院班级课表选择页面的html代码，以后篇章将介绍抓包获取数据，使用Jsoup获取返回的html代码解析比较方便，可以很快捷的将网页上需要的信息获取筛选后放到手机上。 实例主类，通过调用异步任务类的构造方法传参进行处理，处理完后在Handler中进行">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/asynctask_logcat.png">
 <meta property="og:image" content="http://yoursite.com/images/asynctask_genymotion.jpg">
-<meta property="og:updated_time" content="2016-03-28T03:06:05.000Z">
+<meta property="article:published_time" content="2015-08-12T06:07:51.000Z">
+<meta property="article:modified_time" content="2016-03-28T03:06:05.000Z">
+<meta property="article:author" content="Carlos">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="线程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android线程之AsyncTask">
-<meta name="twitter:description" content="简单介绍本篇介绍在Android中进行耗时操作使用AsyncTask异步类的方法。使用Jsoup方法快捷获取联网返回的html代码，例子是获取湖南文理学院班级课表选择页面的html代码，以后篇章将介绍抓包获取数据，使用Jsoup获取返回的html代码解析比较方便，可以很快捷的将网页上需要的信息获取筛选后放到手机上。 实例主类，通过调用异步任务类的构造方法传参进行处理，处理完后在Handler中进行">
 <meta name="twitter:image" content="http://yoursite.com/images/asynctask_logcat.png">
 
     
@@ -37,14 +38,16 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    
+<link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr">
+
+    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
 
 
 </head>
-</html>
+
   <body>
     <header>
       
@@ -107,14 +110,16 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="简单介绍">简单介绍</h1><p>本篇介绍在Android中进行耗时操作使用AsyncTask异步类的方法。使用Jsoup方法快捷获取联网返回的html代码，例子是获取湖南文理学院班级课表选择页面的html代码，以后篇章将介绍抓包获取数据，使用Jsoup获取返回的html代码解析比较方便，可以很快捷的将网页上需要的信息获取筛选后放到手机上。</p>
-<h1 id="实例">实例</h1><p>主类，通过调用异步任务类的构造方法传参进行处理，处理完后在Handler中进行操作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.asynctask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> TextView textview;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        </span><br><span class="line">        textview=(TextView) findViewById(R.id.textview);</span><br><span class="line">        String url=<span class="string">"http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx"</span>;</span><br><span class="line">        TestTask task=<span class="keyword">new</span> TestTask(MainActivity.<span class="keyword">this</span>, handler);</span><br><span class="line">        task.execute(url);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Handler handler=<span class="keyword">new</span> Handler()&#123;</span><br><span class="line">    	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(android.os.Message msg)</span> </span>&#123;</span><br><span class="line">    		<span class="keyword">if</span> (msg.what==<span class="number">1</span>) &#123;</span><br><span class="line">				String result=msg.getData().getString(<span class="string">"result"</span>);</span><br><span class="line">				textview.setText(result);</span><br><span class="line">			&#125;</span><br><span class="line">    	&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>异步任务工具类，使用Jsoup快捷获取返回的html代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.asynctask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.jsoup.Jsoup;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.ProgressDialog;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.os.AsyncTask;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.Message;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">String</span>, <span class="title">Void</span>, <span class="title">String</span>&gt;</span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Context context;</span><br><span class="line">	<span class="keyword">private</span> Handler handler;</span><br><span class="line">	<span class="keyword">private</span> ProgressDialog dialog;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//创建字段构造方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TestTask</span><span class="params">(Context context, Handler handler)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.context = context;</span><br><span class="line">		<span class="keyword">this</span>.handler = handler;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//后台操作前的准备工作</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPreExecute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//进行后台处理前显示一个圆形对话框进行友好提示，后台操作完毕后取消对话框。</span></span><br><span class="line">		dialog=ProgressDialog.show(context, <span class="string">""</span>, <span class="string">"数据加载中，请稍后.."</span>,<span class="keyword">true</span>,<span class="keyword">true</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//后台处理耗时操作</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> String <span class="title">doInBackground</span><span class="params">(String... arg0)</span> </span>&#123;</span><br><span class="line">		String result = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			result = Jsoup.connect(arg0[<span class="number">0</span>]).get().toString();</span><br><span class="line">			Log.i(<span class="string">"联网获取到的html源代码"</span>, result);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//后台操作执行完毕后可在此进行处理</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(String result)</span> </span>&#123;</span><br><span class="line">		Message message=<span class="keyword">new</span> Message();</span><br><span class="line">		Bundle bundle=<span class="keyword">new</span> Bundle();</span><br><span class="line">		bundle.putString(<span class="string">"result"</span>, result);</span><br><span class="line">		message.setData(bundle);</span><br><span class="line">		message.what=<span class="number">1</span>;</span><br><span class="line">		handler.sendMessage(message);</span><br><span class="line">		dialog.dismiss();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Logcat日志中打印出的结果<br><img src="/images/asynctask_logcat.png" alt><br>Genymotion模拟器中显示的结果<br><img src="/images/asynctask_genymotion.jpg" alt></p>
+		<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p>本篇介绍在Android中进行耗时操作使用AsyncTask异步类的方法。使用Jsoup方法快捷获取联网返回的html代码，例子是获取湖南文理学院班级课表选择页面的html代码，以后篇章将介绍抓包获取数据，使用Jsoup获取返回的html代码解析比较方便，可以很快捷的将网页上需要的信息获取筛选后放到手机上。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>主类，通过调用异步任务类的构造方法传参进行处理，处理完后在Handler中进行操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.asynctask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">Activity</span> &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> TextView textview;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        </span><br><span class="line">        textview=(TextView) findViewById(R.id.textview);</span><br><span class="line">        String url=<span class="string">&quot;http://www.huas.cn:83/jwweb/ZNPK/KBFB_ClassSel.aspx&quot;</span>;</span><br><span class="line">        TestTask task=<span class="keyword">new</span> <span class="title class_">TestTask</span>(MainActivity.<span class="built_in">this</span>, handler);</span><br><span class="line">        task.execute(url);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Handler handler=<span class="keyword">new</span> <span class="title class_">Handler</span>()&#123;</span><br><span class="line">    	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">handleMessage</span><span class="params">(android.os.Message msg)</span> &#123;</span><br><span class="line">    		<span class="keyword">if</span> (msg.what==<span class="number">1</span>) &#123;</span><br><span class="line">				String result=msg.getData().getString(<span class="string">&quot;result&quot;</span>);</span><br><span class="line">				textview.setText(result);</span><br><span class="line">			&#125;</span><br><span class="line">    	&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>异步任务工具类，使用Jsoup快捷获取返回的html代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.asynctask;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.jsoup.Jsoup;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.ProgressDialog;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.os.AsyncTask;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.Message;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestTask</span> <span class="keyword">extends</span> <span class="title class_">AsyncTask</span>&lt;String, Void, String&gt;&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Context context;</span><br><span class="line">	<span class="keyword">private</span> Handler handler;</span><br><span class="line">	<span class="keyword">private</span> ProgressDialog dialog;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//创建字段构造方法</span></span><br><span class="line">	<span class="keyword">public</span> <span class="title function_">TestTask</span><span class="params">(Context context, Handler handler)</span> &#123;</span><br><span class="line">		<span class="built_in">super</span>();</span><br><span class="line">		<span class="built_in">this</span>.context = context;</span><br><span class="line">		<span class="built_in">this</span>.handler = handler;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//后台操作前的准备工作</span></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPreExecute</span><span class="params">()</span> &#123;</span><br><span class="line">		<span class="comment">//进行后台处理前显示一个圆形对话框进行友好提示，后台操作完毕后取消对话框。</span></span><br><span class="line">		dialog=ProgressDialog.show(context, <span class="string">&quot;&quot;</span>, <span class="string">&quot;数据加载中，请稍后..&quot;</span>,<span class="literal">true</span>,<span class="literal">true</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//后台处理耗时操作</span></span><br><span class="line">	<span class="keyword">protected</span> String <span class="title function_">doInBackground</span><span class="params">(String... arg0)</span> &#123;</span><br><span class="line">		<span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			result = Jsoup.connect(arg0[<span class="number">0</span>]).get().toString();</span><br><span class="line">			Log.i(<span class="string">&quot;联网获取到的html源代码&quot;</span>, result);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//后台操作执行完毕后可在此进行处理</span></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPostExecute</span><span class="params">(String result)</span> &#123;</span><br><span class="line">		Message message=<span class="keyword">new</span> <span class="title class_">Message</span>();</span><br><span class="line">		Bundle bundle=<span class="keyword">new</span> <span class="title class_">Bundle</span>();</span><br><span class="line">		bundle.putString(<span class="string">&quot;result&quot;</span>, result);</span><br><span class="line">		message.setData(bundle);</span><br><span class="line">		message.what=<span class="number">1</span>;</span><br><span class="line">		handler.sendMessage(message);</span><br><span class="line">		dialog.dismiss();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Logcat日志中打印出的结果<br><img src="/images/asynctask_logcat.png"><br>Genymotion模拟器中显示的结果<br><img src="/images/asynctask_genymotion.jpg"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -122,7 +127,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Android线程/">Android线程</a>
+  <a class="article-category-link" href="/categories/Android%E7%BA%BF%E7%A8%8B/">Android线程</a>
 </div>
 
 
@@ -193,7 +198,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/08/12/Android/Android线程之AsyncTask/" data-title="Android线程之AsyncTask" data-url="http://yoursite.com/2015/08/12/Android/Android线程之AsyncTask/"></div>
+	<div class="ds-thread" data-thread-key="2015/08/12/Android/Android线程之AsyncTask/" data-title="Android线程之AsyncTask" data-url="http://yoursite.com/2015/08/12/Android/Android%E7%BA%BF%E7%A8%8B%E4%B9%8BAsyncTask/"></div>
 </section>
 
 
@@ -203,7 +208,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
  
   </div>
 
@@ -265,6 +270,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
 		  
 		
@@ -322,19 +331,19 @@
 			
 		
 			
-				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Xposed/" title="Xposed">Xposed<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
@@ -358,19 +367,19 @@
 			
 		
 			
-				<li><a href="/tags/框架/" title="框架">框架<sup>1</sup></a></li>
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
+				<li><a href="/tags/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -444,7 +453,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

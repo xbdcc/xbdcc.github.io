@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="UTF-8">
   
     <title>Android网络之网页抓包获取数据实例（二） | Carlos</title>
@@ -11,21 +11,23 @@
     
 
     
-    <meta name="description" content="简单介绍以下是使用HttpWatch抓包获取网页信息解析筛选自己需要的信息放到手机上的一个实例，HttpWatch的简单使用教程可以看上一篇博客。 实例代码比较多这里就不贴出全部的，介绍下主要代码及实现的方法。首先我们要得到Post的参数键值对，通过抓包可以获取下来，解析用的Jsoup方法比较快捷，解析筛选的主要代码如下12345678910111213141516171819Document d">
-<meta name="keywords" content="Android,网络编程,抓包">
+    <meta name="description" content="简单介绍以下是使用HttpWatch抓包获取网页信息解析筛选自己需要的信息放到手机上的一个实例，HttpWatch的简单使用教程可以看上一篇博客。 实例代码比较多这里就不贴出全部的，介绍下主要代码及实现的方法。首先我们要得到Post的参数键值对，通过抓包可以获取下来，解析用的Jsoup方法比较快捷，解析筛选的主要代码如下 12345678910111213141516171819Document">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android网络之网页抓包获取数据实例（二）">
-<meta property="og:url" content="http://yoursite.com/2015/08/24/Android/Android网络之网页抓包获取数据实例（二）/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/08/24/Android/Android%E7%BD%91%E7%BB%9C%E4%B9%8B%E7%BD%91%E9%A1%B5%E6%8A%93%E5%8C%85%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%AE%9E%E4%BE%8B%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="简单介绍以下是使用HttpWatch抓包获取网页信息解析筛选自己需要的信息放到手机上的一个实例，HttpWatch的简单使用教程可以看上一篇博客。 实例代码比较多这里就不贴出全部的，介绍下主要代码及实现的方法。首先我们要得到Post的参数键值对，通过抓包可以获取下来，解析用的Jsoup方法比较快捷，解析筛选的主要代码如下12345678910111213141516171819Document d">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="简单介绍以下是使用HttpWatch抓包获取网页信息解析筛选自己需要的信息放到手机上的一个实例，HttpWatch的简单使用教程可以看上一篇博客。 实例代码比较多这里就不贴出全部的，介绍下主要代码及实现的方法。首先我们要得到Post的参数键值对，通过抓包可以获取下来，解析用的Jsoup方法比较快捷，解析筛选的主要代码如下 12345678910111213141516171819Document">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/capture_select.png">
 <meta property="og:image" content="http://yoursite.com/images/capture_information.jpg">
 <meta property="og:image" content="http://yoursite.com/images/capture_detail.png">
-<meta property="og:updated_time" content="2016-03-28T03:06:07.000Z">
+<meta property="article:published_time" content="2015-08-24T06:17:55.000Z">
+<meta property="article:modified_time" content="2016-03-28T03:06:07.000Z">
+<meta property="article:author" content="Carlos">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="网络编程">
+<meta property="article:tag" content="抓包">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android网络之网页抓包获取数据实例（二）">
-<meta name="twitter:description" content="简单介绍以下是使用HttpWatch抓包获取网页信息解析筛选自己需要的信息放到手机上的一个实例，HttpWatch的简单使用教程可以看上一篇博客。 实例代码比较多这里就不贴出全部的，介绍下主要代码及实现的方法。首先我们要得到Post的参数键值对，通过抓包可以获取下来，解析用的Jsoup方法比较快捷，解析筛选的主要代码如下12345678910111213141516171819Document d">
 <meta name="twitter:image" content="http://yoursite.com/images/capture_select.png">
 
     
@@ -38,14 +40,16 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    
+<link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr">
+
+    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
 
 
 </head>
-</html>
+
   <body>
     <header>
       
@@ -108,16 +112,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="简单介绍">简单介绍</h1><p>以下是使用HttpWatch抓包获取网页信息解析筛选自己需要的信息放到手机上的一个实例，HttpWatch的简单使用教程可以看上一篇博客。</p>
-<h1 id="实例">实例</h1><p>代码比较多这里就不贴出全部的，介绍下主要代码及实现的方法。<br>首先我们要得到Post的参数键值对，通过抓包可以获取下来，解析用的Jsoup方法比较快捷，解析筛选的主要代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Document document=Jsoup.parse(html);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取学期列表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Elements e_term=document.select(<span class="string">"select[name=Sel_XNXQ]"</span>).select(<span class="string">"option"</span>);	</span><br><span class="line"><span class="keyword">for</span>(Element e:e_term)&#123;</span><br><span class="line">	schedule_term_id.add(e.attr(<span class="string">"value"</span>).toString());</span><br><span class="line">	schedule_term_data.add(e.text().toString());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取班级列表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Elements e_class=document.select(<span class="string">"select[name=Sel_XZBJ]"</span>).select(<span class="string">"option"</span>);</span><br><span class="line"><span class="keyword">for</span>(Element e:e_class)&#123;</span><br><span class="line">	schedule_class_id.add(e.attr(<span class="string">"value"</span>).toString());</span><br><span class="line">	schedule_class_data.add(e.text().toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>将获取到的学期和班级数据放到Spinner上去<br><img src="/images/capture_select.png" alt title="选择学期班级点击查询开始查询"><br>然后Post参数给获取返回的课表结果解析<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pairs=<span class="keyword">new</span> ArrayList&lt;BasicNameValuePair&gt;();</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Sel_XNXQ"</span>, term_id));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"txtxzbj"</span>, <span class="string">""</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"type"</span>, <span class="string">"2"</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"chkrxkc"</span>, <span class="string">"1"</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Sel_XZBJ"</span>, class_id));</span><br><span class="line">pairs.add(<span class="keyword">new</span> BasicNameValuePair(<span class="string">"Submit01"</span>, <span class="string">"????"</span>));</span><br><span class="line">Schedule_AsyncTask task=<span class="keyword">new</span> Schedule_AsyncTask(Schedule_Main.<span class="keyword">this</span>, schedule_handler, pairs);</span><br><span class="line">task.execute(Schedule_RequestType.Schedule_Query);</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">datas=<span class="keyword">new</span> ArrayList&lt;Schedule_Query_Data&gt;();</span><br><span class="line"></span><br><span class="line">Element elements=Jsoup.parse(html).select(<span class="string">"table"</span>).remove(<span class="number">3</span>);</span><br><span class="line">Elements e_schedule=elements.select(<span class="string">"tr"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;e_schedule.size();i++)&#123;</span><br><span class="line">	Schedule_Query_Data data=<span class="keyword">new</span> Schedule_Query_Data();</span><br><span class="line">	data.setCoures(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">0</span>).text());</span><br><span class="line">	data.setScore(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">1</span>).text());</span><br><span class="line">	data.setStudy_time(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">2</span>).text());</span><br><span class="line">	data.setTest_way(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">3</span>).text());</span><br><span class="line">	data.setTeacher(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">4</span>).text());</span><br><span class="line">	data.setSchedule_id(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">5</span>).text());</span><br><span class="line">	data.setSchedule_number(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">6</span>).text());</span><br><span class="line">	data.setWeek(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">7</span>).text());</span><br><span class="line">	data.setSection(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">8</span>).text());</span><br><span class="line">	data.setPlace(e_schedule.get(i).select(<span class="string">"td"</span>).get(<span class="number">9</span>).text());</span><br><span class="line">	datas.add(data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>点击查询按钮后下面即显示课表信息<br><img src="/images/capture_information.jpg" alt title="课表信息"><br>点击某一项课表弹出对话框显示课表详情信息<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">lv_schdule_detail.setOnItemClickListener(<span class="keyword">new</span> OnItemClickListener() &#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onItemClick</span><span class="params">(AdapterView&lt;?&gt; arg0, View arg1,</span></span></span><br><span class="line"><span class="function"><span class="params">			<span class="keyword">int</span> arg2, <span class="keyword">long</span> arg3)</span> </span>&#123;</span><br><span class="line">		AlertDialog.Builder builder=<span class="keyword">new</span> AlertDialog.Builder(Schedule_Main.<span class="keyword">this</span>);</span><br><span class="line">		builder.setTitle(<span class="string">"课表信息"</span>);</span><br><span class="line">		Schedule_Query_Data data=list.get(arg2);</span><br><span class="line">		builder.setMessage(<span class="string">"课程:\t"</span>+data.getCoures()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"学分:\t"</span>+data.getScore()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"总学时:\t"</span>+data.getStudy_time()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"考核方式:\t"</span>+data.getTest_way()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"教师:\t"</span>+data.getTeacher()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"上课班号:\t"</span>+data.getSchedule_id()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"上课人数:\t"</span>+data.getSchedule_number()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"周次:\t"</span>+data.getWeek()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"节次:\t"</span>+data.getSection()+<span class="string">"\n"</span></span><br><span class="line">				+<span class="string">"地点:\t"</span>+data.getPlace()+<span class="string">"\n"</span></span><br><span class="line">				);</span><br><span class="line">		builder.setPositiveButton(<span class="string">"确定"</span>, <span class="keyword">null</span>);</span><br><span class="line">		builder.create();</span><br><span class="line">		builder.show();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>显示的结果如下<br><img src="/images/capture_detail.png" alt title="课表详情"></p>
+		<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p>以下是使用HttpWatch抓包获取网页信息解析筛选自己需要的信息放到手机上的一个实例，HttpWatch的简单使用教程可以看上一篇博客。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>代码比较多这里就不贴出全部的，介绍下主要代码及实现的方法。<br>首先我们要得到Post的参数键值对，通过抓包可以获取下来，解析用的Jsoup方法比较快捷，解析筛选的主要代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Document document=Jsoup.parse(html);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取学期列表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Elements e_term=document.select(<span class="string">&quot;select[name=Sel_XNXQ]&quot;</span>).select(<span class="string">&quot;option&quot;</span>);	</span><br><span class="line"><span class="keyword">for</span>(Element e:e_term)&#123;</span><br><span class="line">	schedule_term_id.add(e.attr(<span class="string">&quot;value&quot;</span>).toString());</span><br><span class="line">	schedule_term_data.add(e.text().toString());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取班级列表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">Elements e_class=document.select(<span class="string">&quot;select[name=Sel_XZBJ]&quot;</span>).select(<span class="string">&quot;option&quot;</span>);</span><br><span class="line"><span class="keyword">for</span>(Element e:e_class)&#123;</span><br><span class="line">	schedule_class_id.add(e.attr(<span class="string">&quot;value&quot;</span>).toString());</span><br><span class="line">	schedule_class_data.add(e.text().toString());</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+<p>将获取到的学期和班级数据放到Spinner上去<br><img src="/images/capture_select.png" title="选择学期班级点击查询开始查询"><br>然后Post参数给获取返回的课表结果解析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pairs=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;BasicNameValuePair&gt;();</span><br><span class="line">pairs.add(<span class="keyword">new</span> <span class="title class_">BasicNameValuePair</span>(<span class="string">&quot;Sel_XNXQ&quot;</span>, term_id));</span><br><span class="line">pairs.add(<span class="keyword">new</span> <span class="title class_">BasicNameValuePair</span>(<span class="string">&quot;txtxzbj&quot;</span>, <span class="string">&quot;&quot;</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> <span class="title class_">BasicNameValuePair</span>(<span class="string">&quot;type&quot;</span>, <span class="string">&quot;2&quot;</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> <span class="title class_">BasicNameValuePair</span>(<span class="string">&quot;chkrxkc&quot;</span>, <span class="string">&quot;1&quot;</span>));</span><br><span class="line">pairs.add(<span class="keyword">new</span> <span class="title class_">BasicNameValuePair</span>(<span class="string">&quot;Sel_XZBJ&quot;</span>, class_id));</span><br><span class="line">pairs.add(<span class="keyword">new</span> <span class="title class_">BasicNameValuePair</span>(<span class="string">&quot;Submit01&quot;</span>, <span class="string">&quot;????&quot;</span>));</span><br><span class="line">Schedule_AsyncTask task=<span class="keyword">new</span> <span class="title class_">Schedule_AsyncTask</span>(Schedule_Main.<span class="built_in">this</span>, schedule_handler, pairs);</span><br><span class="line">task.execute(Schedule_RequestType.Schedule_Query);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">datas=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Schedule_Query_Data&gt;();</span><br><span class="line"></span><br><span class="line">Element elements=Jsoup.parse(html).select(<span class="string">&quot;table&quot;</span>).remove(<span class="number">3</span>);</span><br><span class="line">Elements e_schedule=elements.select(<span class="string">&quot;tr&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;e_schedule.size();i++)&#123;</span><br><span class="line">	Schedule_Query_Data data=<span class="keyword">new</span> <span class="title class_">Schedule_Query_Data</span>();</span><br><span class="line">	data.setCoures(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">0</span>).text());</span><br><span class="line">	data.setScore(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">1</span>).text());</span><br><span class="line">	data.setStudy_time(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">2</span>).text());</span><br><span class="line">	data.setTest_way(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">3</span>).text());</span><br><span class="line">	data.setTeacher(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">4</span>).text());</span><br><span class="line">	data.setSchedule_id(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">5</span>).text());</span><br><span class="line">	data.setSchedule_number(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">6</span>).text());</span><br><span class="line">	data.setWeek(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">7</span>).text());</span><br><span class="line">	data.setSection(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">8</span>).text());</span><br><span class="line">	data.setPlace(e_schedule.get(i).select(<span class="string">&quot;td&quot;</span>).get(<span class="number">9</span>).text());</span><br><span class="line">	datas.add(data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>点击查询按钮后下面即显示课表信息<br><img src="/images/capture_information.jpg" title="课表信息"><br>点击某一项课表弹出对话框显示课表详情信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">lv_schdule_detail.setOnItemClickListener(<span class="keyword">new</span> <span class="title class_">OnItemClickListener</span>() &#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onItemClick</span><span class="params">(AdapterView&lt;?&gt; arg0, View arg1,</span></span><br><span class="line"><span class="params">			<span class="type">int</span> arg2, <span class="type">long</span> arg3)</span> &#123;</span><br><span class="line">		AlertDialog.Builder builder=<span class="keyword">new</span> <span class="title class_">AlertDialog</span>.Builder(Schedule_Main.<span class="built_in">this</span>);</span><br><span class="line">		builder.setTitle(<span class="string">&quot;课表信息&quot;</span>);</span><br><span class="line">		Schedule_Query_Data data=list.get(arg2);</span><br><span class="line">		builder.setMessage(<span class="string">&quot;课程:\t&quot;</span>+data.getCoures()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;学分:\t&quot;</span>+data.getScore()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;总学时:\t&quot;</span>+data.getStudy_time()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;考核方式:\t&quot;</span>+data.getTest_way()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;教师:\t&quot;</span>+data.getTeacher()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;上课班号:\t&quot;</span>+data.getSchedule_id()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;上课人数:\t&quot;</span>+data.getSchedule_number()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;周次:\t&quot;</span>+data.getWeek()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;节次:\t&quot;</span>+data.getSection()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				+<span class="string">&quot;地点:\t&quot;</span>+data.getPlace()+<span class="string">&quot;\n&quot;</span></span><br><span class="line">				);</span><br><span class="line">		builder.setPositiveButton(<span class="string">&quot;确定&quot;</span>, <span class="literal">null</span>);</span><br><span class="line">		builder.create();</span><br><span class="line">		builder.show();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>显示的结果如下<br><img src="/images/capture_detail.png" title="课表详情"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -125,7 +132,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
+  <a class="article-category-link" href="/categories/Android%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Android网络编程</a>
 </div>
 
 
@@ -196,7 +203,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/08/24/Android/Android网络之网页抓包获取数据实例（二）/" data-title="Android网络之网页抓包获取数据实例（二）" data-url="http://yoursite.com/2015/08/24/Android/Android网络之网页抓包获取数据实例（二）/"></div>
+	<div class="ds-thread" data-thread-key="2015/08/24/Android/Android网络之网页抓包获取数据实例（二）/" data-title="Android网络之网页抓包获取数据实例（二）" data-url="http://yoursite.com/2015/08/24/Android/Android%E7%BD%91%E7%BB%9C%E4%B9%8B%E7%BD%91%E9%A1%B5%E6%8A%93%E5%8C%85%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%AE%9E%E4%BE%8B%EF%BC%88%E4%BA%8C%EF%BC%89/"></div>
 </section>
 
 
@@ -206,7 +213,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
  
   </div>
 
@@ -268,6 +275,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
 		  
 		
@@ -325,19 +336,19 @@
 			
 		
 			
-				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Xposed/" title="Xposed">Xposed<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
@@ -361,19 +372,19 @@
 			
 		
 			
-				<li><a href="/tags/框架/" title="框架">框架<sup>1</sup></a></li>
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
+				<li><a href="/tags/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -447,7 +458,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

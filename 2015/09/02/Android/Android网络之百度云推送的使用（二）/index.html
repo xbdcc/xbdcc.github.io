@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="UTF-8">
   
     <title>Android网络编程之百度云推送的使用（二） | Carlos</title>
@@ -11,21 +11,23 @@
     
 
     
-    <meta name="description" content="简单介绍上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。 实例首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。首先写个PushTool工具类123456789101112131415161718192021222324252627282930package com.carlos.baidupush;import com.ba">
-<meta name="keywords" content="Android,推送,网络编程">
+    <meta name="description" content="简单介绍上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。 实例首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。首先写个PushTool工具类 123456789101112131415161718192021222324252627282930package com.carlos.baidupush;import com.b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android网络编程之百度云推送的使用（二）">
-<meta property="og:url" content="http://yoursite.com/2015/09/02/Android/Android网络之百度云推送的使用（二）/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/09/02/Android/Android%E7%BD%91%E7%BB%9C%E4%B9%8B%E7%99%BE%E5%BA%A6%E4%BA%91%E6%8E%A8%E9%80%81%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="简单介绍上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。 实例首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。首先写个PushTool工具类123456789101112131415161718192021222324252627282930package com.carlos.baidupush;import com.ba">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="简单介绍上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。 实例首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。首先写个PushTool工具类 123456789101112131415161718192021222324252627282930package com.carlos.baidupush;import com.b">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/baidu_push_server_console.png">
 <meta property="og:image" content="http://yoursite.com/images/baidu_push_mobile_receive_server.png">
 <meta property="og:image" content="http://yoursite.com/images/baidu_push_client_server.png">
-<meta property="og:updated_time" content="2016-03-28T03:06:11.000Z">
+<meta property="article:published_time" content="2015-09-02T09:57:34.000Z">
+<meta property="article:modified_time" content="2016-03-28T03:06:11.000Z">
+<meta property="article:author" content="Carlos">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="推送">
+<meta property="article:tag" content="网络编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android网络编程之百度云推送的使用（二）">
-<meta name="twitter:description" content="简单介绍上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。 实例首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。首先写个PushTool工具类123456789101112131415161718192021222324252627282930package com.carlos.baidupush;import com.ba">
 <meta name="twitter:image" content="http://yoursite.com/images/baidu_push_server_console.png">
 
     
@@ -38,14 +40,16 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    
+<link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr">
+
+    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
 
 
 </head>
-</html>
+
   <body>
     <header>
       
@@ -108,15 +112,18 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="简单介绍">简单介绍</h1><p>上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。</p>
-<h1 id="实例">实例</h1><p>首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。<br>首先写个PushTool工具类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.core.log.YunLogEvent;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.core.log.YunLogHandler;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.auth.PushKeyPair;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PushTools</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> BaiduPushClient <span class="title">push</span><span class="params">()</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//创建PushKeyPair</span></span><br><span class="line">		String apiKey=<span class="string">"RG22q5hdhGeyGjFDaB05ju2X"</span>;</span><br><span class="line">		String secretKey=<span class="string">"5XdFeendbTWIFdpxtrEzSUNp0CNU5t7D"</span>;</span><br><span class="line">		PushKeyPair pair=<span class="keyword">new</span> PushKeyPair(apiKey, secretKey);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//创建BaiduPushClient，访问SDK接口</span></span><br><span class="line">		BaiduPushClient pushClient=<span class="keyword">new</span> BaiduPushClient(pair);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//注册YunLogHandler，获取本次请求的交互信息</span></span><br><span class="line">		pushClient.setChannelLogHandler(<span class="keyword">new</span> YunLogHandler() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onHandle</span><span class="params">(YunLogEvent event)</span> </span>&#123;</span><br><span class="line">				System.out.println(event.getMessage());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		<span class="keyword">return</span> pushClient;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>接着新建一个PushToAllDevices类，以通知方式推送给所有用户<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> net.sf.json.JSONObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushClientException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushServerException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToAllRequest;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToAllResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PushToAllDevices</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		PushTools pushTools=<span class="keyword">new</span> PushTools();</span><br><span class="line">		BaiduPushClient pushClient=pushTools.push();</span><br><span class="line">		</span><br><span class="line">		JSONObject object=<span class="keyword">new</span> JSONObject();</span><br><span class="line">		object.put(<span class="string">"title"</span>, <span class="string">"通知"</span>);</span><br><span class="line">		object.put(<span class="string">"description"</span>, <span class="string">"hello,carlos"</span>);</span><br><span class="line">		</span><br><span class="line">		PushMsgToAllRequest allRequest=<span class="keyword">new</span> PushMsgToAllRequest();</span><br><span class="line">		allRequest.addMsgExpires(<span class="number">3600</span>*<span class="number">12</span>);<span class="comment">//设置12个小时后过期</span></span><br><span class="line">		allRequest.addMessageType(<span class="number">1</span>);<span class="comment">//0为透传消息，1为通知</span></span><br><span class="line">		allRequest.addMessage(object.toString());<span class="comment">//信息</span></span><br><span class="line">		allRequest.addDeviceType(<span class="number">3</span>);<span class="comment">//3为Android，4位IOS</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			PushMsgToAllResponse allResponse=pushClient.pushMsgToAll(allRequest);</span><br><span class="line">			System.out.println(<span class="string">"msgId: "</span>+allResponse.getMsgId()+<span class="string">",sendTime: "</span>+</span><br><span class="line">			allResponse.getSendTime()+<span class="string">",timerId: "</span>+allResponse.getTimerId());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushClientException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushServerException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>服务器端控制台输出的信息为<br><img src="/images/baidu_push_server_console.png" alt><br>模拟器收到通知<br><img src="/images/baidu_push_mobile_receive_server.png" alt><br>然后再新建PushToSingleDevice类，以透传方式推送给单个用户<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushClientException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushServerException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToSingleDeviceRequest;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToSingleDeviceResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PushToSingleDevice</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		PushTools pushTools=<span class="keyword">new</span> PushTools();</span><br><span class="line">		BaiduPushClient pushClient=pushTools.push();</span><br><span class="line">		</span><br><span class="line">		PushMsgToSingleDeviceRequest deviceRequest=<span class="keyword">new</span> PushMsgToSingleDeviceRequest();</span><br><span class="line">		deviceRequest.addChannelId(<span class="string">"3973705946942416175"</span>);</span><br><span class="line">		deviceRequest.addMsgExpires(<span class="number">3600</span>*<span class="number">3</span>);<span class="comment">//设置有效期为3小时</span></span><br><span class="line">		deviceRequest.addDeviceType(<span class="number">0</span>);<span class="comment">//0表示透传，1表示通知</span></span><br><span class="line">		deviceRequest.addMessage(<span class="string">"我喜欢Andriod开发"</span>);<span class="comment">//信息</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			PushMsgToSingleDeviceResponse deviceResponse=pushClient.pushMsgToSingleDevice(deviceRequest);</span><br><span class="line">            System.out.println(<span class="string">"msgId: "</span>+deviceResponse.getMsgId()+</span><br><span class="line">            		<span class="string">",sendTime: "</span>+deviceResponse.getSendTime());		</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushClientException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushServerException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再看客户端LogCat日志中打印出的信息，可以看到收到了之前推送的通知和现在的透传信息了<br><img src="/images/baidu_push_client_server.png" alt></p>
+		<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p>上篇介绍了使用百度云提供的网页推送给客户端，本篇介绍自己配置Java服务器将推送推给客户端。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>首先可以看下百度云推送Java服务器配置开发文档，参照教程配置好后可以测试下。<br>首先写个PushTool工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.core.log.YunLogEvent;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.core.log.YunLogHandler;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.auth.PushKeyPair;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PushTools</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> BaiduPushClient <span class="title function_">push</span><span class="params">()</span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//创建PushKeyPair</span></span><br><span class="line">		String apiKey=<span class="string">&quot;RG22q5hdhGeyGjFDaB05ju2X&quot;</span>;</span><br><span class="line">		String secretKey=<span class="string">&quot;5XdFeendbTWIFdpxtrEzSUNp0CNU5t7D&quot;</span>;</span><br><span class="line">		PushKeyPair pair=<span class="keyword">new</span> <span class="title class_">PushKeyPair</span>(apiKey, secretKey);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//创建BaiduPushClient，访问SDK接口</span></span><br><span class="line">		BaiduPushClient pushClient=<span class="keyword">new</span> <span class="title class_">BaiduPushClient</span>(pair);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//注册YunLogHandler，获取本次请求的交互信息</span></span><br><span class="line">		pushClient.setChannelLogHandler(<span class="keyword">new</span> <span class="title class_">YunLogHandler</span>() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onHandle</span><span class="params">(YunLogEvent event)</span> &#123;</span><br><span class="line">				System.out.println(event.getMessage());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		<span class="keyword">return</span> pushClient;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着新建一个PushToAllDevices类，以通知方式推送给所有用户</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> net.sf.json.JSONObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushClientException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushServerException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToAllRequest;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToAllResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PushToAllDevices</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		</span><br><span class="line">		PushTools pushTools=<span class="keyword">new</span> <span class="title class_">PushTools</span>();</span><br><span class="line">		BaiduPushClient pushClient=pushTools.push();</span><br><span class="line">		</span><br><span class="line">		JSONObject object=<span class="keyword">new</span> <span class="title class_">JSONObject</span>();</span><br><span class="line">		object.put(<span class="string">&quot;title&quot;</span>, <span class="string">&quot;通知&quot;</span>);</span><br><span class="line">		object.put(<span class="string">&quot;description&quot;</span>, <span class="string">&quot;hello,carlos&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		PushMsgToAllRequest allRequest=<span class="keyword">new</span> <span class="title class_">PushMsgToAllRequest</span>();</span><br><span class="line">		allRequest.addMsgExpires(<span class="number">3600</span>*<span class="number">12</span>);<span class="comment">//设置12个小时后过期</span></span><br><span class="line">		allRequest.addMessageType(<span class="number">1</span>);<span class="comment">//0为透传消息，1为通知</span></span><br><span class="line">		allRequest.addMessage(object.toString());<span class="comment">//信息</span></span><br><span class="line">		allRequest.addDeviceType(<span class="number">3</span>);<span class="comment">//3为Android，4位IOS</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			PushMsgToAllResponse allResponse=pushClient.pushMsgToAll(allRequest);</span><br><span class="line">			System.out.println(<span class="string">&quot;msgId: &quot;</span>+allResponse.getMsgId()+<span class="string">&quot;,sendTime: &quot;</span>+</span><br><span class="line">			allResponse.getSendTime()+<span class="string">&quot;,timerId: &quot;</span>+allResponse.getTimerId());</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushClientException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushServerException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>服务器端控制台输出的信息为<br><img src="/images/baidu_push_server_console.png"><br>模拟器收到通知<br><img src="/images/baidu_push_mobile_receive_server.png"><br>然后再新建PushToSingleDevice类，以透传方式推送给单个用户</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.baidupush;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.client.BaiduPushClient;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushClientException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.exception.PushServerException;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToSingleDeviceRequest;</span><br><span class="line"><span class="keyword">import</span> com.baidu.yun.push.model.PushMsgToSingleDeviceResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">PushToSingleDevice</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		</span><br><span class="line">		PushTools pushTools=<span class="keyword">new</span> <span class="title class_">PushTools</span>();</span><br><span class="line">		BaiduPushClient pushClient=pushTools.push();</span><br><span class="line">		</span><br><span class="line">		PushMsgToSingleDeviceRequest deviceRequest=<span class="keyword">new</span> <span class="title class_">PushMsgToSingleDeviceRequest</span>();</span><br><span class="line">		deviceRequest.addChannelId(<span class="string">&quot;3973705946942416175&quot;</span>);</span><br><span class="line">		deviceRequest.addMsgExpires(<span class="number">3600</span>*<span class="number">3</span>);<span class="comment">//设置有效期为3小时</span></span><br><span class="line">		deviceRequest.addDeviceType(<span class="number">0</span>);<span class="comment">//0表示透传，1表示通知</span></span><br><span class="line">		deviceRequest.addMessage(<span class="string">&quot;我喜欢Andriod开发&quot;</span>);<span class="comment">//信息</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			PushMsgToSingleDeviceResponse deviceResponse=pushClient.pushMsgToSingleDevice(deviceRequest);</span><br><span class="line">            System.out.println(<span class="string">&quot;msgId: &quot;</span>+deviceResponse.getMsgId()+</span><br><span class="line">            		<span class="string">&quot;,sendTime: &quot;</span>+deviceResponse.getSendTime());		</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushClientException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (PushServerException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再看客户端LogCat日志中打印出的信息，可以看到收到了之前推送的通知和现在的透传信息了<br><img src="/images/baidu_push_client_server.png"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -124,7 +131,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
+  <a class="article-category-link" href="/categories/Android%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Android网络编程</a>
 </div>
 
 
@@ -195,7 +202,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/09/02/Android/Android网络之百度云推送的使用（二）/" data-title="Android网络编程之百度云推送的使用（二）" data-url="http://yoursite.com/2015/09/02/Android/Android网络之百度云推送的使用（二）/"></div>
+	<div class="ds-thread" data-thread-key="2015/09/02/Android/Android网络之百度云推送的使用（二）/" data-title="Android网络编程之百度云推送的使用（二）" data-url="http://yoursite.com/2015/09/02/Android/Android%E7%BD%91%E7%BB%9C%E4%B9%8B%E7%99%BE%E5%BA%A6%E4%BA%91%E6%8E%A8%E9%80%81%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%88%E4%BA%8C%EF%BC%89/"></div>
 </section>
 
 
@@ -205,7 +212,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
  
   </div>
 
@@ -267,6 +274,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
 		  
 		
@@ -324,19 +335,19 @@
 			
 		
 			
-				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Xposed/" title="Xposed">Xposed<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
@@ -360,19 +371,19 @@
 			
 		
 			
-				<li><a href="/tags/框架/" title="框架">框架<sup>1</sup></a></li>
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
+				<li><a href="/tags/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -446,7 +457,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="UTF-8">
   
     <title>Java调用WCF服务 | Carlos</title>
@@ -12,21 +12,22 @@
 
     
     <meta name="description" content="简单介绍在Java中使用ksoap2调用.NET的WCF接口挺方便，我们需要导入此方法的jar包实现该功能，可以向WCF服务提交数据获取返回信息。 实例本例以简单的一个创建通知的WCF接口为例讲述Java与WCF的交互。首先使用WcfTestClient测试下WCF接口的CreateNotice方法测试传title和content两个字段值后返回IsSuccess和Message值。下面新建一个J">
-<meta name="keywords" content="网络编程,WCF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java调用WCF服务">
-<meta property="og:url" content="http://yoursite.com/2015/11/27/JAVA/Java调用WCF服务/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/11/27/JAVA/Java%E8%B0%83%E7%94%A8WCF%E6%9C%8D%E5%8A%A1/index.html">
 <meta property="og:site_name" content="Carlos">
 <meta property="og:description" content="简单介绍在Java中使用ksoap2调用.NET的WCF接口挺方便，我们需要导入此方法的jar包实现该功能，可以向WCF服务提交数据获取返回信息。 实例本例以简单的一个创建通知的WCF接口为例讲述Java与WCF的交互。首先使用WcfTestClient测试下WCF接口的CreateNotice方法测试传title和content两个字段值后返回IsSuccess和Message值。下面新建一个J">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/java/wcf_test1.png">
 <meta property="og:image" content="http://yoursite.com/images/java/wcf_test2.png">
 <meta property="og:image" content="http://yoursite.com/images/java/wcf_java_jar.png">
 <meta property="og:image" content="http://yoursite.com/images/java/wcf_java_console.png">
-<meta property="og:updated_time" content="2015-11-27T07:50:44.000Z">
+<meta property="article:published_time" content="2015-11-27T07:06:47.000Z">
+<meta property="article:modified_time" content="2015-11-27T07:50:44.000Z">
+<meta property="article:author" content="Carlos">
+<meta property="article:tag" content="网络编程">
+<meta property="article:tag" content="WCF">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java调用WCF服务">
-<meta name="twitter:description" content="简单介绍在Java中使用ksoap2调用.NET的WCF接口挺方便，我们需要导入此方法的jar包实现该功能，可以向WCF服务提交数据获取返回信息。 实例本例以简单的一个创建通知的WCF接口为例讲述Java与WCF的交互。首先使用WcfTestClient测试下WCF接口的CreateNotice方法测试传title和content两个字段值后返回IsSuccess和Message值。下面新建一个J">
 <meta name="twitter:image" content="http://yoursite.com/images/java/wcf_test1.png">
 
     
@@ -39,14 +40,16 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    
+<link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr">
+
+    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
 
 
 </head>
-</html>
+
   <body>
     <header>
       
@@ -109,15 +112,18 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="简单介绍">简单介绍</h1><p>在Java中使用ksoap2调用.NET的WCF接口挺方便，我们需要导入此方法的jar包实现该功能，可以向WCF服务提交数据获取返回信息。</p>
-<h1 id="实例">实例</h1><p>本例以简单的一个创建通知的WCF接口为例讲述Java与WCF的交互。<br>首先使用WcfTestClient测试下WCF接口的CreateNotice方法<br><img src="/images/java/wcf_test1.png" alt><br><img src="/images/java/wcf_test2.png" alt><br>测试传title和content两个字段值后返回IsSuccess和Message值。<br>下面新建一个Java项目导入ksoap2 jar包。<br>以下为我导入的jar包<br><img src="/images/java/wcf_java_jar.png" alt><br>新建一个接口ISoapService类, 用于专门读取WCF返回的SoapObject对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ISoapService</span> </span>&#123;</span><br><span class="line">	<span class="function">SoapObject <span class="title">LoadResult</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>调用WCF接口的类WcfService<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.SoapEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapSerializationEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.transport.HttpTransportSE;</span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParserException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WcfService</span> <span class="keyword">implements</span> <span class="title">ISoapService</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAMESPACE=<span class="string">""</span>;<span class="comment">//引号内改为自己接口的命名空间</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String URL=<span class="string">""</span>;<span class="comment">//引号内改为自己接口的网址</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SOAP_ACTION=<span class="string">""</span>;引号内改为自己接口的SOAP_ACTION</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String METHODNAME=<span class="string">"CreateNotice"</span>;<span class="comment">//引号内改为自己接口的方法名</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Map&lt;String, String&gt; map;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">WcfService</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.map=map;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> SoapObject <span class="title">LoadResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		SoapObject object=<span class="keyword">new</span> SoapObject(NAMESPACE, METHODNAME);</span><br><span class="line">		<span class="keyword">for</span>(Map.Entry&lt;String, String&gt; entry:map.entrySet())&#123;</span><br><span class="line">			System.out.println(<span class="string">"key= "</span>+entry.getKey()+<span class="string">" and value= "</span>+entry.getValue());</span><br><span class="line">			object.addProperty(entry.getKey(), entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SoapSerializationEnvelope envelope=<span class="keyword">new</span> SoapSerializationEnvelope(SoapEnvelope.VER11);</span><br><span class="line">		envelope.bodyOut=object;</span><br><span class="line">		envelope.dotNet=<span class="keyword">true</span>;</span><br><span class="line">		envelope.setOutputSoapObject(object);</span><br><span class="line">		</span><br><span class="line">		HttpTransportSE transportSE=<span class="keyword">new</span> HttpTransportSE(URL);</span><br><span class="line">		transportSE.debug=<span class="keyword">true</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			transportSE.call(SOAP_ACTION, envelope);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			System.out.println(<span class="string">"IOException"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (XmlPullParserException e) &#123;</span><br><span class="line">			System.out.println(<span class="string">"XmlPullParserException"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SoapObject result=(SoapObject) envelope.bodyIn;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>WcfTest主类，获取返回结果并解析打印输出到控制台<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WcfTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Map&lt;String, String&gt; map=<span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">		map.put(<span class="string">"title"</span>, <span class="string">"提醒"</span>);</span><br><span class="line">		map.put(<span class="string">"content"</span>, <span class="string">"晚上写篇博客"</span>);</span><br><span class="line">		WcfService wcf=<span class="keyword">new</span> WcfService(map);</span><br><span class="line">		SoapObject result=(SoapObject) wcf.LoadResult().getProperty(<span class="string">"result"</span>);</span><br><span class="line">		System.out.println(result);<span class="comment">//返回的结果</span></span><br><span class="line">		<span class="keyword">int</span> length=result.getPropertyCount();</span><br><span class="line">		System.out.println(result.getPropertyCount());</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;length;i++)&#123;</span><br><span class="line">			System.out.println(result.getProperty(i));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>控制台打印出的信息<br><img src="/images/java/wcf_java_console.png" alt></p>
+		<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p>在Java中使用ksoap2调用.NET的WCF接口挺方便，我们需要导入此方法的jar包实现该功能，可以向WCF服务提交数据获取返回信息。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>本例以简单的一个创建通知的WCF接口为例讲述Java与WCF的交互。<br>首先使用WcfTestClient测试下WCF接口的CreateNotice方法<br><img src="/images/java/wcf_test1.png"><br><img src="/images/java/wcf_test2.png"><br>测试传title和content两个字段值后返回IsSuccess和Message值。<br>下面新建一个Java项目导入ksoap2 jar包。<br>以下为我导入的jar包<br><img src="/images/java/wcf_java_jar.png"><br>新建一个接口ISoapService类, 用于专门读取WCF返回的SoapObject对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ISoapService</span> &#123;</span><br><span class="line">	SoapObject <span class="title function_">LoadResult</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用WCF接口的类WcfService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.SoapEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapSerializationEnvelope;</span><br><span class="line"><span class="keyword">import</span> org.ksoap2.transport.HttpTransportSE;</span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParserException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WcfService</span> <span class="keyword">implements</span> <span class="title class_">ISoapService</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAMESPACE=<span class="string">&quot;&quot;</span>;<span class="comment">//引号内改为自己接口的命名空间</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String URL=<span class="string">&quot;&quot;</span>;<span class="comment">//引号内改为自己接口的网址</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SOAP_ACTION=<span class="string">&quot;&quot;</span>;引号内改为自己接口的SOAP_ACTION</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String METHODNAME=<span class="string">&quot;CreateNotice&quot;</span>;<span class="comment">//引号内改为自己接口的方法名</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Map&lt;String, String&gt; map;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="title function_">WcfService</span><span class="params">(Map&lt;String, String&gt; map)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.map=map;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> SoapObject <span class="title function_">LoadResult</span><span class="params">()</span> &#123;</span><br><span class="line">		SoapObject object=<span class="keyword">new</span> <span class="title class_">SoapObject</span>(NAMESPACE, METHODNAME);</span><br><span class="line">		<span class="keyword">for</span>(Map.Entry&lt;String, String&gt; entry:map.entrySet())&#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;key= &quot;</span>+entry.getKey()+<span class="string">&quot; and value= &quot;</span>+entry.getValue());</span><br><span class="line">			object.addProperty(entry.getKey(), entry.getValue());</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SoapSerializationEnvelope envelope=<span class="keyword">new</span> <span class="title class_">SoapSerializationEnvelope</span>(SoapEnvelope.VER11);</span><br><span class="line">		envelope.bodyOut=object;</span><br><span class="line">		envelope.dotNet=<span class="literal">true</span>;</span><br><span class="line">		envelope.setOutputSoapObject(object);</span><br><span class="line">		</span><br><span class="line">		HttpTransportSE transportSE=<span class="keyword">new</span> <span class="title class_">HttpTransportSE</span>(URL);</span><br><span class="line">		transportSE.debug=<span class="literal">true</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			transportSE.call(SOAP_ACTION, envelope);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;IOException&quot;</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (XmlPullParserException e) &#123;</span><br><span class="line">			System.out.println(<span class="string">&quot;XmlPullParserException&quot;</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		SoapObject result=(SoapObject) envelope.bodyIn;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>WcfTest主类，获取返回结果并解析打印输出到控制台</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.wcf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ksoap2.serialization.SoapObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WcfTest</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		Map&lt;String, String&gt; map=<span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;String, String&gt;();</span><br><span class="line">		map.put(<span class="string">&quot;title&quot;</span>, <span class="string">&quot;提醒&quot;</span>);</span><br><span class="line">		map.put(<span class="string">&quot;content&quot;</span>, <span class="string">&quot;晚上写篇博客&quot;</span>);</span><br><span class="line">		WcfService wcf=<span class="keyword">new</span> <span class="title class_">WcfService</span>(map);</span><br><span class="line">		SoapObject result=(SoapObject) wcf.LoadResult().getProperty(<span class="string">&quot;result&quot;</span>);</span><br><span class="line">		System.out.println(result);<span class="comment">//返回的结果</span></span><br><span class="line">		<span class="type">int</span> length=result.getPropertyCount();</span><br><span class="line">		System.out.println(result.getPropertyCount());</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;length;i++)&#123;</span><br><span class="line">			System.out.println(result.getProperty(i));</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>控制台打印出的信息<br><img src="/images/java/wcf_java_console.png"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -196,7 +202,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/11/27/JAVA/Java调用WCF服务/" data-title="Java调用WCF服务" data-url="http://yoursite.com/2015/11/27/JAVA/Java调用WCF服务/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/27/JAVA/Java调用WCF服务/" data-title="Java调用WCF服务" data-url="http://yoursite.com/2015/11/27/JAVA/Java%E8%B0%83%E7%94%A8WCF%E6%9C%8D%E5%8A%A1/"></div>
 </section>
 
 
@@ -206,7 +212,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
  
   </div>
 
@@ -268,6 +274,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
 		  
 		
@@ -325,19 +335,19 @@
 			
 		
 			
-				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Xposed/" title="Xposed">Xposed<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
@@ -361,19 +371,19 @@
 			
 		
 			
-				<li><a href="/tags/框架/" title="框架">框架<sup>1</sup></a></li>
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
+				<li><a href="/tags/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -447,7 +457,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

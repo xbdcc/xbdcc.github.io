@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="UTF-8">
   
     <title>Android网络之WebView显示网页 | Carlos</title>
@@ -11,20 +11,22 @@
     
 
     
-    <meta name="description" content="简单介绍在Android中可以用WebView控件来显示网页内容，也可以用来自己设计自己的浏览器。 实例以下是使用WebView简单显示个人博客网页的源码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566">
-<meta name="keywords" content="Android,控件,网络编程">
+    <meta name="description" content="简单介绍在Android中可以用WebView控件来显示网页内容，也可以用来自己设计自己的浏览器。 实例以下是使用WebView简单显示个人博客网页的源码 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android网络之WebView显示网页">
-<meta property="og:url" content="http://yoursite.com/2015/08/18/Android/Android网络之WebView显示网页/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/08/18/Android/Android%E7%BD%91%E7%BB%9C%E4%B9%8BWebView%E6%98%BE%E7%A4%BA%E7%BD%91%E9%A1%B5/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="简单介绍在Android中可以用WebView控件来显示网页内容，也可以用来自己设计自己的浏览器。 实例以下是使用WebView简单显示个人博客网页的源码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="简单介绍在Android中可以用WebView控件来显示网页内容，也可以用来自己设计自己的浏览器。 实例以下是使用WebView简单显示个人博客网页的源码 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/webview_goback.jpg">
 <meta property="og:image" content="http://yoursite.com/images/webview_forward.jpg">
-<meta property="og:updated_time" content="2016-03-28T03:06:13.000Z">
+<meta property="article:published_time" content="2015-08-18T11:24:24.000Z">
+<meta property="article:modified_time" content="2016-03-28T03:06:13.000Z">
+<meta property="article:author" content="Carlos">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="控件">
+<meta property="article:tag" content="网络编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android网络之WebView显示网页">
-<meta name="twitter:description" content="简单介绍在Android中可以用WebView控件来显示网页内容，也可以用来自己设计自己的浏览器。 实例以下是使用WebView简单显示个人博客网页的源码123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566">
 <meta name="twitter:image" content="http://yoursite.com/images/webview_goback.jpg">
 
     
@@ -37,14 +39,16 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    
+<link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr">
+
+    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
 
 
 </head>
-</html>
+
   <body>
     <header>
       
@@ -107,13 +111,14 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="简单介绍">简单介绍</h1><p>在Android中可以用WebView控件来显示网页内容，也可以用来自己设计自己的浏览器。</p>
-<h1 id="实例">实例</h1><p>以下是使用WebView简单显示个人博客网页的源码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.webview;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.annotation.SuppressLint;</span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebSettings;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebView;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebViewClient;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.EditText;</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> EditText editText;</span><br><span class="line">	<span class="keyword">private</span> Button enter;</span><br><span class="line">	<span class="keyword">private</span> WebView webView;</span><br><span class="line">	<span class="keyword">private</span> Button goBack;</span><br><span class="line">	<span class="keyword">private</span> Button goFoward;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		editText = getViewById(R.id.editText);</span><br><span class="line">		enter = getViewById(R.id.enter);</span><br><span class="line">		webView = getViewById(R.id.webView1);</span><br><span class="line">		goBack = getViewById(R.id.goBack);</span><br><span class="line">		goFoward = getViewById(R.id.goFoward);</span><br><span class="line">		enter.setOnClickListener(listener);</span><br><span class="line">		goBack.setOnClickListener(listener);</span><br><span class="line">		goFoward.setOnClickListener(listener);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">loadWebView</span><span class="params">(<span class="keyword">final</span> String url)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">new</span> Thread() &#123;</span><br><span class="line">			<span class="meta">@SuppressLint</span>(<span class="string">"SetJavaScriptEnabled"</span>)</span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				webView.loadUrl(url);</span><br><span class="line">				<span class="comment">// 启用支持JavaScript</span></span><br><span class="line">				WebSettings settings = webView.getSettings();</span><br><span class="line">				settings.setJavaScriptEnabled(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开</span></span><br><span class="line">				webView.setWebViewClient(<span class="keyword">new</span> WebViewClient() &#123;</span><br><span class="line">					<span class="meta">@Override</span></span><br><span class="line">					<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view,</span></span></span><br><span class="line"><span class="function"><span class="params">							String url)</span> </span>&#123;</span><br><span class="line">						view.loadUrl(url);</span><br><span class="line">						<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;.start();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	OnClickListener listener = <span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View arg0)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">switch</span> (arg0.getId()) &#123;</span><br><span class="line">			<span class="keyword">case</span> R.id.enter:</span><br><span class="line">				loadWebView(editText.getText().toString());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> R.id.goBack:</span><br><span class="line">				webView.goBack();<span class="comment">// 后退，返回上一个页面</span></span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> R.id.goFoward:</span><br><span class="line">				webView.goForward();<span class="comment">// 前进，返回后面一个页面</span></span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	&lt;T extends View&gt; <span class="function">T <span class="title">getViewById</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (T) findViewById(id);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassCastException e) &#123;</span><br><span class="line">			Log.e(<span class="string">"MainActivity"</span>, <span class="string">"Could not cast View to create class."</span>, e);</span><br><span class="line">			<span class="keyword">throw</span> e;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行后在模拟器中显示的结果<br>加载和点击后退键显示的结果<br><img src="/images/webview_goback.jpg" alt><br>点击一个页面后后退然后再点击前进页面显示的结果<br><img src="/images/webview_forward.jpg" alt></p>
+		<h1 id="简单介绍"><a href="#简单介绍" class="headerlink" title="简单介绍"></a>简单介绍</h1><p>在Android中可以用WebView控件来显示网页内容，也可以用来自己设计自己的浏览器。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><p>以下是使用WebView简单显示个人博客网页的源码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.webview;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.annotation.SuppressLint;</span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebSettings;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebView;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebViewClient;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.EditText;</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">Activity</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> EditText editText;</span><br><span class="line">	<span class="keyword">private</span> Button enter;</span><br><span class="line">	<span class="keyword">private</span> WebView webView;</span><br><span class="line">	<span class="keyword">private</span> Button goBack;</span><br><span class="line">	<span class="keyword">private</span> Button goFoward;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">		<span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		editText = getViewById(R.id.editText);</span><br><span class="line">		enter = getViewById(R.id.enter);</span><br><span class="line">		webView = getViewById(R.id.webView1);</span><br><span class="line">		goBack = getViewById(R.id.goBack);</span><br><span class="line">		goFoward = getViewById(R.id.goFoward);</span><br><span class="line">		enter.setOnClickListener(listener);</span><br><span class="line">		goBack.setOnClickListener(listener);</span><br><span class="line">		goFoward.setOnClickListener(listener);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">void</span> <span class="title function_">loadWebView</span><span class="params">(<span class="keyword">final</span> String url)</span> &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">new</span> <span class="title class_">Thread</span>() &#123;</span><br><span class="line">			<span class="meta">@SuppressLint(&quot;SetJavaScriptEnabled&quot;)</span></span><br><span class="line">			<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">				webView.loadUrl(url);</span><br><span class="line">				<span class="comment">// 启用支持JavaScript</span></span><br><span class="line">				<span class="type">WebSettings</span> <span class="variable">settings</span> <span class="operator">=</span> webView.getSettings();</span><br><span class="line">				settings.setJavaScriptEnabled(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开</span></span><br><span class="line">				webView.setWebViewClient(<span class="keyword">new</span> <span class="title class_">WebViewClient</span>() &#123;</span><br><span class="line">					<span class="meta">@Override</span></span><br><span class="line">					<span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">shouldOverrideUrlLoading</span><span class="params">(WebView view,</span></span><br><span class="line"><span class="params">							String url)</span> &#123;</span><br><span class="line">						view.loadUrl(url);</span><br><span class="line">						<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;.start();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">OnClickListener</span> <span class="variable">listener</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OnClickListener</span>() &#123;</span><br><span class="line"></span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View arg0)</span> &#123;</span><br><span class="line">			<span class="keyword">switch</span> (arg0.getId()) &#123;</span><br><span class="line">			<span class="keyword">case</span> R.id.enter:</span><br><span class="line">				loadWebView(editText.getText().toString());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> R.id.goBack:</span><br><span class="line">				webView.goBack();<span class="comment">// 后退，返回上一个页面</span></span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> R.id.goFoward:</span><br><span class="line">				webView.goForward();<span class="comment">// 前进，返回后面一个页面</span></span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">	&lt;T <span class="keyword">extends</span> <span class="title class_">View</span>&gt; T <span class="title function_">getViewById</span><span class="params">(<span class="type">int</span> id)</span> &#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> (T) findViewById(id);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassCastException e) &#123;</span><br><span class="line">			Log.e(<span class="string">&quot;MainActivity&quot;</span>, <span class="string">&quot;Could not cast View to create class.&quot;</span>, e);</span><br><span class="line">			<span class="keyword">throw</span> e;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行后在模拟器中显示的结果<br>加载和点击后退键显示的结果<br><img src="/images/webview_goback.jpg"><br>点击一个页面后后退然后再点击前进页面显示的结果<br><img src="/images/webview_forward.jpg"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -121,7 +126,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Android网络编程/">Android网络编程</a>
+  <a class="article-category-link" href="/categories/Android%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">Android网络编程</a>
 </div>
 
 
@@ -192,7 +197,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/08/18/Android/Android网络之WebView显示网页/" data-title="Android网络之WebView显示网页" data-url="http://yoursite.com/2015/08/18/Android/Android网络之WebView显示网页/"></div>
+	<div class="ds-thread" data-thread-key="2015/08/18/Android/Android网络之WebView显示网页/" data-title="Android网络之WebView显示网页" data-url="http://yoursite.com/2015/08/18/Android/Android%E7%BD%91%E7%BB%9C%E4%B9%8BWebView%E6%98%BE%E7%A4%BA%E7%BD%91%E9%A1%B5/"></div>
 </section>
 
 
@@ -202,7 +207,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
  
   </div>
 
@@ -264,6 +269,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
 		  
 		
@@ -321,19 +330,19 @@
 			
 		
 			
-				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Xposed/" title="Xposed">Xposed<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
@@ -357,19 +366,19 @@
 			
 		
 			
-				<li><a href="/tags/框架/" title="框架">框架<sup>1</sup></a></li>
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
+				<li><a href="/tags/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -443,7 +452,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		

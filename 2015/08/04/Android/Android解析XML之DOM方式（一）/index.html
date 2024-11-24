@@ -1,7 +1,7 @@
 
  <!DOCTYPE HTML>
 <html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
   <meta charset="UTF-8">
   
     <title>Android解析XML之DOM方式（一） | Carlos</title>
@@ -11,19 +11,20 @@
     
 
     
-    <meta name="description" content="说明XML是一种常用的数据格式，在Android中一般常用DOM，SAX，PULL三种方式解析。以下分别介绍这三种解析方法的使用，个人觉得使用PULL方式较为简单，本篇先介绍DOM方式解析XML数据。 #实例我们可以在项目自带的assets文件夹中新建一个xml文件保存xml数据以供解析,以下是我在assets文件夹下建的userinfo.xml。1234567891011&amp;lt;?xml ver">
-<meta name="keywords" content="Android,数据格式">
+    <meta name="description" content="说明XML是一种常用的数据格式，在Android中一般常用DOM，SAX，PULL三种方式解析。以下分别介绍这三种解析方法的使用，个人觉得使用PULL方式较为简单，本篇先介绍DOM方式解析XML数据。#实例我们可以在项目自带的assets文件夹中新建一个xml文件保存xml数据以供解析,以下是我在assets文件夹下建的userinfo.xml。 1234567891011&lt;?xml ver">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android解析XML之DOM方式（一）">
-<meta property="og:url" content="http://yoursite.com/2015/08/04/Android/Android解析XML之DOM方式（一）/index.html">
+<meta property="og:url" content="http://yoursite.com/2015/08/04/Android/Android%E8%A7%A3%E6%9E%90XML%E4%B9%8BDOM%E6%96%B9%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="Carlos">
-<meta property="og:description" content="说明XML是一种常用的数据格式，在Android中一般常用DOM，SAX，PULL三种方式解析。以下分别介绍这三种解析方法的使用，个人觉得使用PULL方式较为简单，本篇先介绍DOM方式解析XML数据。 #实例我们可以在项目自带的assets文件夹中新建一个xml文件保存xml数据以供解析,以下是我在assets文件夹下建的userinfo.xml。1234567891011&amp;lt;?xml ver">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:description" content="说明XML是一种常用的数据格式，在Android中一般常用DOM，SAX，PULL三种方式解析。以下分别介绍这三种解析方法的使用，个人觉得使用PULL方式较为简单，本篇先介绍DOM方式解析XML数据。#实例我们可以在项目自带的assets文件夹中新建一个xml文件保存xml数据以供解析,以下是我在assets文件夹下建的userinfo.xml。 1234567891011&lt;?xml ver">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/xml_parse_dom.png">
-<meta property="og:updated_time" content="2016-03-28T03:06:27.000Z">
+<meta property="article:published_time" content="2015-08-04T01:40:44.000Z">
+<meta property="article:modified_time" content="2016-03-28T03:06:27.000Z">
+<meta property="article:author" content="Carlos">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="数据格式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android解析XML之DOM方式（一）">
-<meta name="twitter:description" content="说明XML是一种常用的数据格式，在Android中一般常用DOM，SAX，PULL三种方式解析。以下分别介绍这三种解析方法的使用，个人觉得使用PULL方式较为简单，本篇先介绍DOM方式解析XML数据。 #实例我们可以在项目自带的assets文件夹中新建一个xml文件保存xml数据以供解析,以下是我在assets文件夹下建的userinfo.xml。1234567891011&amp;lt;?xml ver">
 <meta name="twitter:image" content="http://yoursite.com/images/xml_parse_dom.png">
 
     
@@ -36,14 +37,16 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css">
+    
+<link rel="stylesheet" href="/css/style.css">
 
 
-    <meta name="baidu-site-verification" content="ZXZX44IZdr">
+
+    <meta name="baidu-site-verification" content="ZXZX44IZdr" />
 
 
 </head>
-</html>
+
   <body>
     <header>
       
@@ -106,14 +109,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#说明"><span class="toc-number">1.</span> <span class="toc-text">说明</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">1.</span> <span class="toc-text">说明</span></a></li></ol>
 		
 		</div>
 		
-		<h1 id="说明">说明</h1><p>XML是一种常用的数据格式，在Android中一般常用DOM，SAX，PULL三种方式解析。以下分别介绍这三种解析方法的使用，个人觉得使用PULL方式较为简单，本篇先介绍DOM方式解析XML数据。</p>
-<p>#实例<br>我们可以在项目自带的assets文件夹中新建一个xml文件保存xml数据以供解析,以下是我在assets文件夹下建的userinfo.xml。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">userinfo</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">username</span>&gt;</span>Carlos<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>21<span class="tag">&lt;/<span class="name">age</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">userinfo</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">userinfo</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">username</span>&gt;</span>Jack<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>19<span class="tag">&lt;/<span class="name">age</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">userinfo</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>Dom解析类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.xml;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.xml.parsers.DocumentBuilder;</span><br><span class="line"><span class="keyword">import</span> javax.xml.parsers.DocumentBuilderFactory;</span><br><span class="line"><span class="keyword">import</span> javax.xml.parsers.ParserConfigurationException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Document;</span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Element;</span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Node;</span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.NodeList;</span><br><span class="line"><span class="keyword">import</span> org.xml.sax.SAXException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DomParseXml</span> <span class="keyword">extends</span> <span class="title">Activity</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		</span><br><span class="line">		parseXml();</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function">List&lt;UserInfo&gt; <span class="title">parseXml</span><span class="params">()</span></span>&#123;</span><br><span class="line">		List&lt;UserInfo&gt; infos=<span class="keyword">new</span> ArrayList&lt;UserInfo&gt;();</span><br><span class="line">		DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//获取实例</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			DocumentBuilder builder=factory.newDocumentBuilder();</span><br><span class="line">			<span class="comment">//打开,并加载XML文件到输入流</span></span><br><span class="line">			InputStream inputStream=getResources().getAssets().open(<span class="string">"userinfo.xml"</span>);</span><br><span class="line">			<span class="comment">//将输入流的数据解析之后放到Document对象中</span></span><br><span class="line">			Document document=builder.parse(inputStream);</span><br><span class="line">			<span class="comment">//使用getDocumentElement()方法获取根节点</span></span><br><span class="line">			Element root=document.getDocumentElement();</span><br><span class="line">			<span class="comment">//获取root节点下面的userinfo节点</span></span><br><span class="line">			NodeList nodes=root.getElementsByTagName(<span class="string">"userinfo"</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nodes.getLength();i++)&#123;</span><br><span class="line">				<span class="comment">//创建Userinfo实例</span></span><br><span class="line">				UserInfo info=<span class="keyword">new</span> UserInfo();</span><br><span class="line">				<span class="comment">//获取userinfo元素节点</span></span><br><span class="line">				Node item=nodes.item(i);</span><br><span class="line">				NodeList list=item.getChildNodes();</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;list.getLength();j++)&#123;</span><br><span class="line">					Node node=list.item(j);</span><br><span class="line">					String nodeName=node.getNodeName();</span><br><span class="line">					<span class="keyword">if</span> (nodeName.equals(<span class="string">"username"</span>)) &#123;</span><br><span class="line">						info.setUsername(node.getFirstChild().getNodeValue());</span><br><span class="line">						Log.i(<span class="string">"userinfo"</span>, node.getFirstChild().getNodeValue());</span><br><span class="line">						</span><br><span class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span> (nodeName.equals(<span class="string">"age"</span>)) &#123;</span><br><span class="line">						info.setAge(node.getFirstChild().getNodeValue());</span><br><span class="line">						Log.i(<span class="string">"userinfo"</span>, node.getFirstChild().getNodeValue());</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				infos.add(info);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ParserConfigurationException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (SAXException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> infos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Logcat日志中打印出的结果<br><img src="/images/xml_parse_dom.png" alt></p>
+		<h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>XML是一种常用的数据格式，在Android中一般常用DOM，SAX，PULL三种方式解析。以下分别介绍这三种解析方法的使用，个人觉得使用PULL方式较为简单，本篇先介绍DOM方式解析XML数据。<br>#实例<br>我们可以在项目自带的assets文件夹中新建一个xml文件保存xml数据以供解析,以下是我在assets文件夹下建的userinfo.xml。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">userinfo</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">username</span>&gt;</span>Carlos<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>21<span class="tag">&lt;/<span class="name">age</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">userinfo</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">userinfo</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">username</span>&gt;</span>Jack<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">age</span>&gt;</span>19<span class="tag">&lt;/<span class="name">age</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">userinfo</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Dom解析类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.xml;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.xml.parsers.DocumentBuilder;</span><br><span class="line"><span class="keyword">import</span> javax.xml.parsers.DocumentBuilderFactory;</span><br><span class="line"><span class="keyword">import</span> javax.xml.parsers.ParserConfigurationException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Document;</span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Element;</span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.Node;</span><br><span class="line"><span class="keyword">import</span> org.w3c.dom.NodeList;</span><br><span class="line"><span class="keyword">import</span> org.xml.sax.SAXException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DomParseXml</span> <span class="keyword">extends</span> <span class="title class_">Activity</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">		<span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		</span><br><span class="line">		parseXml();</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	List&lt;UserInfo&gt; <span class="title function_">parseXml</span><span class="params">()</span>&#123;</span><br><span class="line">		List&lt;UserInfo&gt; infos=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;UserInfo&gt;();</span><br><span class="line">		DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//获取实例</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			DocumentBuilder builder=factory.newDocumentBuilder();</span><br><span class="line">			<span class="comment">//打开,并加载XML文件到输入流</span></span><br><span class="line">			InputStream inputStream=getResources().getAssets().open(<span class="string">&quot;userinfo.xml&quot;</span>);</span><br><span class="line">			<span class="comment">//将输入流的数据解析之后放到Document对象中</span></span><br><span class="line">			Document document=builder.parse(inputStream);</span><br><span class="line">			<span class="comment">//使用getDocumentElement()方法获取根节点</span></span><br><span class="line">			Element root=document.getDocumentElement();</span><br><span class="line">			<span class="comment">//获取root节点下面的userinfo节点</span></span><br><span class="line">			NodeList nodes=root.getElementsByTagName(<span class="string">&quot;userinfo&quot;</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;nodes.getLength();i++)&#123;</span><br><span class="line">				<span class="comment">//创建Userinfo实例</span></span><br><span class="line">				UserInfo info=<span class="keyword">new</span> <span class="title class_">UserInfo</span>();</span><br><span class="line">				<span class="comment">//获取userinfo元素节点</span></span><br><span class="line">				Node item=nodes.item(i);</span><br><span class="line">				NodeList list=item.getChildNodes();</span><br><span class="line">				<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;list.getLength();j++)&#123;</span><br><span class="line">					Node node=list.item(j);</span><br><span class="line">					String nodeName=node.getNodeName();</span><br><span class="line">					<span class="keyword">if</span> (nodeName.equals(<span class="string">&quot;username&quot;</span>)) &#123;</span><br><span class="line">						info.setUsername(node.getFirstChild().getNodeValue());</span><br><span class="line">						Log.i(<span class="string">&quot;userinfo&quot;</span>, node.getFirstChild().getNodeValue());</span><br><span class="line">						</span><br><span class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span> (nodeName.equals(<span class="string">&quot;age&quot;</span>)) &#123;</span><br><span class="line">						info.setAge(node.getFirstChild().getNodeValue());</span><br><span class="line">						Log.i(<span class="string">&quot;userinfo&quot;</span>, node.getFirstChild().getNodeValue());</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				infos.add(info);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (ParserConfigurationException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (SAXException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> infos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Logcat日志中打印出的结果<br><img src="/images/xml_parse_dom.png"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -121,7 +125,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Android数据格式/">Android数据格式</a>
+  <a class="article-category-link" href="/categories/Android%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F/">Android数据格式</a>
 </div>
 
 
@@ -192,7 +196,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/08/04/Android/Android解析XML之DOM方式（一）/" data-title="Android解析XML之DOM方式（一）" data-url="http://yoursite.com/2015/08/04/Android/Android解析XML之DOM方式（一）/"></div>
+	<div class="ds-thread" data-thread-key="2015/08/04/Android/Android解析XML之DOM方式（一）/" data-title="Android解析XML之DOM方式（一）" data-url="http://yoursite.com/2015/08/04/Android/Android%E8%A7%A3%E6%9E%90XML%E4%B9%8BDOM%E6%96%B9%E5%BC%8F%EF%BC%88%E4%B8%80%EF%BC%89/"></div>
 </section>
 
 
@@ -202,7 +206,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#说明"><span class="toc-number">1.</span> <span class="toc-text">说明</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">1.</span> <span class="toc-text">说明</span></a></li></ol>
  
   </div>
 
@@ -264,6 +268,10 @@
 		  
 		
 		  
+			<li><a href="/categories/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
 		  
 		
@@ -321,19 +329,19 @@
 			
 		
 			
-				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Xposed/" title="Xposed">Xposed<sup>3</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
 			
 		
 			
@@ -357,19 +365,19 @@
 			
 		
 			
-				<li><a href="/tags/框架/" title="框架">框架<sup>1</sup></a></li>
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/第三方SDK/" title="第三方SDK">第三方SDK<sup>1</sup></a></li>
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/滑动/" title="滑动">滑动<sup>1</sup></a></li>
+				<li><a href="/tags/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -443,7 +451,7 @@
 		
 
 		<p class="copyright">
-		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2022 
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
 		
 		<a href="/me" target="_blank" title="Carlos">Carlos</a>
 		
