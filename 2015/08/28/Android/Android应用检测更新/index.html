@@ -1,0 +1,614 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>Android应用检测更新 | Carlos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Carlos">
+    
+
+    
+    <meta name="description" content="简单介绍在现在的大部分Android应用中，检测更新是一个很重要的功能。当有新的版本时推送给用户或让用户自己手动检测更新，或者放到Android应用市场上让提示更新。本篇介绍怎么实现手动检测更新。关于推送更新在以后篇章中介绍推送时可以用推送功能提醒更新。 实例本章介绍的检测更新是通过对比客户端和服务器之间的版本号来实现。具体方式有很多种，这里就介绍比较常见的将版本信息写在一个XML文档上，客户端通">
+<meta name="keywords" content="Android,检测更新,上传下载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android应用检测更新">
+<meta property="og:url" content="http://yoursite.com/2015/08/28/Android/Android应用检测更新/index.html">
+<meta property="og:site_name" content="Carlos">
+<meta property="og:description" content="简单介绍在现在的大部分Android应用中，检测更新是一个很重要的功能。当有新的版本时推送给用户或让用户自己手动检测更新，或者放到Android应用市场上让提示更新。本篇介绍怎么实现手动检测更新。关于推送更新在以后篇章中介绍推送时可以用推送功能提醒更新。 实例本章介绍的检测更新是通过对比客户端和服务器之间的版本号来实现。具体方式有很多种，这里就介绍比较常见的将版本信息写在一个XML文档上，客户端通">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/check_update_xml.png">
+<meta property="og:image" content="http://yoursite.com/images/check_update_main.png">
+<meta property="og:image" content="http://yoursite.com/images/check_update_download.png">
+<meta property="og:image" content="http://yoursite.com/images/check_update_install.png">
+<meta property="og:updated_time" content="2016-03-28T03:06:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android应用检测更新">
+<meta name="twitter:description" content="简单介绍在现在的大部分Android应用中，检测更新是一个很重要的功能。当有新的版本时推送给用户或让用户自己手动检测更新，或者放到Android应用市场上让提示更新。本篇介绍怎么实现手动检测更新。关于推送更新在以后篇章中介绍推送时可以用推送功能提醒更新。 实例本章介绍的检测更新是通过对比客户端和服务器之间的版本号来实现。具体方式有很多种，这里就介绍比较常见的将版本信息写在一个XML文档上，客户端通">
+<meta name="twitter:image" content="http://yoursite.com/images/check_update_xml.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/xiaobudian.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
+
+
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/xiaobudian.jpg" alt="Carlos" title="Carlos"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Carlos">Carlos</a></h1>
+				<h2 class="blog-motto">没有什么到不了的地方，没有什么上不了的天堂，相信就有力量。不骄不躁，不卑不亢，不屈不挠。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/me">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+						
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/28/Android/Android应用检测更新/" title="Android应用检测更新" itemprop="url">Android应用检测更新</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-28T11:58:43.000Z" itemprop="datePublished"> 发表于 2015-08-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="简单介绍">简单介绍</h1><p>在现在的大部分Android应用中，检测更新是一个很重要的功能。当有新的版本时推送给用户或让用户自己手动检测更新，或者放到Android应用市场上让提示更新。本篇介绍怎么实现手动检测更新。关于推送更新在以后篇章中介绍推送时可以用推送功能提醒更新。</p>
+<h1 id="实例">实例</h1><p>本章介绍的检测更新是通过对比客户端和服务器之间的版本号来实现。具体方式有很多种，这里就介绍比较常见的将版本信息写在一个XML文档上，客户端通过读取XML文档上的信息来对比，如果XML文档上有比客户端高的版本，则客户端通过XML文档提供的下载链接下载安装最新的APK。<br>新建一个Android项目CheckUpdate<br>UpdateInfoParser解析版本信息的XML文档工具类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.checkupdate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParser;</span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParserException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.util.Xml;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 解析版本信息</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> xiaobudian</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UpdateInfoParser</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> String TAG=<span class="string">"Version"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;UpdateInfo&gt; <span class="title">getUpdateInfo</span><span class="params">(InputStream inputStream)</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">		List&lt;UpdateInfo&gt; infos=<span class="keyword">null</span>;</span><br><span class="line">		UpdateInfo info=<span class="keyword">null</span>;</span><br><span class="line">		</span><br><span class="line">		XmlPullParser parser=Xml.newPullParser();</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			parser.setInput(inputStream, <span class="string">"utf-8"</span>);</span><br><span class="line">			<span class="keyword">int</span> type=parser.getEventType();</span><br><span class="line">			Log.i(TAG, <span class="string">"服务器版本信息"</span>);</span><br><span class="line">			<span class="keyword">while</span>(type!=XmlPullParser.END_DOCUMENT)&#123;</span><br><span class="line">				<span class="keyword">switch</span> (type) &#123;</span><br><span class="line">				<span class="keyword">case</span> XmlPullParser.START_DOCUMENT:</span><br><span class="line">					infos=<span class="keyword">new</span> ArrayList&lt;UpdateInfo&gt;();</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> XmlPullParser.START_TAG:</span><br><span class="line">					<span class="keyword">if</span> (parser.getName().equals(<span class="string">"information"</span>)) &#123;</span><br><span class="line">						info=<span class="keyword">new</span> UpdateInfo();</span><br><span class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"versionCode"</span>.equals(parser.getName())) &#123;</span><br><span class="line">						info.setVersionCode(Integer.valueOf(parser.nextText()));</span><br><span class="line">						Log.i(TAG, info.getVersionCode()+<span class="string">""</span>);</span><br><span class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"versionName"</span>.equals(parser.getName())) &#123;</span><br><span class="line">						info.setVersionName(parser.nextText());</span><br><span class="line">						Log.i(TAG, info.getVersionName());</span><br><span class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"apkUrl"</span>.equals(parser.getName())) &#123;</span><br><span class="line">						info.setApkUrl(parser.nextText());</span><br><span class="line">						Log.i(TAG, info.getApkUrl());</span><br><span class="line">					&#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"description"</span>.equals(parser.getName())) &#123;</span><br><span class="line">						info.setDescription(parser.nextText());</span><br><span class="line">						Log.i(TAG, info.getDescription());</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">case</span> XmlPullParser.END_TAG:</span><br><span class="line">					<span class="keyword">if</span> (parser.getName().equals(<span class="string">"information"</span>)) &#123;</span><br><span class="line">						infos.add(info);</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				<span class="keyword">default</span>:</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				type=parser.next();</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125; <span class="keyword">catch</span> (XmlPullParserException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> infos;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>UpdateInfo类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.checkupdate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UpdateInfo</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> versionCode;</span><br><span class="line">	<span class="keyword">private</span> String versionName;</span><br><span class="line">	<span class="keyword">private</span> String apkUrl;</span><br><span class="line">	<span class="keyword">private</span> String description;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getVersionCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> versionCode;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setVersionCode</span><span class="params">(<span class="keyword">int</span> versionCode)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.versionCode = versionCode;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getVersionName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> versionName;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setVersionName</span><span class="params">(String versionName)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.versionName = versionName;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getApkUrl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> apkUrl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setApkUrl</span><span class="params">(String apkUrl)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.apkUrl = apkUrl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getDescription</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> description;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDescription</span><span class="params">(String description)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.description = description;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>MainActivity主类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.checkupdate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</span><br><span class="line"><span class="keyword">import</span> java.net.MalformedURLException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.annotation.SuppressLint;</span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.app.AlertDialog;</span><br><span class="line"><span class="keyword">import</span> android.app.AlertDialog.Builder;</span><br><span class="line"><span class="keyword">import</span> android.content.DialogInterface;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageInfo;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageManager;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageManager.NameNotFoundException;</span><br><span class="line"><span class="keyword">import</span> android.net.Uri;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Environment;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> TextView tv_current_version;</span><br><span class="line">	<span class="keyword">private</span> TextView tv_check_version;</span><br><span class="line">	<span class="keyword">private</span> Button b_check_update;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> versionCode;</span><br><span class="line">	<span class="keyword">private</span> String versionName;</span><br><span class="line">	<span class="keyword">private</span> List&lt;UpdateInfo&gt; infos;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> temp=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> position = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        </span><br><span class="line">        tv_current_version=getViewById(R.id.tv_current_version);</span><br><span class="line">        tv_check_version=getViewById(R.id.tv_check_version);</span><br><span class="line">        b_check_update=getViewById(R.id.b_check_update);</span><br><span class="line">        </span><br><span class="line">        getCurrentVersion();</span><br><span class="line">        b_check_update.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View arg0)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">new</span> Thread(runnable).start();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取当前版本</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getCurrentVersion</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	PackageManager manager=getPackageManager();</span><br><span class="line">    	<span class="keyword">try</span> &#123;</span><br><span class="line">			PackageInfo info=manager.getPackageInfo(getPackageName(), <span class="number">0</span>);</span><br><span class="line">			versionCode=info.versionCode;</span><br><span class="line">			versionName=info.versionName;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (NameNotFoundException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">    	tv_current_version.setText(<span class="string">"当前版本是："</span>+versionName);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Runnable runnable=<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">		</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			get();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 检测是否有新版本</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		 String path=<span class="string">"http://xbdcc.github.io/tools/checkUpdate.xml"</span>;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				URL url = <span class="keyword">new</span> URL(path);</span><br><span class="line">				HttpURLConnection connection=(HttpURLConnection) url.openConnection();</span><br><span class="line">				connection.setConnectTimeout(<span class="number">10</span>*<span class="number">000</span>);<span class="comment">//设置超时时间为10秒</span></span><br><span class="line">				</span><br><span class="line">				InputStream inputStream=connection.getInputStream();</span><br><span class="line">				infos=UpdateInfoParser.getUpdateInfo(inputStream);</span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;infos.size();i++)&#123;</span><br><span class="line">					<span class="keyword">int</span> j=infos.get(i).getVersionCode();</span><br><span class="line">					<span class="keyword">if</span> (j&gt;temp) &#123;</span><br><span class="line">						temp=j;</span><br><span class="line">						position=i;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> (temp&gt;versionCode) &#123;</span><br><span class="line">					Log.i(<span class="string">"Version"</span>, <span class="string">"有新的版本"</span>+infos.get(position).getVersionName());</span><br><span class="line">					handler.sendEmptyMessage(<span class="number">1</span>);</span><br><span class="line">				&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">					Log.i(<span class="string">"Version"</span>, <span class="string">"当前已是最新版本"</span>);</span><br><span class="line">					handler.sendEmptyMessage(<span class="number">0</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">			&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">				handler.sendEmptyMessage(<span class="number">4</span>);</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				handler.sendEmptyMessage(<span class="number">5</span>);</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">    </span><br><span class="line">    Handler handler=<span class="keyword">new</span> Handler()&#123;</span><br><span class="line">    	<span class="meta">@SuppressLint</span>(<span class="string">"ShowToast"</span>) <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(android.os.Message msg)</span> </span>&#123;</span><br><span class="line">    		<span class="keyword">switch</span> (msg.what) &#123;</span><br><span class="line">    		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">    			tv_check_version.setText(<span class="string">"当前已是最新版本"</span>);</span><br><span class="line">    			<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">				tv_check_version.setText(<span class="string">"服务器有新版本:"</span>+infos.get(position).getVersionName());</span><br><span class="line">				showDialog();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">				tv_check_version.setText(<span class="string">"下载..."</span>+msg.arg1+<span class="string">"%"</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">				Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"下载完成"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">				InstallApk();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">				Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"网址有误"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">				Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"IO Exception"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">    	&#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 是否下载安装对话框</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">showDialog</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	AlertDialog.Builder builder=<span class="keyword">new</span> Builder(<span class="keyword">this</span>);</span><br><span class="line">    	builder.setTitle(<span class="string">"提示"</span>);</span><br><span class="line">    	builder.setMessage(<span class="string">"检测到新版本，是否更新\n"</span>+<span class="string">"更新内容为:"</span>+infos.get(position).getDescription());</span><br><span class="line">    	builder.setPositiveButton(<span class="string">"确定"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line">				Download();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">    	builder.setNegativeButton(<span class="string">"取消"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line">				dialog.dismiss();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">    	builder.create().show();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 下载APK</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Download</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	<span class="keyword">new</span> DownloadAsyncTask(MainActivity.<span class="keyword">this</span>, handler).execute(infos.get(position).getApkUrl());</span><br><span class="line">    	Toast.makeText(MainActivity.<span class="keyword">this</span>, infos.get(position).getApkUrl(), Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 安装APK</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">InstallApk</span><span class="params">()</span></span>&#123;</span><br><span class="line">    	File file=<span class="keyword">new</span> File(Environment.getExternalStorageDirectory(),<span class="string">"xiaobudian.apk"</span>);</span><br><span class="line">    	Intent intent=<span class="keyword">new</span> Intent();</span><br><span class="line">    	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">    	intent.setAction(Intent.ACTION_VIEW);</span><br><span class="line">    	intent.setDataAndType(Uri.fromFile(file), <span class="string">"application/vnd.android.package-archive"</span>);</span><br><span class="line">    	startActivity(intent);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	&lt;T extends View&gt; <span class="function">T <span class="title">getViewById</span><span class="params">(<span class="keyword">int</span> id)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (T) findViewById(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>异步任务下载APK工具类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.carlos.checkupdate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.HttpURLConnection;</span><br><span class="line"><span class="keyword">import</span> java.net.MalformedURLException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.ProgressDialog;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.os.AsyncTask;</span><br><span class="line"><span class="keyword">import</span> android.os.Environment;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.Message;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DownloadAsyncTask</span> <span class="keyword">extends</span> <span class="title">AsyncTask</span>&lt;<span class="title">String</span>, <span class="title">Integer</span>, <span class="title">Void</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Context context;</span><br><span class="line">	<span class="keyword">private</span> Handler handler;</span><br><span class="line">	<span class="keyword">private</span> ProgressDialog dialog;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">DownloadAsyncTask</span><span class="params">(Context context, Handler handler)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.context = context;</span><br><span class="line">		<span class="keyword">this</span>.handler = handler;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 显示下载进度条</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPreExecute</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		dialog=<span class="keyword">new</span> ProgressDialog(context);</span><br><span class="line">		dialog.setMax(<span class="number">100</span>);</span><br><span class="line">		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);</span><br><span class="line">		dialog.setTitle(<span class="string">"下载进度"</span>);</span><br><span class="line">		dialog.show();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 后台下载APK</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> Void <span class="title">doInBackground</span><span class="params">(String... arg0)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			URL url=<span class="keyword">new</span> URL(arg0[<span class="number">0</span>]);</span><br><span class="line">			HttpURLConnection connection=(HttpURLConnection) url.openConnection();</span><br><span class="line">			connection.setConnectTimeout(<span class="number">10</span>*<span class="number">000</span>);</span><br><span class="line">			connection.connect();</span><br><span class="line">			InputStream inputStream=connection.getInputStream();</span><br><span class="line">			<span class="keyword">int</span> length=connection.getContentLength();</span><br><span class="line">			File file=<span class="keyword">new</span> File(Environment.getExternalStorageDirectory(),<span class="string">"xiaobudian.apk"</span>);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//如果文件存在就删除重新下载</span></span><br><span class="line">			<span class="keyword">if</span> (file.exists()) &#123;</span><br><span class="line">				Log.i(<span class="string">"Download"</span>, <span class="string">"删除文件成功"</span>);</span><br><span class="line">				file.delete();</span><br><span class="line">			&#125;</span><br><span class="line">			FileOutputStream outputStream=<span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">int</span> count=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">int</span> numread=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">byte</span>[] buffer=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">int</span> progress=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">int</span> lastprogress=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">				numread=inputStream.read(buffer);</span><br><span class="line">				count+=numread;</span><br><span class="line">				progress=(<span class="keyword">int</span>)(((<span class="keyword">float</span>)count/length)*<span class="number">100</span>);</span><br><span class="line">				Log.i(<span class="string">"Download---"</span>, <span class="string">"progress=="</span>+progress+<span class="string">" lastprogress=="</span>+lastprogress);</span><br><span class="line">				<span class="keyword">if</span> (progress&gt;=lastprogress+<span class="number">1</span>) &#123;</span><br><span class="line">					lastprogress=progress;</span><br><span class="line">					publishProgress(progress);</span><br><span class="line">					Message message=<span class="keyword">new</span> Message();</span><br><span class="line">					message.what=<span class="number">2</span>;</span><br><span class="line">					message.arg1=progress;</span><br><span class="line">					handler.sendMessage(message);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> (numread&lt;=<span class="number">0</span>) &#123;</span><br><span class="line">					handler.sendEmptyMessage(<span class="number">3</span>);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				outputStream.write(buffer, <span class="number">0</span>, numread);</span><br><span class="line">			&#125;</span><br><span class="line">			connection.disconnect();</span><br><span class="line">			outputStream.close();</span><br><span class="line">			inputStream.close();</span><br><span class="line">			</span><br><span class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">			handler.sendEmptyMessage(<span class="number">4</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			handler.sendEmptyMessage(<span class="number">5</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onProgressUpdate</span><span class="params">(Integer... values)</span> </span>&#123;</span><br><span class="line">		dialog.setProgress(values[<span class="number">0</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPostExecute</span><span class="params">(Void result)</span> </span>&#123;</span><br><span class="line">		dialog.dismiss();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>XML文档信息<br><img src="/images/check_update_xml.png" alt title="XML信息"><br>手机先安装1.0的版本然后使用检测更新下载1.1版本的安装包，点击检测更新按钮检测更新<br><img src="/images/check_update_main.png" alt title="检测更新对话框"><br>下载<br><img src="/images/check_update_download.png" alt title="下载"><br>下载完后自动安装<br><img src="/images/check_update_install.png" alt title="安装"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android上传下载/">Android上传下载</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/检测更新/">检测更新</a><a href="/tags/上传下载/">上传下载</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2049638" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/08/31/Android/Android网络之百度云推送的使用（一）/" title="Android网络之百度云推送的使用（一）">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Android网络之百度云推送的使用（一）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/08/24/Android/Android图片获取的几种方式/"  title="Android图片获取的几种方式">
+ <strong>下一篇：</strong><br/> 
+ <span>Android图片获取的几种方式
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/08/28/Android/Android应用检测更新/" data-title="Android应用检测更新" data-url="http://yoursite.com/2015/08/28/Android/Android应用检测更新/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简单介绍"><span class="toc-number">1.</span> <span class="toc-text">简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实例"><span class="toc-number">2.</span> <span class="toc-text">实例</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AI/" title="AI">AI<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android上传下载/" title="Android上传下载">Android上传下载<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android图片/" title="Android图片">Android图片<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android应用常用功能/" title="Android应用常用功能">Android应用常用功能<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android性能/" title="Android性能">Android性能<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android控件/" title="Android控件">Android控件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android数据格式/" title="Android数据格式">Android数据格式<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android源码/" title="Android源码">Android源码<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android第三方SDK及框架/" title="Android第三方SDK及框架">Android第三方SDK及框架<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android线程/" title="Android线程">Android线程<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android网络编程/" title="Android网络编程">Android网络编程<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android逆向/" title="Android逆向">Android逆向<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PS/" title="PS">PS<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络编程/" title="网络编程">网络编程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据格式/" title="数据格式">数据格式<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AI/" title="AI">AI<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xposed/" title="Xposed">Xposed<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://zjbztianya.github.io/" target="_blank" title="仗剑奔走天涯">仗剑奔走天涯</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://xbdcc.cn" target="_blank" title="小不点">小不点</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://mkblog.cn/" target="_blank" title="孟坤博客">孟坤博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Carlos. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/xiaobudian1994" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="https://www.douban.com/people/xbdcc" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:363465939@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2025 
+		
+		<a href="/me" target="_blank" title="Carlos">Carlos</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xbdcc"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+
+  </body>
+</html>

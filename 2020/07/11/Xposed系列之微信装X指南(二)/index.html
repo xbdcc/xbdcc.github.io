@@ -1,0 +1,709 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>Xposed系列之微信装X指南(二) | Carlos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Carlos">
+    
+
+    
+    <meta name="description" content="学习娱乐，分享下如何通过Xposed让自己的资产看起来实现了小目标，文章如果有纰漏欢迎指出改正 上篇文章传送门：Xposed系列之Demo上手指南及源码解析(一) 此篇代码仓库：https://github.com/xbdcc/CXposed  需求比如说每个人都有一个小目标，每天看看自己的目标会更有动力，那么现在实现”一个亿”的小目标，我们先从点击我的Tab开始，进入支付页面-钱包页面-零钱页">
+<meta name="keywords" content="Android,Xposed,逆向">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xposed系列之微信装X指南(二)">
+<meta property="og:url" content="http://yoursite.com/2020/07/11/Xposed系列之微信装X指南(二)/index.html">
+<meta property="og:site_name" content="Carlos">
+<meta property="og:description" content="学习娱乐，分享下如何通过Xposed让自己的资产看起来实现了小目标，文章如果有纰漏欢迎指出改正 上篇文章传送门：Xposed系列之Demo上手指南及源码解析(一) 此篇代码仓库：https://github.com/xbdcc/CXposed  需求比如说每个人都有一个小目标，每天看看自己的目标会更有动力，那么现在实现”一个亿”的小目标，我们先从点击我的Tab开始，进入支付页面-钱包页面-零钱页">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/wechat.gif">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/wechat_apk.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/jadx1.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/jadx2.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/monitor_view.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/monitor_method.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/trace_method.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/monitor_trace.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/trace_html.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/get_id.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/jadx3.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/wechat_pay1.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/octotree.jpg">
+<meta property="og:image" content="http://xbdcc.cn/image/CXposed/wechat/wechat_pay_method.jpg">
+<meta property="og:updated_time" content="2020-07-11T14:52:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Xposed系列之微信装X指南(二)">
+<meta name="twitter:description" content="学习娱乐，分享下如何通过Xposed让自己的资产看起来实现了小目标，文章如果有纰漏欢迎指出改正 上篇文章传送门：Xposed系列之Demo上手指南及源码解析(一) 此篇代码仓库：https://github.com/xbdcc/CXposed  需求比如说每个人都有一个小目标，每天看看自己的目标会更有动力，那么现在实现”一个亿”的小目标，我们先从点击我的Tab开始，进入支付页面-钱包页面-零钱页">
+<meta name="twitter:image" content="http://xbdcc.cn/image/CXposed/wechat/wechat.gif">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Carlos" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/xiaobudian.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+
+    <meta name="baidu-site-verification" content="ZXZX44IZdr">
+
+
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/xiaobudian.jpg" alt="Carlos" title="Carlos"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Carlos">Carlos</a></h1>
+				<h2 class="blog-motto">没有什么到不了的地方，没有什么上不了的天堂，相信就有力量。不骄不躁，不卑不亢，不屈不挠。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/me">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+						
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/07/11/Xposed系列之微信装X指南(二)/" title="Xposed系列之微信装X指南(二)" itemprop="url">Xposed系列之微信装X指南(二)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/me" title="Carlos" target="_blank" itemprop="author">Carlos</a>
+		
+  <p class="article-time">
+    <time datetime="2020-07-11T14:49:51.000Z" itemprop="datePublished"> 发表于 2020-07-11</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果"><span class="toc-number">2.</span> <span class="toc-text">结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Root相关"><span class="toc-number">3.1.</span> <span class="toc-text">Root相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反编译相关"><span class="toc-number">3.2.</span> <span class="toc-text">反编译相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hook分析相关"><span class="toc-number">3.3.</span> <span class="toc-text">Hook分析相关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#adb命令"><span class="toc-number">3.3.1.</span> <span class="toc-text">adb命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#monitor"><span class="toc-number">3.3.2.</span> <span class="toc-text">monitor</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再介绍三种方便查找id值的方法"><span class="toc-number">3.4.</span> <span class="toc-text">再介绍三种方便查找id值的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通过activity_top查看"><span class="toc-number">3.4.1.</span> <span class="toc-text">通过activity_top查看</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通过apk查看"><span class="toc-number">3.4.2.</span> <span class="toc-text">通过apk查看</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通过jadx查看"><span class="toc-number">3.4.3.</span> <span class="toc-text">通过jadx查看</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hook分析"><span class="toc-number">4.</span> <span class="toc-text">Hook分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析布局"><span class="toc-number">4.1.</span> <span class="toc-text">分析布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析支付页面MallIndexUI"><span class="toc-number">4.2.</span> <span class="toc-text">分析支付页面MallIndexUI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析钱包页面WalletBalanceManagerUI"><span class="toc-number">4.3.</span> <span class="toc-text">分析钱包页面WalletBalanceManagerUI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析零钱页面WalletBalanceManagerUI"><span class="toc-number">4.4.</span> <span class="toc-text">分析零钱页面WalletBalanceManagerUI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
+		
+		</div>
+		
+		<ul>
+<li>学习娱乐，分享下如何通过Xposed让自己的资产看起来实现了小目标，文章如果有纰漏欢迎指出改正</li>
+<li>上篇文章传送门：<a href="https://github.com/xbdcc/CXposed/blob/master/demo/README.md" target="_blank" rel="noopener">Xposed系列之Demo上手指南及源码解析(一)</a></li>
+<li>此篇代码仓库：<a href="https://github.com/xbdcc/CXposed" target="_blank" rel="noopener">https://github.com/xbdcc/CXposed</a></li>
+</ul>
+<h2 id="需求">需求</h2><p>比如说每个人都有一个小目标，每天看看自己的目标会更有动力，那么现在实现”一个亿”的小目标，我们先从点击我的Tab开始，<br>进入支付页面-钱包页面-零钱页面显示的金额都是<code>¥100000000.00</code></p>
+<h2 id="结果">结果</h2><p>最后代码实现的效果如下：</p>
+<p><img src="http://xbdcc.cn/image/CXposed/wechat/wechat.gif" alt></p>
+<p><a href="https://github.com/xbdcc/CXposed/blob/master/res/old/old_README.md" target="_blank" rel="noopener">旧版本实现效果</a></p>
+<h2 id="准备工作">准备工作</h2><h3 id="Root相关">Root相关</h3><ul>
+<li><a href="https://twrp.me/" target="_blank" rel="noopener">TWRP Recovery</a>：一款强大的第三方recovery，有着官方Recovery无法做到的功能，安装Magisk Manager需要用到</li>
+<li><a href="https://magiskmanager.com/" target="_blank" rel="noopener">Magisk Manager</a>：一款强大的刷Root工具，可以替代<code>SuperSU</code>进行root权限管理</li>
+</ul>
+<p>如果用VirtualXposed或太极或其他虚拟环境的Xposed则可以不用Root，如果用Xposed Installer则需要Root权限，<br>关于这三者可看上篇文章：<a href="https://github.com/xbdcc/CXposed/blob/master/demo/README.md" target="_blank" rel="noopener">Xposed系列之Demo上手指南及源码解析(一)</a></p>
+<h3 id="反编译相关">反编译相关</h3><ul>
+<li><a href="https://github.com/iBotPeaches/Apktool" target="_blank" rel="noopener">apktool</a>：主要用于反编译APK查看资源文件</li>
+<li><a href="https://github.com/pxb1988/dex2jar" target="_blank" rel="noopener">dex2jar</a>：反编译APK得到Java源代码Jar包</li>
+<li><a href="http://java-decompiler.github.io/" target="_blank" rel="noopener">jd-gui</a>：一般配合<code>dex2jar</code>使用，将其反编译得到的jar包拖进gui方便查看源码</li>
+<li><a href="https://github.com/skylot/jadx" target="_blank" rel="noopener">jadx</a>：功能强大的反编译工具，可以直接查看Java代码和资源文件等，同时支持查看Smali</li>
+</ul>
+<p>推荐使用jadx工具反编译，如从微信官网下载的<a href="https://dldir1.qq.com/weixin/android/weixin7016android1700.apk" target="_blank" rel="noopener">32位版本微信</a>，默认都是会下载上面<a href="https://dldir1.qq.com/weixin/android/weixin7016android1700_arm64.apk" target="_blank" rel="noopener"><code>weixin7016android1700_arm64.apk</code></a>，<br>如果下载arm64版本则有些x86架构的模拟器不支持微信就不能正常使用了，所以用32位主要是为了方便在模拟器上调试<br><img src="http://xbdcc.cn/image/CXposed/wechat/wechat_apk.jpg" alt><br>然后将下载下来的<a href="https://dldir1.qq.com/weixin/android/weixin7016android1700.apk" target="_blank" rel="noopener"><code>weixin7016android1700.apk</code></a>拖入JadxGUI中，反编译结果如下图：<br><img src="http://xbdcc.cn/image/CXposed/wechat/jadx1.jpg" alt><br>并且我们还可以另存为Gradle项目，在Android Studio或IDEA中查看，操作入口如下：<br><img src="http://xbdcc.cn/image/CXposed/wechat/jadx2.jpg" alt></p>
+<h3 id="Hook分析相关">Hook分析相关</h3><h4 id="adb命令">adb命令</h4><p>adb 命令可以参考<a href="https://github.com/xbdcc/CCommand，" target="_blank" rel="noopener">https://github.com/xbdcc/CCommand，</a> 这里简单介绍这里需要使用的：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb <span class="keyword">shell</span><span class="bash"> dumpsys activity top &gt; activity_top.txt</span></span><br></pre></td></tr></table></figure></p>
+<p>当然如果adb命令你已经很熟悉了想快捷输入也可以在环境变量中设置<code>alisa</code>，</p>
+<ul>
+<li>控制台中输入<code>vim ~/.bash_profile</code></li>
+<li><p>在其中加入一行设置<code>adb shell dumpsys activity top &gt; activity_top.txt</code>的别名为<code>activity_top</code>，如下：</p>
+<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alias</span> <span class="title">activity_top</span>=<span class="string">"adb shell dumpsys activity top &gt; activity_top.txt"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后按<code>esc</code>键，再输入<code>:wq</code>回车退出并保存</p>
+</li>
+<li>再输入<code>source ~/.bash_profile</code>使环境变量生效</li>
+<li>最后控制台直接输入<code>activity_top</code>回车就和刚刚一长串命令一样的效果了</li>
+</ul>
+<p>该命令可以输出当前Activity信息，如命令抓取的零钱页面Activity的信息如下：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line">TASK com.tencent.mm <span class="attribute">id</span>=184</span><br><span class="line">  ACTIVITY com.tencent.mm/.plugin.wallet.balance.ui.WalletBalanceManagerUI 1fcb6708 <span class="attribute">pid</span>=1326</span><br><span class="line">    Local Activity 27bbdf64 State:</span><br><span class="line">      <span class="attribute">mResumed</span>=<span class="literal">true</span> <span class="attribute">mStopped</span>=<span class="literal">false</span> <span class="attribute">mFinished</span>=<span class="literal">false</span></span><br><span class="line">      <span class="attribute">mLoadersStarted</span>=<span class="literal">true</span></span><br><span class="line">      <span class="attribute">mChangingConfigurations</span>=<span class="literal">false</span></span><br><span class="line">      mCurrentConfig=&#123;1.0 ?mcc?mnc zh_CN ?layoutDir sw360dp w360dp h622dp 480dpi nrml long<span class="built_in"> port </span>finger -keyb/v/h -nav/h s.5mThemeChanged = 0mThemeChangedFlags = 0mFlipFont = 0&#125;</span><br><span class="line">    Active Fragments <span class="keyword">in</span> 247455f2:</span><br><span class="line">      #0: ReportFragment&#123;22e48443 #0 android.arch.lifecycle.LifecycleDispatcher.report_fragment_tag&#125;</span><br><span class="line">        <span class="attribute">mFragmentId</span>=#0 <span class="attribute">mContainerId</span>=#0 <span class="attribute">mTag</span>=android.arch.lifecycle.LifecycleDispatcher.report_fragment_tag</span><br><span class="line">        <span class="attribute">mState</span>=5 <span class="attribute">mIndex</span>=0 <span class="attribute">mWho</span>=android:fragment:0 <span class="attribute">mBackStackNesting</span>=0</span><br><span class="line">        <span class="attribute">mAdded</span>=<span class="literal">true</span> <span class="attribute">mRemoving</span>=<span class="literal">false</span> <span class="attribute">mResumed</span>=<span class="literal">true</span> <span class="attribute">mFromLayout</span>=<span class="literal">false</span> <span class="attribute">mInLayout</span>=<span class="literal">false</span></span><br><span class="line">        <span class="attribute">mHidden</span>=<span class="literal">false</span> <span class="attribute">mDetached</span>=<span class="literal">false</span> <span class="attribute">mMenuVisible</span>=<span class="literal">true</span> <span class="attribute">mHasMenu</span>=<span class="literal">false</span></span><br><span class="line">        <span class="attribute">mRetainInstance</span>=<span class="literal">false</span> <span class="attribute">mRetaining</span>=<span class="literal">false</span> <span class="attribute">mUserVisibleHint</span>=<span class="literal">true</span></span><br><span class="line">        <span class="attribute">mFragmentManager</span>=FragmentManager&#123;247455f2 <span class="keyword">in</span> WalletBalanceManagerUI&#123;27bbdf64&#125;&#125;</span><br><span class="line">        <span class="attribute">mActivity</span>=com.tencent.mm.plugin.wallet.balance.ui.WalletBalanceManagerUI@27bbdf64</span><br><span class="line">        Child FragmentManager&#123;a6aeac0 <span class="keyword">in</span> ReportFragment&#123;22e48443&#125;&#125;:</span><br><span class="line">          FragmentManager misc state:</span><br><span class="line">            <span class="attribute">mActivity</span>=com.tencent.mm.plugin.wallet.balance.ui.WalletBalanceManagerUI@27bbdf64</span><br><span class="line">            <span class="attribute">mContainer</span>=android.app.Fragment$1@138ca3f9</span><br><span class="line">            <span class="attribute">mParent</span>=ReportFragment&#123;22e48443 #0 android.arch.lifecycle.LifecycleDispatcher.report_fragment_tag&#125;</span><br><span class="line">            <span class="attribute">mCurState</span>=5 <span class="attribute">mStateSaved</span>=<span class="literal">false</span> <span class="attribute">mDestroyed</span>=<span class="literal">false</span></span><br><span class="line">    Added Fragments:</span><br><span class="line">      #0: ReportFragment&#123;22e48443 #0 android.arch.lifecycle.LifecycleDispatcher.report_fragment_tag&#125;</span><br><span class="line">    FragmentManager misc state:</span><br><span class="line">      <span class="attribute">mActivity</span>=com.tencent.mm.plugin.wallet.balance.ui.WalletBalanceManagerUI@27bbdf64</span><br><span class="line">      <span class="attribute">mContainer</span>=android.app.Activity$1@386ddf3e</span><br><span class="line">      <span class="attribute">mCurState</span>=5 <span class="attribute">mStateSaved</span>=<span class="literal">false</span> <span class="attribute">mDestroyed</span>=<span class="literal">false</span></span><br><span class="line">    ViewRoot:</span><br><span class="line">      <span class="attribute">mAdded</span>=<span class="literal">true</span> <span class="attribute">mRemoved</span>=<span class="literal">false</span></span><br><span class="line">      <span class="attribute">mConsumeBatchedInputScheduled</span>=<span class="literal">false</span></span><br><span class="line">      <span class="attribute">mConsumeBatchedInputImmediatelyScheduled</span>=<span class="literal">false</span></span><br><span class="line">      <span class="attribute">mPendingInputEventCount</span>=0</span><br><span class="line">      <span class="attribute">mProcessInputEventsScheduled</span>=<span class="literal">false</span></span><br><span class="line">      <span class="attribute">mTraversalScheduled</span>=<span class="literal">false</span></span><br><span class="line">      android.view.ViewRootImpl<span class="variable">$NativePreImeInputStage</span>: <span class="attribute">mQueueLength</span>=0</span><br><span class="line">      android.view.ViewRootImpl<span class="variable">$ImeInputStage</span>: <span class="attribute">mQueueLength</span>=0</span><br><span class="line">      android.view.ViewRootImpl<span class="variable">$NativePostImeInputStage</span>: <span class="attribute">mQueueLength</span>=0</span><br><span class="line">    Choreographer:</span><br><span class="line">      <span class="attribute">mFrameScheduled</span>=<span class="literal">false</span></span><br><span class="line">      <span class="attribute">mLastFrameTime</span>=16770070 (150010 ms ago)</span><br><span class="line">    View Hierarchy:</span><br><span class="line">      com.android.internal.policy.impl.PhoneWindow<span class="variable">$DecorView</span>&#123;162d5b8c V.ED<span class="built_in">..</span><span class="built_in">..</span> R<span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>. 0,0-1080,1920&#125;</span><br><span class="line">        com.tencent.mm.ui.widget.SwipeBackLayout&#123;15900669 VFE<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,1920 #7f09245b app:id/g2s&#125;</span><br><span class="line">          com.tencent.mm.ui.statusbar.b&#123;303be18f V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,1920&#125;</span><br><span class="line">            android.widget.LinearLayout&#123;1d1aa478 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,54-1080,1920&#125;</span><br><span class="line">              android.view.ViewStub&#123;2f44c751 G.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #1020373&#125;</span><br><span class="line">              android.widget.FrameLayout&#123;ea9bbb6 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,1866&#125;</span><br><span class="line">                android.support.v7.widget.ActionBarOverlayLayout&#123;1e0ddd42 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,1866 #7f090a81 app:id/b8w&#125;</span><br><span class="line">                  android.support.v7.widget.ContentFrameLayout&#123;6698a90 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,130-1080,1866 #1020002 android:id/content&#125;</span><br><span class="line">                    com.tencent.mm.ui.LayoutListenerView&#123;941b6fc V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,1736 #7f0917b0 app:id/dp5&#125;</span><br><span class="line">                      android.widget.ScrollView&#123;cc9bba6 VFED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,1736&#125;</span><br><span class="line">                        android.widget.RelativeLayout&#123;3887e994 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,1736&#125;</span><br><span class="line">                          android.widget.TextView&#123;3781bc3d G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09289c app:id/guw&#125;</span><br><span class="line">                          android.widget.LinearLayout&#123;15c40b00 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,1736&#125;</span><br><span class="line">                            android.widget.ImageView&#123;1d2df39 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 453,130-626,303 #7f09034d app:id/w5&#125;</span><br><span class="line">                            android.widget.TextView&#123;25e2997e V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 448,389-632,451 #7f09259c app:id/ga5&#125;</span><br><span class="line">                            android.widget.LinearLayout&#123;21b3eedf V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,451-1080,721&#125;</span><br><span class="line">                              android.widget.RelativeLayout&#123;bded72c V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,43-1080,157&#125;</span><br><span class="line">                                com.tencent.mm.plugin.wallet_core.ui.view.WcPayMoneyLoadingView&#123;b7935f5 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 375,0-705,114 #7f0928aa app:id/gv_&#125;</span><br><span class="line">                                  com.robinhood.ticker.TickerView&#123;21299fb V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-330,114 #7f091794 app:id/dod&#125;</span><br><span class="line">                                android.widget.ProgressBar&#123;1ff83a18 G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f092905 app:id/gxq&#125;</span><br><span class="line">                              android.widget.LinearLayout&#123;36ce5a56 G.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09033f app:id/vr&#125;</span><br><span class="line">                                android.widget.TextView&#123;29e6dad7 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,0 #7f090340 app:id/vs&#125;</span><br><span class="line">                                android.widget.ImageView&#123;742dfc4 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,0 #7f09033e app:id/vq&#125;</span><br><span class="line">                              android.widget.LinearLayout&#123;d3f2ead G.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09034b app:id/w3&#125;</span><br><span class="line">                                com.tencent.mm.pluginsdk.ui.applet.CdnImageView&#123;28544d73 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09034a app:id/w2&#125;</span><br><span class="line">                                com.tencent.mm.wallet_core.ui.WalletTextView&#123;35703430 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,0 #7f090349 app:id/w1&#125;</span><br><span class="line">                                com.tencent.mm.pluginsdk.ui.applet.CdnImageView&#123;3dcd08a9 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f090348 app:id/w0&#125;</span><br><span class="line">                            android.widget.Space&#123;111c4dcf I.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,721-1080,1101&#125;</span><br><span class="line">                            android.widget.LinearLayout&#123;25dc635c V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,1187-1080,1295&#125;</span><br><span class="line">                              android.widget.Button&#123;3a448665 VFED<span class="built_in">..</span>C. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 291,0-788,108 #7f0919c4 app:id/e3i&#125;</span><br><span class="line">                              android.widget.Button&#123;b7a5948 GFED<span class="built_in">..</span>C. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09289d app:id/gux&#125;</span><br><span class="line">                              android.widget.LinearLayout&#123;363e27c7 G.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09141b app:id/d1c&#125;</span><br><span class="line">                                android.widget.TextView&#123;137fc1f4 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,0 #7f09141c app:id/d1d&#125;</span><br><span class="line">                                android.widget.ImageView&#123;31361d1d G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09153c app:id/d96&#125;</span><br><span class="line">                            android.widget.LinearLayout&#123;12576b92 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 464,1554-616,1606&#125;</span><br><span class="line">                              android.widget.TextView&#123;36eb7963 V.ED<span class="built_in">..</span>C. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-152,52 #7f09289f app:id/guz&#125;</span><br><span class="line">                              android.view.View&#123;181c6e19 G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09289e app:id/guy&#125;</span><br><span class="line">                              android.widget.TextView&#123;2dfcaede G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09289b app:id/guv&#125;</span><br><span class="line">                            android.widget.TextView&#123;2f9248bf V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,1628-1080,1671 #7f092951 app:id/gzs&#125;</span><br><span class="line">                      android.widget.Button&#123;39a3e185 GFED<span class="built_in">..</span>C. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,0 #7f0917c6 app:id/dpq&#125;</span><br><span class="line">                  android.support.v7.widget.ActionBarContainer&#123;1e880f89 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,130 #7f090059 app:id/bp&#125;</span><br><span class="line">                    android.support.v7.widget.Toolbar&#123;1a08b8e V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-1080,130 #7f090057 app:id/bn&#125;</span><br><span class="line">                      android.widget.LinearLayout&#123;88b4a54 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-810,130 #7f09005b app:id/br&#125;</span><br><span class="line">                        android.widget.LinearLayout&#123;24ec6dfd V.E<span class="built_in">..</span>.C. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-108,130 #7f0900a0 app:id/dm&#125;</span><br><span class="line">                          com.tencent.mm.ui.widget.imageview.WeImageView&#123;10dc1af2 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 22,0-86,130 #7f0900a1 app:id/dn&#125;</span><br><span class="line">                        android.widget.LinearLayout&#123;1e96ecf9 G.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f090098 app:id/de&#125;</span><br><span class="line">                          com.tencent.mm.ui.widget.AlbumChooserView&#123;40cf43e V.E<span class="built_in">..</span>.C. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09008a app:id/d1&#125;</span><br><span class="line">                            android.widget.RelativeLayout&#123;13558fec V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0&#125;</span><br><span class="line">                              android.widget.TextView&#123;9d05fb5 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,0 #7f090120 app:id/h3&#125;</span><br><span class="line">                              android.widget.FrameLayout&#123;25e0164a V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0&#125;</span><br><span class="line">                                com.tencent.mm.ui.widget.imageview.WeImageView&#123;2e7039bb V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,0 #7f09011f app:id/h2&#125;</span><br><span class="line">                        android.widget.LinearLayout&#123;1901bed8 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 108,0-108,130 #7f0925d1 app:id/gbk&#125;</span><br><span class="line">                          android.widget.LinearLayout&#123;20f44231 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,130&#125;</span><br><span class="line">                            android.widget.ImageView&#123;17114d16 G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f0925d0 app:id/gbj&#125;</span><br><span class="line">                            android.widget.TextView&#123;cdeb697 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,34-0,96 #1020014 android:id/text1&#125;</span><br><span class="line">                            android.widget.ProgressBar&#123;263ff084 G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f091c5e app:id/eki&#125;</span><br><span class="line">                          android.widget.TextView&#123;364d24a2 G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #1020015 android:id/text2&#125;</span><br><span class="line">                      android.support.v7.widget.ActionMenuView&#123;c9308ac V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 810,0-1080,130&#125;</span><br><span class="line">                        android.widget.LinearLayout&#123;25f3ae17 V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-270,130&#125;</span><br><span class="line">                          android.widget.ImageButton&#123;24965204 GFED<span class="built_in">..</span>C. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f09007c app:id/cn&#125;</span><br><span class="line">                          android.widget.TextView&#123;141653ed V.ED<span class="built_in">..</span>CL <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span> 0,0-270,130 #7f090079 app:id/ck&#125;</span><br><span class="line">                          android.widget.LinearLayout&#123;357b14b3 G.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f090158 app:id/il&#125;</span><br><span class="line">                            android.widget.ImageView&#123;3b288a70 V.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 0,0-0,0&#125;</span><br><span class="line">                          android.widget.Button&#123;d1141e9 GFED<span class="built_in">..</span>CL <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f090076 app:id/ch&#125;</span><br><span class="line">                          android.widget.RelativeLayout&#123;1908490f V.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>ID 270,65-270,65&#125;</span><br><span class="line">                            com.tencent.mm.ui.widget.imageview.WeImageView&#123;3f63dd9c G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f090078 app:id/cj&#125;</span><br><span class="line">                            android.widget.ImageView&#123;2db313a5 G.ED<span class="built_in">..</span><span class="built_in">..</span> <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f090b6f app:id/beb&#125;</span><br><span class="line">                    android.support.v7.widget.ActionBarContextView&#123;18591b45 G.E<span class="built_in">..</span><span class="built_in">..</span>. <span class="built_in">..</span><span class="built_in">..</span><span class="built_in">..</span>I. 0,0-0,0 #7f090065 app:id/c1&#125;</span><br><span class="line">    Looper (main, tid 1) &#123;1f1b79df&#125;</span><br><span class="line">      Message 0: &#123; <span class="attribute">when</span>=+6m42s348ms <span class="attribute">what</span>=26 <span class="attribute">target</span>=com.tencent.mm.sdk.platformtools.ao$2 &#125;</span><br><span class="line">      Message 1: &#123; <span class="attribute">when</span>=+26m42s267ms <span class="attribute">what</span>=23 <span class="attribute">target</span>=com.tencent.mm.sdk.platformtools.ao$2 &#125;</span><br><span class="line">      (Total messages: 2, <span class="attribute">idling</span>=<span class="literal">false</span>, <span class="attribute">quitting</span>=<span class="literal">false</span>)</span><br><span class="line">    Local FragmentActivity 27bbdf64 State:</span><br><span class="line">      <span class="attribute">mCreated</span>=<span class="literal">true</span> <span class="attribute">mResumed</span>=<span class="literal">true</span> <span class="attribute">mStopped</span>=<span class="literal">false</span>    FragmentManager misc state:</span><br><span class="line">      <span class="attribute">mHost</span>=android.support.v4.app.FragmentActivity$a@1273f2ec</span><br><span class="line">      <span class="attribute">mContainer</span>=android.support.v4.app.FragmentActivity$a@1273f2ec</span><br><span class="line">      <span class="attribute">mCurState</span>=4 <span class="attribute">mStateSaved</span>=<span class="literal">false</span> <span class="attribute">mStopped</span>=<span class="literal">false</span> <span class="attribute">mDestroyed</span>=<span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="monitor">monitor</h4><ul>
+<li><img src="http://xbdcc.cn/image/CXposed/wechat/monitor_view.jpg" alt>可以查看布局元素和trace信息，分析布局可以查看之前文章<a href="https://www.jianshu.com/p/e1099a94b979" target="_blank" rel="noopener">Android通过辅助功能实现抢微信红包原理简单介绍
+</a></li>
+<li><img src="http://xbdcc.cn/image/CXposed/wechat/monitor_method.jpg" alt>，分析trace方法调用栈，例如下：<br><img src="http://xbdcc.cn/image/CXposed/wechat/trace_method.jpg" alt></li>
+<li><img src="http://xbdcc.cn/image/CXposed/wechat/monitor_trace.jpg" alt>，生成生成html格式的trace，可以分析卡顿丢帧等问题，如果有打Trace也可以在上面看出来。可以在Chrome里打开查看，如下：<br><img src="http://xbdcc.cn/image/CXposed/wechat/trace_html.jpg" alt></li>
+</ul>
+<h3 id="再介绍三种方便查找id值的方法">再介绍三种方便查找id值的方法</h3><p>假如我们要查看id为<code>dod</code>的值：</p>
+<h4 id="通过activity_top查看">通过<code>activity_top</code>查看</h4><p>在里面找到元素对应的值，为十六进制值。如上面结果中有这样一行，可以看到id为’dod’的值为十六进制值<code>7f091794</code><br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com<span class="selector-class">.robinhood</span><span class="selector-class">.ticker</span><span class="selector-class">.TickerView</span>&#123;<span class="number">21299</span>fb V<span class="selector-class">.ED</span>.... ........ <span class="number">0</span>,<span class="number">0</span>-<span class="number">330</span>,<span class="number">114</span> <span class="number">#7f0917</span>94 app:id/dod&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="通过apk查看">通过apk查看</h4><p>可以把apk拖进AS中，在<code>resources.arsc</code>下选择你要找的id，得到的值为十六进制<br><img src="http://xbdcc.cn/image/CXposed/wechat/get_id.jpg" alt></p>
+<h4 id="通过jadx查看">通过jadx查看</h4><p>双击<code>resources.arsc</code>，可以在里面搜索id，得到的值为十进制。如id为<code>dod</code>的值为十进制值<code>2131302292</code><br><img src="http://xbdcc.cn/image/CXposed/wechat/jadx3.jpg" alt></p>
+<h2 id="Hook分析">Hook分析</h2><p>通过<code>activity_top</code>得知：</p>
+<ul>
+<li>支付页面：com.tencent.mm/.plugin.mall.ui.MallIndexUI</li>
+<li>钱包页面：com.tencent.mm/.plugin.mall.ui.MallWalletUI</li>
+<li>零钱页面：com.tencent.mm/.plugin.wallet.balance.ui.WalletBalanceManagerUI</li>
+</ul>
+<h3 id="分析布局">分析布局</h3><ul>
+<li>首先打开支付页面我们通过monitor的<code>Dump View Hierarchy</code>，得知显示钱包的金额的控件id为<code>dod</code><br><img src="http://xbdcc.cn/image/CXposed/wechat/wechat_pay1.jpg" alt="支付页面View视图"></li>
+<li>然后我们通过<code>activity_top</code>找到这个id的地方知道它其实是<code>com.robinhood.ticker.TickerView</code>这个控件，<br>嗯这个一看就是不是腾讯的自定义View而是用的第三方库，Github上一搜，可以知道它用的是<a href="https://github.com/robinhood/ticker" target="_blank" rel="noopener">ticker</a>这个库，<br>后面可以看到钱包页面和零钱页面显示金额的也是用的这个控件。<br>知道了这个库我们可以看下TickerView这个类的代码，这里再推荐一个Chrome插件<a href="https://www.octotree.io/" target="_blank" rel="noopener">octotree</a>比较方便在GitHub网页上切换文件，<br>如下，可以看到这里有个setText方法，里面执行了<code>columnManager.setText(targetText);</code>代码，而<code>columnManager</code>最后执行了<code>columnManager.draw(canvas, textPaint);</code>把文字绘制到Canvas上了，<br><code>setContentDescription(text);</code>设置了contentDescription的值，所以这就是我们能看到描述和显示金额的值一样，但是它的text属性值却为空的原因了。<br><img src="http://xbdcc.cn/image/CXposed/wechat/octotree.jpg" alt></li>
+</ul>
+<h3 id="分析支付页面MallIndexUI">分析支付页面MallIndexUI</h3><ul>
+<li><p>首先我们观察到每次进入支付页面它的金额旁边是有个loading的，并且从钱包页面返回到支付页面也都会loading一下，那么可以猜想它可能是在onResume里面做了什么操作<br>（其实直接看它代码一下就能看出来，假设我们还没看代码先简单猜下）。那么我们看下它的onResume方法调用栈如下：<br><img src="http://xbdcc.cn/image/CXposed/wechat/wechat_pay_method.jpg" alt></p>
+<p>  看到了吗？里面主要就执行了<code>MallIndexBaseUI</code>(MallIndexUI的父类）的<code>onResume</code>和自己的<code>dbb</code>方法，这个时候如果你不想看源码继续分析的话其实就已经可以尝试Hook跑起来看看效果了，<br>  本着保险起见我们还是先继续看看它的源码</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">dbb</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    AppMethodBeat.i(<span class="number">66131</span>);</span><br><span class="line">    ac.i(<span class="string">"MicorMsg.MallIndexUI"</span>, <span class="string">"updateBalanceNum"</span>);</span><br><span class="line">    ak akVar = <span class="keyword">new</span> ak();</span><br><span class="line">    <span class="keyword">if</span> (akVar.erV()) &#123;</span><br><span class="line">        <span class="keyword">this</span>.uCo.setText((String) g.agR().agA().get(ah.a.USERINFO_WALLET_RELEAY_NAME_BALANCE_CONTENT_STRING_SYNC, (Object) getString(R.string.eex)));</span><br><span class="line">        <span class="keyword">this</span>.uCo.setVisibility(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">this</span>.uDf.setVisibility(<span class="number">8</span>);</span><br><span class="line">        <span class="keyword">this</span>.uDg.setVisibility(<span class="number">8</span>);</span><br><span class="line">        AppMethodBeat.o(<span class="number">66131</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (akVar.erX()) &#123;</span><br><span class="line">        ac.i(<span class="string">"MicorMsg.MallIndexUI"</span>, <span class="string">"show balance amount"</span>);</span><br><span class="line">        <span class="keyword">long</span> longValue = ((Long) ((com.tencent.mm.plugin.wxpay.a.a) g.ad(com.tencent.mm.plugin.wxpay.a.a.class)).getWalletCacheStg().get(ah.a.USERINFO_NEW_BALANCE_LONG_SYNC, (Object) <span class="number">0L</span>)).longValue();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.uDf != <span class="keyword">null</span>) &#123;</span><br><span class="line">            nQ(akVar.erZ());</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.uDf.getVisibility() == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">this</span>.uDf.setMoney(com.tencent.mm.wallet_core.ui.e.C(com.tencent.mm.wallet_core.ui.e.a(String.valueOf(longValue), <span class="string">"100"</span>, <span class="number">2</span>, RoundingMode.HALF_UP).doubleValue()));</span><br><span class="line">                AppMethodBeat.o(<span class="number">66131</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ac.w(<span class="string">"MicorMsg.MallIndexUI"</span>, <span class="string">"moneyLoadingView is null"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    AppMethodBeat.o(<span class="number">66131</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  可以看出ac.i应该就是打印的log方法，根据它的日志<code>updateBalanceNum</code>，可以知道这个方法主要是更新余额的，那么我们是不是可以手动拦截这个方法替换为自己设置的呢？我们来试试，<br>  拿到方法的对象转为Activity，然后通过<code>findViewById</code>找到显示金额的控件，通过反射拿到<code>setText</code>并且调用赋值，或者通过<code>XposedHelpers.callMethod(view, &quot;setText&quot;, money)</code></p>
+  <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">hookPayPage</span><span class="params">()</span></span> &#123;</span><br><span class="line">    XposedHelpers.findAndHookMethod(<span class="string">"com.tencent.mm.plugin.mall.ui.MallIndexUI"</span>, classLoader, <span class="string">"dbb"</span>, <span class="keyword">object</span> : XC_MethodReplacement() &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">replaceHookedMethod</span><span class="params">(param: <span class="type">MethodHookParam</span>?)</span></span>: Any &#123;</span><br><span class="line">            param?.let &#123;</span><br><span class="line">                <span class="keyword">val</span> activity = param.thisObject <span class="keyword">as</span> Activity</span><br><span class="line">                <span class="keyword">var</span> view = activity.findViewById&lt;View&gt;(<span class="number">0x7f091794</span>) <span class="comment">//id:dod的id值为0x7f091794</span></span><br><span class="line">                <span class="keyword">val</span> method = view.javaClass.getDeclaredMethod(<span class="string">"setText"</span>, String::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)</span></span><br><span class="line">                method.invoke(view, money)</span><br><span class="line">                xlog(<span class="string">"Hook method dbb of MallIndexUI class and set money."</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其实刚刚在<code>dbb</code>方法有这样一个方法<code>this.uDf.setMoney</code>，通过方法名知道它是设置金额的，所以我们也可以从这里下手，该方法代码如下：</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMoney</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">    AppMethodBeat.i(<span class="number">71606</span>);</span><br><span class="line">    cc(str, <span class="keyword">false</span>);</span><br><span class="line">    AppMethodBeat.o(<span class="number">71606</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  再来看<code>cc</code>这个方法，第一个if它首先是判断了如果传进来的<code>str</code>为<code>null</code>则返回，第二个if在<code>WcPayMoneyLoadingView</code>类里面我们可以看到<code>this.BNi</code>只在<code>setFirstMoney</code>方法里面赋值<code>this.BNi = str;</code>，<br>  在<code>reset</code>方法里清空该值，并且进到<code>bs</code>类里面可以看到<code>isNullOrNil</code>方法如果<code>this.BNi</code>值为<code>null</code>或者字符串长度小于等于0才返回true，<br>  所以这里其实是判断这个字段是否为空，如果不为空就直接<code>setFirstMoney</code>，如果为空就<code>setNewMoney</code>，和下面逻辑一致。</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">cc</span><span class="params">(String str, <span class="keyword">boolean</span> z)</span> </span>&#123;</span><br><span class="line">    AppMethodBeat.i(<span class="number">71607</span>);</span><br><span class="line">    <span class="keyword">if</span> (str == <span class="keyword">null</span>) &#123;</span><br><span class="line">        AppMethodBeat.o(<span class="number">71607</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (bs.isNullOrNil(<span class="keyword">this</span>.BNi)) &#123;</span><br><span class="line">        setFirstMoney(str);</span><br><span class="line">        <span class="keyword">if</span> (z) &#123;</span><br><span class="line">            removeCallbacks(<span class="keyword">this</span>.BNk);</span><br><span class="line">            AppMethodBeat.o(<span class="number">71607</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        setNewMoney(str);</span><br><span class="line">    &#125;</span><br><span class="line">    AppMethodBeat.o(<span class="number">71607</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  继续看<code>if (z)</code>这个判断，里面主要执行了<code>removeCallbacks(this.BNk);</code>，而<code>this.BNk</code>是一个Runnable对象如下，<br>  根据日志<code>show loading pb</code>知道这里显示了loading Progress，设置了它为可见的，最终其实可以找到它其实id为<code>gxq</code>显示金额控件后面的Progress</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Runnable BNk = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        AppMethodBeat.i(<span class="number">71596</span>);</span><br><span class="line">        ac.i(<span class="string">"MicroMsg.WcPayMoneyLoadingView"</span>, <span class="string">"show loading pb"</span>);</span><br><span class="line">        WcPayMoneyLoadingView.<span class="keyword">this</span>.iIW.setVisibility(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">boolean</span> unused = WcPayMoneyLoadingView.<span class="keyword">this</span>.BNj = <span class="keyword">true</span>;</span><br><span class="line">        AppMethodBeat.o(<span class="number">71596</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>  所以我们可以Hook<code>cc</code>这个方法，在它执行前修改第一个参数值为你的金额’money`，如下：</p>
+  <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">hookPayPage2</span><span class="params">()</span></span> &#123;</span><br><span class="line">    XposedHelpers.findAndHookMethod(<span class="string">"com.tencent.mm.plugin.wallet_core.ui.view.WcPayMoneyLoadingView"</span>, classLoader, <span class="string">"cc"</span>, String::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">Boolean::class.java</span>,<span class="type"></span></span></span><br><span class="line">        <span class="keyword">object</span> : XC_MethodHook() &#123;</span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">beforeHookedMethod</span><span class="params">(param: <span class="type">MethodHookParam</span>?)</span></span> &#123;</span><br><span class="line">                param?.let&#123;</span><br><span class="line">                    <span class="keyword">val</span> view = param.thisObject <span class="keyword">as</span> View</span><br><span class="line">                    param.args[<span class="number">0</span>] = money</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="分析钱包页面WalletBalanceManagerUI">分析钱包页面WalletBalanceManagerUI</h3><ul>
+<li><p>前面分析支付页面知道<code>WcPayMoneyLoadingView</code>中有<code>setFirstMoney</code>和<code>setNewMoney</code>，其实我们就可以直接Hook替换这两个方法，<br>而且该方法通用三个页面都有效，如下：</p>
+  <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">hookMoney</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> hookClass = classLoader.loadClass(wechatMoneyLoadingView) ?: <span class="keyword">return</span></span><br><span class="line">    XposedHelpers.findAndHookMethod(hookClass, <span class="string">"setFirstMoney"</span>, String::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">replaceStr)</span></span></span><br><span class="line">    XposedHelpers.findAndHookMethod(hookClass, <span class="string">"setNewMoney"</span>, String::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">replaceStr)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> replaceStr = <span class="keyword">object</span> : XC_MethodHook() &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">beforeHookedMethod</span><span class="params">(param: <span class="type">MethodHookParam</span>?)</span></span> &#123;</span><br><span class="line">        param?.let &#123;</span><br><span class="line">            <span class="keyword">val</span> view = param.thisObject <span class="keyword">as</span> View</span><br><span class="line">            <span class="keyword">when</span>(view.context.javaClass.name) &#123;</span><br><span class="line">                wechatWalletActivity -&gt; param.args[<span class="number">0</span>] = <span class="string">"¥<span class="variable">$money</span>"</span></span><br><span class="line">                wechatPayActivity, wechatChangeActivity -&gt; param.args[<span class="number">0</span>] = money</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="分析零钱页面WalletBalanceManagerUI">分析零钱页面WalletBalanceManagerUI</h3><ul>
+<li><p>首先我们看下<code>零钱页面WalletBalanceManagerUI</code>里面声明的对象，再根据<code>View Hierarchy</code>我们知道<code>AZo</code>是在<code>TickerView</code>外面的<code>WcPayMoneyLoadingView</code>,<br>继续看<code>this.AZo.cc</code>，可以发现它调用的之前支付页面分析的<code>WcPayMoneyLoadingView</code>中的<code>tk</code>方法，所以我们可以直接Hook这个方法，如下：</p>
+  <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">hookChangePage</span><span class="params">()</span></span> &#123;</span><br><span class="line">    XposedHelpers.findAndHookMethod(<span class="string">"com.tencent.mm.plugin.wallet.balance.ui.WalletBalanceManagerUI"</span>, classLoader, <span class="string">"tk"</span>, <span class="built_in">Boolean</span>::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">object : XC_MethodReplacement</span></span>() &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">replaceHookedMethod</span><span class="params">(param: <span class="type">MethodHookParam</span>?)</span></span>: Any &#123;</span><br><span class="line">            param?.let &#123;</span><br><span class="line">                <span class="keyword">val</span> activity = param.thisObject <span class="keyword">as</span> Activity</span><br><span class="line">                <span class="keyword">var</span> view = activity.findViewById&lt;View&gt;(<span class="number">0x7f091794</span>) <span class="comment">//id:dod的id值为0x7f091794</span></span><br><span class="line">                XposedHelpers.callMethod(view, <span class="string">"setText"</span>, money)</span><br><span class="line">                xlog(<span class="string">"Hook method tk of WalletBalanceManagerUI class and set money."</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="结语">结语</h2><p>其实分析的时候可能有点复杂，并且要善于用多种工具一起分析，但是最后实现的代码很简单，整理后代码如下：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WechatHook</span> : <span class="type">IXposedHookLoadPackage &#123;</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> packageName = <span class="string">"com.tencent.mm"</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lateinit</span> <span class="keyword">var</span> classLoader: ClassLoader</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> wechatPayActivity = <span class="string">"com.tencent.mm.plugin.mall.ui.MallIndexUI"</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> wechatWalletActivity = <span class="string">"com.tencent.mm.plugin.mall.ui.MallWalletUI"</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> wechatChangeActivity =</span><br><span class="line">        <span class="string">"com.tencent.mm.plugin.wallet.balance.ui.WalletBalanceManagerUI"</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> wechatMoneyLoadingView =</span><br><span class="line">        <span class="string">"com.tencent.mm.plugin.wallet_core.ui.view.WcPayMoneyLoadingView"</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> money = <span class="string">"100000000.00"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">handleLoadPackage</span><span class="params">(lpparam: <span class="type">XC_LoadPackage</span>.<span class="type">LoadPackageParam</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (packageName == lpparam.packageName) &#123;</span><br><span class="line">            xlog(<span class="string">"Load Wechat app."</span>)</span><br><span class="line">            classLoader = lpparam.classLoader</span><br><span class="line"></span><br><span class="line">            hookMoney()</span><br><span class="line"></span><br><span class="line"><span class="comment">//            hookPayPage()</span></span><br><span class="line"><span class="comment">//            hookPayPage2()</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//            hookChangePage()</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 改变自定义的文本控件设置文本方法，终极boss，三个都可以</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">hookMoney</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> hookClass = classLoader.loadClass(wechatMoneyLoadingView) ?: <span class="keyword">return</span></span><br><span class="line">        XposedHelpers.findAndHookMethod(hookClass, <span class="string">"setFirstMoney"</span>, String::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">replaceStr)</span></span></span><br><span class="line">        XposedHelpers.findAndHookMethod(hookClass, <span class="string">"setNewMoney"</span>, String::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">replaceStr)</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 支付页面改变文本</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">hookPayPage</span><span class="params">()</span></span> = XposedHelpers.findAndHookMethod(</span><br><span class="line">        wechatPayActivity,</span><br><span class="line">        classLoader,</span><br><span class="line">        <span class="string">"dbb"</span>,</span><br><span class="line">        replaceViewText</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 支付页面改变文本另一种方法</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">hookPayPage2</span><span class="params">()</span></span> &#123;</span><br><span class="line">        XposedHelpers.findAndHookMethod(wechatMoneyLoadingView,</span><br><span class="line">            classLoader,</span><br><span class="line">            <span class="string">"cc"</span>,</span><br><span class="line">            String::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>,<span class="type"></span></span></span><br><span class="line">            <span class="built_in">Boolean</span>::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>,<span class="type"></span></span></span><br><span class="line">            <span class="keyword">object</span> : XC_MethodHook() &#123;</span><br><span class="line">                <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">beforeHookedMethod</span><span class="params">(param: <span class="type">MethodHookParam</span>?)</span></span> &#123;</span><br><span class="line">                    param?.let &#123;</span><br><span class="line">                        <span class="keyword">val</span> view = param.thisObject <span class="keyword">as</span> View</span><br><span class="line">                        param.args[<span class="number">0</span>] = money</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 零钱页面改变文本</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">hookChangePage</span><span class="params">()</span></span> = XposedHelpers.findAndHookMethod(</span><br><span class="line">        wechatChangeActivity,</span><br><span class="line">        classLoader,</span><br><span class="line">        <span class="string">"tk"</span>,</span><br><span class="line">        <span class="built_in">Boolean</span>::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>,<span class="type"></span></span></span><br><span class="line">        replaceViewText</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 在方法调用前手动修改值来改变最后显示的金额</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> replaceStr = <span class="keyword">object</span> : XC_MethodHook() &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">beforeHookedMethod</span><span class="params">(param: <span class="type">MethodHookParam</span>?)</span></span> &#123;</span><br><span class="line">            param?.let &#123;</span><br><span class="line">                xlog(<span class="string">""</span>)</span><br><span class="line">                <span class="keyword">val</span> view = param.thisObject <span class="keyword">as</span> View</span><br><span class="line">                <span class="keyword">when</span> (view.context.javaClass.name) &#123;</span><br><span class="line">                    wechatWalletActivity -&gt; param.args[<span class="number">0</span>] = <span class="string">"¥<span class="variable">$money</span>"</span></span><br><span class="line">                    wechatPayActivity, wechatChangeActivity -&gt; param.args[<span class="number">0</span>] = money</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 通过找到显示金额的控件反射拿到它的赋值方法并调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">val</span> replaceViewText = <span class="keyword">object</span> : XC_MethodReplacement() &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">replaceHookedMethod</span><span class="params">(param: <span class="type">MethodHookParam</span>?)</span></span>: Any &#123;</span><br><span class="line">            param?.let &#123;</span><br><span class="line">                <span class="keyword">val</span> activity = param.thisObject <span class="keyword">as</span> Activity</span><br><span class="line">                <span class="keyword">var</span> view = activity.findViewById&lt;View&gt;(<span class="number">0x7f091794</span>) <span class="comment">//id:dod的id值为0x7f091794</span></span><br><span class="line">                XposedHelpers.callMethod(view, <span class="string">"setText"</span>, money)</span><br><span class="line">                xlog(<span class="string">"find view and set text."</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">""</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考链接">参考链接</h2><ul>
+<li><a href="https://www.jianshu.com/p/6b4a80654d4e" target="_blank" rel="noopener">Xposed原理简介及其精简化</a></li>
+<li><a href="https://juejin.im/post/5c4531c451882524ff640bbc" target="_blank" rel="noopener">装X指南之用 Xposed 把某宝资产改成100w</a></li>
+<li><a href="https://blog.csdn.net/xiao_nian/article/details/79391417" target="_blank" rel="noopener">xposed微信红包</a></li>
+<li><a href="https://blog.csdn.net/jiangwei0910410003/article/details/80107664" target="_blank" rel="noopener">Android “挂逼” 修炼之行—支付宝蚂蚁森林能量自动收取插件开发原理解析</a></li>
+<li><a href="https://www.cnblogs.com/baiqiantao/p/10699552.html" target="_blank" rel="noopener">Xposed 框架 hook 简介 原理 案例 [MD]</a></li>
+<li><a href="https://bbs.pediy.com/thread-257844.htm" target="_blank" rel="noopener">Art模式下Xposed实现原理</a></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Android逆向/">Android逆向</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Android/">Android</a><a href="/tags/Xposed/">Xposed</a><a href="/tags/逆向/">逆向</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+2049638" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/07/15/Xposed系列之微信屏蔽拍一拍(三)/" title="Xposed系列之微信屏蔽拍一拍(三)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Xposed系列之微信屏蔽拍一拍(三)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/07/11/Xposed系列之Demo上手指南及源码解析(一)/"  title="Xposed系列之Demo上手指南及源码解析(一)">
+ <strong>下一篇：</strong><br/> 
+ <span>Xposed系列之Demo上手指南及源码解析(一)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2020/07/11/Xposed系列之微信装X指南(二)/" data-title="Xposed系列之微信装X指南(二)" data-url="http://yoursite.com/2020/07/11/Xposed系列之微信装X指南(二)/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果"><span class="toc-number">2.</span> <span class="toc-text">结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备工作"><span class="toc-number">3.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Root相关"><span class="toc-number">3.1.</span> <span class="toc-text">Root相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#反编译相关"><span class="toc-number">3.2.</span> <span class="toc-text">反编译相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hook分析相关"><span class="toc-number">3.3.</span> <span class="toc-text">Hook分析相关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#adb命令"><span class="toc-number">3.3.1.</span> <span class="toc-text">adb命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#monitor"><span class="toc-number">3.3.2.</span> <span class="toc-text">monitor</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#再介绍三种方便查找id值的方法"><span class="toc-number">3.4.</span> <span class="toc-text">再介绍三种方便查找id值的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通过activity_top查看"><span class="toc-number">3.4.1.</span> <span class="toc-text">通过activity_top查看</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通过apk查看"><span class="toc-number">3.4.2.</span> <span class="toc-text">通过apk查看</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#通过jadx查看"><span class="toc-number">3.4.3.</span> <span class="toc-text">通过jadx查看</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hook分析"><span class="toc-number">4.</span> <span class="toc-text">Hook分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#分析布局"><span class="toc-number">4.1.</span> <span class="toc-text">分析布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析支付页面MallIndexUI"><span class="toc-number">4.2.</span> <span class="toc-text">分析支付页面MallIndexUI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析钱包页面WalletBalanceManagerUI"><span class="toc-number">4.3.</span> <span class="toc-text">分析钱包页面WalletBalanceManagerUI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析零钱页面WalletBalanceManagerUI"><span class="toc-number">4.4.</span> <span class="toc-text">分析零钱页面WalletBalanceManagerUI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-number">6.</span> <span class="toc-text">参考链接</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/AI/" title="AI">AI<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android上传下载/" title="Android上传下载">Android上传下载<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android图片/" title="Android图片">Android图片<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android应用常用功能/" title="Android应用常用功能">Android应用常用功能<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android性能/" title="Android性能">Android性能<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android控件/" title="Android控件">Android控件<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android数据格式/" title="Android数据格式">Android数据格式<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android源码/" title="Android源码">Android源码<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android第三方SDK及框架/" title="Android第三方SDK及框架">Android第三方SDK及框架<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android线程/" title="Android线程">Android线程<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android网络编程/" title="Android网络编程">Android网络编程<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Android逆向/" title="Android逆向">Android逆向<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/PS/" title="PS">PS<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Web/" title="Web">Web<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/算法/" title="算法">算法<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/自动化/" title="自动化">自动化<sup>2</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>33</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络编程/" title="网络编程">网络编程<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/UI设计/" title="UI设计">UI设计<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据格式/" title="数据格式">数据格式<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/AI/" title="AI">AI<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/控件/" title="控件">控件<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Xposed/" title="Xposed">Xposed<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/逆向/" title="逆向">逆向<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/推送/" title="推送">推送<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/PS/" title="PS">PS<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/线程/" title="线程">线程<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Socket/" title="Socket">Socket<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/抓包/" title="抓包">抓包<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/WCF/" title="WCF">WCF<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/性能/" title="性能">性能<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/自动化/" title="自动化">自动化<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Harmony/" title="Harmony">Harmony<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://zjbztianya.github.io/" target="_blank" title="仗剑奔走天涯">仗剑奔走天涯</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://xbdcc.cn" target="_blank" title="小不点">小不点</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://mkblog.cn/" target="_blank" title="孟坤博客">孟坤博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Carlos. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/xiaobudian1994" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		<a href="https://www.douban.com/people/xbdcc" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:363465939@qq.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2025 
+		
+		<a href="/me" target="_blank" title="Carlos">Carlos</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"xbdcc"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+
+  </body>
+</html>
